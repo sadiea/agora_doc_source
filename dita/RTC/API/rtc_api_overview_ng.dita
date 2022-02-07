@@ -22,7 +22,7 @@
                 <strow>
                     <stentry><xref keyref="create2"/></stentry>
                     <stentry><ph props="ios mac android electron">创建并初始化 <apiname
-                                keyref="IRtcEngine"/>。</ph><ph props="windows">初始化 <apiname
+                                keyref="IRtcEngine"/>。</ph><ph props="windows unity">初始化 <apiname
                                 keyref="IRtcEngine"/>。</ph></stentry>
                 </strow>
                 <strow>
@@ -101,10 +101,6 @@
                 <strow>
                     <stentry><xref keyref="onNetworkTypeChanged"/></stentry>
                     <stentry><ph conkeyref="onNetworkTypeChanged/shortdesc"/></stentry>
-                </strow>
-                <strow>
-                    <stentry><xref keyref="onUplinkNetworkInfoUpdated"/></stentry>
-                    <stentry><ph conkeyref="onUplinkNetworkInfoUpdated/shortdesc"/></stentry>
                 </strow>
                 <strow>
                     <stentry><xref keyref="onConnectionLost"/></stentry>
@@ -936,7 +932,7 @@
                     <stentry><xref keyref="pushAudioFrame2"/></stentry>
                     <stentry><ph conkeyref="pushAudioFrame2/shortdesc"/></stentry>
                 </strow>
-                <strow props="windows">
+                <strow props="windows unity">
                     <stentry><xref keyref="pushAudioFrame"/></stentry>
                     <stentry><ph conkeyref="pushAudioFrame/shortdesc"/></stentry>
                 </strow>
@@ -1043,11 +1039,11 @@
                     <stentry>方法</stentry>
                     <stentry>描述</stentry>
                 </sthead>
-                <strow>
+                <strow props="android apple windows">
                     <stentry><xref keyref="registerAudioSpectrumObserver"/></stentry>
                     <stentry><ph conkeyref="registerAudioSpectrumObserver/shortdesc"/></stentry>
                 </strow>
-                <strow>
+                <strow props="hide">
                     <stentry><xref keyref="enableAudioSpectrumMonitor"/></stentry>
                     <stentry><ph conkeyref="enableAudioSpectrumMonitor/shortdesc"/></stentry>
                 </strow>
@@ -1055,12 +1051,12 @@
                     <stentry><xref keyref="disableAudioSpectrumMonitor"/></stentry>
                     <stentry><ph conkeyref="disableAudioSpectrumMonitor/shortdesc"/></stentry>
                 </strow>
-                <strow>
+                <strow props="android apple windows">
                     <stentry><xref keyref="unregisterAudioSpectrumObserver"/></stentry>
                     <stentry><ph conkeyref="unregisterAudioSpectrumObserver/shortdesc"/></stentry>
                 </strow>
             </simpletable>
-            <simpletable>
+            <simpletable props="android apple windows">
                 <sthead>
                     <stentry>事件</stentry>
                     <stentry>描述</stentry>
@@ -1124,7 +1120,7 @@
                     <stentry><xref keyref="onCaptureVideoFrame"/></stentry>
                     <stentry><ph conkeyref="onCaptureVideoFrame/shortdesc"/></stentry>
                 </strow>
-                <strow>
+                <strow props="native">
                     <stentry><xref keyref="onScreenCaptureVideoFrame"/></stentry>
                     <stentry><ph conkeyref="onScreenCaptureVideoFrame/shortdesc"/></stentry>
                 </strow>
@@ -1132,15 +1128,15 @@
                     <stentry><xref keyref="onRenderVideoFrame"/></stentry>
                     <stentry><ph conkeyref="onRenderVideoFrame/shortdesc"/></stentry>
                 </strow>
-                <strow>
+                <strow props="native">
                     <stentry><xref keyref="onMediaPlayerVideoFrame"/></stentry>
                     <stentry><ph conkeyref="onMediaPlayerVideoFrame/shortdesc"/></stentry>
                 </strow>
-                <strow>
+                <strow props="native">
                     <stentry><xref keyref="getVideoFrameProcessMode"/></stentry>
                     <stentry><ph conkeyref="getVideoFrameProcessMode/shortdesc"/></stentry>
                 </strow>
-                <strow props="windows android">
+                <strow props="windows android unity">
                     <stentry><xref keyref="onEncodedVideoImageReceived"/></stentry>
                     <stentry><ph conkeyref="onEncodedVideoImageReceived/shortdesc"/></stentry>
                 </strow>
@@ -1173,7 +1169,7 @@
                 </strow>
             </simpletable>
         </section>
-        <section id="media_metadata">
+        <section id="media_metadata" props="native">
             <title>媒体附属信息</title>
             <simpletable>
                 <sthead>
