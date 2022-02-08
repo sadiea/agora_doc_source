@@ -2189,6 +2189,29 @@
             </keydef>
         </topichead>
     </topichead>
+        <topichead navtitle="Unity 原生方法">
+            <keydef keys="enableFilpTextureApply" href="../API/api_enablefilptextureapply.dita">
+                <topicmeta>
+                    <keywords>
+                        <keyword>EnableFilpTextureApply</keyword>
+                    </keywords>
+                </topicmeta>
+            </keydef>
+            <keydef keys="setEnable" href="../API/api_setenable.dita">
+                <topicmeta>
+                    <keywords>
+                        <keyword>SetEnable</keyword>
+                    </keywords>
+                </topicmeta>
+            </keydef>
+            <keydef keys="setForUser" href="../API/api_setforuser.dita">
+                <topicmeta>
+                    <keywords>
+                        <keyword>SetForUser</keyword>
+                    </keywords>
+                </topicmeta>
+            </keydef>
+        </topichead>
     <topichead navtitle="Callbacks">
         <topichead navtitle="核心事件">
             <keydef keys="onConnectionStateChanged" href="../API/api_onconnectionstatechanged.dita">
@@ -2837,6 +2860,13 @@
         </topichead>
     </topichead>
     <topichead navtitle="Classes">
+        <keydef keys="AgoraVideoSurface" href="../API/class_agoravideosurface.dita">
+            <topicmeta>
+                <keywords>
+                    <keyword>AgoraVideoSurface</keyword>
+                </keywords>
+            </topicmeta>
+        </keydef>
         <keydef keys="AudioFileRecordingConfig" href="../API/class_audiofilerecordingconfig.dita">
             <topicmeta>
                 <keywords>

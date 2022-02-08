@@ -393,6 +393,11 @@
             <topicref keyref="onPreEncodeVideoFrame" toc="no"/>
             <topicref keyref="onRenderVideoFrame" toc="no"/>
         </topicref>
+        <topicref keyref="AgoraVideoSurface" chunk="to-content">
+            <topicref keyref="enableFilpTextureApply" toc="no"/>
+            <topicref keyref="setEnable" toc="no"/>
+            <topicref keyref="setForUser" toc="no"/>
+        </topicref>
         <topicref href="API/rtc_api_data_type.dita" chunk="to-content">
             <topicref keyref="AREA_CODE" toc="no"/>
             <topicref keyref="AUDIO_CODEC_PROFILE_TYPE" toc="no"/>
