@@ -3964,13 +3964,6 @@
                 </keywords>
             </topicmeta>
         </keydef>
-        <keydef keys="VideoFrame" href="../API/class_videoframe.dita">
-            <topicmeta>
-                <keywords>
-                                        <keyword>VideoFrame</keyword>
-                </keywords>
-            </topicmeta>
-        </keydef>
         <keydef keys="VirtualBackgroundSource" href="../API/class_virtualbackgroundsource.dita">
             <topicmeta>
                 <keywords>
