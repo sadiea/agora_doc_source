@@ -3,7 +3,13 @@
 <map id="keys_rtc_windows_links">
     <title>Keys RTC Windows Links</title>
     <topichead navtitle="Agora">
-        <keydef keys="errorCode" href="../API/error_rtc.md" format="mdita"/>
+        <keydef keys="errorCode" href="https://docs.agora.io/cn/Interactive%20Broadcast/error_rtc?platform=Windows" scope="external" format="html">
+          <topicmeta>
+                <keywords>
+                    <keyword>错误码与警告码</keyword>
+                </keywords>
+          </topicmeta>
+    </keydef>
         <keydef keys="release-notes" href="https://docs.agora.io/cn/Interactive%20Broadcast/release_windows_video?platform=Windows" scope="external" format="html"/>
         <keydef keys="rtc-sunset" href="https://docs.agora.io/cn/Interactive%20Broadcast/rtc_sunset" scope="external" format="html"/>
         <keydef keys="term-transocding" href="https://docs.agora.io/cn/Agora%20Platform/transcoding" scope="external" format="html"/>

@@ -663,6 +663,11 @@
             <topicref keyref="AgoraRhythmPlayerConfig" toc="no" props="hide"/>
             <topicref keyref="AudioRecordingConfiguration" toc="no"/>
         </topicref>
-        <topicref href="API/error_rtc.md" format="mdita"/>
+        <topicref keyref="errorCode">
+            <topicmeta>
+                <navtitle>错误码与警告码</navtitle>
+                <shortdesc>错误码与警告码</shortdesc>
+            </topicmeta>
+        </topicref>
     </topichead>
 </map>
