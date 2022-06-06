@@ -50,6 +50,18 @@ int agora_iot_push_video_frame(agora_iot_handle_t handle, ago_video_frame_t *fra
 
 发送视频帧。
 
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
+| `frame` | 视频帧配置。详见 [ago_video_frame_t](#ago_video_frame_t)。 |
+
+#### 返回
+
+- 0：方法调用成功。
+- < 0：方法调用失败。
+
 ### agora_iot_push_audio_frame
 
 ```c
@@ -57,6 +69,18 @@ int agora_iot_push_audio_frame(agora_iot_handle_t handle, ago_audio_frame_t *fra
 ```
 
 发送音频帧。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
+| `frame` | 音频帧配置。详见 [ago_audio_frame_t](#ago_audio_frame_t)。 |
+
+#### 返回
+
+- 0：方法调用成功。
+- < 0：方法调用失败。
 
 ## 常量
 
