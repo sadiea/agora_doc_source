@@ -447,7 +447,7 @@ int agora_iot_alarm(agora_iot_handle_t handle, const char *peer, const char *ext
 | `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
 | `peer` | 远端用户账号。 |
 | `extra_msg` | 附加信息。 |
-| `type` | 告警类型。 |
+| `type` | 告警类型。详见 [agora_iot_alarm_type_e](#agora_iot_alarm_type_e)。 |
 
 #### 返回
 
