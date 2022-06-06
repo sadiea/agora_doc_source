@@ -139,7 +139,7 @@ typedef struct {
 | 参数 | 描述 |
 | --- | --- |
 | `data_type` | 视频帧编码类型。 |
-| `is_key_frame` | 该帧是否是关键帧。 <ul><li>true: 该帧是关键帧。</li><li>true: 该帧不是关键帧。</li></ul> |
+| `is_key_frame` | 该帧是否是关键帧。 <ul><li>true: 该帧是关键帧。</li><li>false: 该帧不是关键帧。</li></ul> |
 | `video_buffer` | 视频帧缓冲区。 |
 | `video_buffer_size` | 视频帧缓冲区大小。 |
 
