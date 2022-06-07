@@ -782,7 +782,7 @@ agora_iot_dp_result_e agora_iot_dp_publish(agora_iot_handle_t handle, agora_dp_i
 | 参数 | 描述 |
 | --- | --- |
 | [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
-| [in] `info` | 数据点信息。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
+| [in] `info` | 数据点信息。详见 [agora_dp_info_t](#agora_dp_info_t)。 |
 
 #### 返回
 
