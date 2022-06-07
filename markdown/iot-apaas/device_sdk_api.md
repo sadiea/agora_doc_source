@@ -266,11 +266,11 @@ typedef enum {
 
 | 枚举值 | 描述 |
 | --- | --- |
-| `AGO_AUDIO_CODEC_DISABLED` | 0：PCM |
-| `AGO_AUDIO_DATA_TYPE_OPUS` | 1：Opus |
-| `AGO_AUDIO_DATA_TYPE_G722` | 2：G722 |
-| `AGO_AUDIO_DATA_TYPE_G711A` | 3：G711A |
-| `AGO_AUDIO_DATA_TYPE_G711U` | 4：G711U |
+| `AGO_AUDIO_CODEC_DISABLED` | 0：PCM。|
+| `AGO_AUDIO_DATA_TYPE_OPUS` | 1：Opus。支持 16 KHz 或 48 KHz 采样率。每个样本 16 bit，单声道。每次发送数据长度 20 ms。 |
+| `AGO_AUDIO_DATA_TYPE_G722` | 2：G722。支持 16 KHz 采样率。每个样本 16 bit，单声道。每次发送数据长度 20 ms。 |
+| `AGO_AUDIO_DATA_TYPE_G711A` | 3：G711A。支持 8 KHz 采样率。每个样本 16 bit，单声道。每次发送数据长度 20 ms。 |
+| `AGO_AUDIO_DATA_TYPE_G711U` | 4：G711U。支持 8 KHz 采样率。每个样本 16 bit，单声道。每次发送数据长度 20 ms。 |
 
 <a id="agora_iot_audio_config_t"></a>
 
