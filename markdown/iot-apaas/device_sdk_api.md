@@ -325,8 +325,8 @@ typedef struct agora_iot_config {
 | `device_id` | 你的设备 ID。每个设备的设备 ID 必须是唯一的。仅支持英文字母和数字。 |
 | `domain` |  设备端域名。可以从 `agora_iot_device_manager.h::agora_iot_register_and_bind` 方法返回的 `agora_iot_device_info_t::domain` 参数获取。 |
 | `root_ca` | AWS 服务根证书。你需要将值设为示例项目中的 `CONFIG_AWS_ROOT_CA` 的值。 |
-| `client_crt` | 设备端证书。可以从`agora_iot_device_manager.h::agora_iot_register_and_bind` 方法返回的 `agora_iot_device_info_t::certificate` 参数获取。 |
-| `client_key` | 设备端私钥。可以从 `agora_iot_device_manager.h::agora_iot_register_and_bind` 方法返回的 `agora_iot_device_info_t::private_key` 参数获取。 |
+| `client_crt` | 设备端证书。可以从 [agora_iot_register_and_bind](#agora_iot_register_and_bind) 方法返回的 `agora_iot_device_info_t::certificate` 参数获取。 |
+| `client_key` | 设备端私钥。可以从 [agora_iot_register_and_bind](#agora_iot_register_and_bind) 方法返回的 `agora_iot_device_info_t::private_key` 参数获取。 |
 | `enable_rtc` | 是否开启音视频传输。<ul><li>true：开启音视频传输。</li><li>false：关闭音视频传输。</li></ul> |
 | `certificate` | 使用 Agora License 机制生成的 certificate。详见示例项目的 `license_activate.c` 文件。 |
 | `enable_recv_audio` | 本地是否接收音频。<ul><li>true：接收音频。</li><li>false：不接收音频。</li></ul>  |
@@ -615,7 +615,7 @@ int agora_iot_register_and_bind(const char *host_url, const char *product_id, co
 
 注册设备并将设备与用户绑定。
 
-<!-- host_url 域名是写死的？用户可以自己设置吗？ -->
+<!-- TODO: host_url 域名是写死的？用户可以自己设置吗？ -->
 
 #### 参数
 
@@ -748,6 +748,20 @@ agora_iot_dp_result_e agora_iot_dp_register_dp_cmd_handler(agora_iot_handle_t ha
 
 注册数据点命令回调。
 
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
+| [in] `dp_id` | 数据点 ID。 |
+| [in] `dp_type` | 数据点的数据类型。详见 [agora_dp_type_e](#agora_dp_type_e)。  |
+| [in] `callback` | 数据点命令回调。详见 [on_dp_cmd_callback](#on_dp_query_callback)。 |
+| [in] `args` | 回调参数。 |
+
+#### 返回
+
+[agora_iot_dp_result_e](#agora_iot_dp_result_e) 结构体中的枚举。
+
 <a id="agora_iot_dp_publish"></a>
 ### agora_iot_dp_publish
 
@@ -757,6 +771,17 @@ agora_iot_dp_result_e agora_iot_dp_publish(agora_iot_handle_t handle, agora_dp_i
 
 发布一个数据点。
 
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
+| [in] `info` | 数据点信息。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
+
+#### 返回
+
+[agora_iot_dp_result_e](#agora_iot_dp_result_e) 结构体中的枚举。
+
 <a id="agora_iot_dp_publish_all"></a>
 ### agora_iot_dp_publish_all
 
@@ -765,6 +790,16 @@ agora_iot_dp_result_e agora_iot_dp_publish_all(agora_iot_handle_t handle);
 ```
 
 发布全部数据点。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
+
+#### 返回
+
+[agora_iot_dp_result_e](#agora_iot_dp_result_e) 结构体中的枚举。
 
 ## 常量
 
@@ -874,7 +909,7 @@ typedef struct agora_dp_info {
 typedef void (*on_dp_query_callback)(agora_dp_info_t *info, void *args);
 ```
 
-数据点查询回调。
+查询本地数据点时触发。
 
 #### 参数
 
@@ -890,7 +925,7 @@ typedef void (*on_dp_query_callback)(agora_dp_info_t *info, void *args);
 typedef void (*on_dp_cmd_callback)(const agora_dp_info_t *info, void *args);
 ```
 
-数据点命令回调。
+接收到远端发送的命令时触发。
 
 #### 参数
 
