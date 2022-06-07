@@ -22,7 +22,7 @@ agora_iot_handle_t agora_iot_init(const agora_iot_config_t *cfg);
 
 | 参数 | 描述 |
 | --- | --- |
-| `cfg` | SDK 配置。详见 [agora_iot_config_t](#agora_iot_config_t)。 |
+| [in] `cfg` | SDK 配置。详见 [agora_iot_config_t](#agora_iot_config_t)。 |
 
 #### 返回值
 
@@ -40,7 +40,7 @@ void agora_iot_deinit(agora_iot_handle_t handle);
 
 | 参数 | 描述 |
 | --- | --- |
-| `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
+| [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
 
 ### agora_iot_push_video_frame
 
@@ -54,8 +54,8 @@ int agora_iot_push_video_frame(agora_iot_handle_t handle, ago_video_frame_t *fra
 
 | 参数 | 描述 |
 | --- | --- |
-| `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
-| `frame` | 视频帧配置。详见 [ago_video_frame_t](#ago_video_frame_t)。 |
+| [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
+| [in] `frame` | 视频帧配置。详见 [ago_video_frame_t](#ago_video_frame_t)。 |
 
 #### 返回
 
@@ -74,8 +74,8 @@ int agora_iot_push_audio_frame(agora_iot_handle_t handle, ago_audio_frame_t *fra
 
 | 参数 | 描述 |
 | --- | --- |
-| `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
-| `frame` | 音频帧配置。详见 [ago_audio_frame_t](#ago_audio_frame_t)。 |
+| [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
+| [in] `frame` | 音频帧配置。详见 [ago_audio_frame_t](#ago_audio_frame_t)。 |
 
 #### 返回
 
@@ -286,9 +286,8 @@ typedef struct _agora_iot_audio_config {
 | `pcm_sample_rate` | PCM 音频数据的采样率（Hz）。 |
 | `pcm_channel_num` | PCM 音频数据的通道数。 |
 
-<a id="agora_iot_config"></a>
-
-### agora_iot_config
+<a id="agora_iot_config_t"></a>
+### agora_iot_config_t
 
 SDK 基本设置。
 
@@ -322,8 +321,8 @@ typedef struct agora_iot_config {
 | 参数 | 描述 |
 | --- | --- |
 | `app_id` | Agora 为 app 开发者签发的 App ID，详见[获取 App ID](https://docs.agora.io/cn/Agora%20Platform/token#get-an-app-id)。使用同一个 App ID 的 SDK 才能互通。 |
-| `product_id` | 你的产品 ID。可以设置为任意值。 |
-| `device_id` | 你的设备 ID。每个设备的设备 ID 必须是唯一的。 |
+| `product_id` | 你的产品 ID。 |
+| `device_id` | 你的设备 ID。每个设备的设备 ID 必须是唯一的。仅支持英文字母和数字。 |
 | `domain` |  设备端域名。可以从 `agora_iot_device_manager.h::agora_iot_register_and_bind` 方法返回的 `agora_iot_device_info_t::domain` 参数获取。 |
 | `root_ca` | AWS 服务根证书。你需要将值设为示例项目中的 `CONFIG_AWS_ROOT_CA` 的值。 |
 | `client_crt` | 设备端证书。可以从`agora_iot_device_manager.h::agora_iot_register_and_bind` 方法返回的 `agora_iot_device_info_t::certificate` 参数获取。 |
@@ -406,9 +405,9 @@ agora_iot_call_result_e agora_iot_call(agora_iot_handle_t handle, const char *pe
 
 | 参数 | 描述 |
 | --- | --- |
-| `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
-| `peer` | 应答呼叫的远端用户账号。 |
-| `attach_msg` | 呼叫的附加信息。 |
+| [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
+| [in] `peer` | 应答呼叫的远端用户账号。 |
+| [in] `attach_msg` | 呼叫的附加信息。 |
 
 #### 返回
 
@@ -427,7 +426,7 @@ agora_iot_call_result_e agora_iot_answer(agora_iot_handle_t handle);
 
 | 参数 | 描述 |
 | --- | --- |
-| `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
+| [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
 
 #### 返回
 
@@ -446,7 +445,7 @@ agora_iot_call_result_e agora_iot_hang_up(agora_iot_handle_t handle);
 
 | 参数 | 描述 |
 | --- | --- |
-| `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
+| [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
 
 #### 返回
 
@@ -468,10 +467,10 @@ int agora_iot_alarm(agora_iot_handle_t handle, const char *peer, const char *ext
 
 | 参数 | 描述 |
 | --- | --- |
-| `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
-| `peer` | 远端用户账号。 |
-| `extra_msg` | 附加信息。 |
-| `type` | 告警类型。详见 [agora_iot_alarm_type_e](#agora_iot_alarm_type_e)。 |
+| [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
+| [in] `peer` | 远端用户账号。 |
+| [in] `extra_msg` | 附加信息。 |
+| [in] `type` | 告警类型。详见 [agora_iot_alarm_type_e](#agora_iot_alarm_type_e)。 |
 
 #### 返回
 
@@ -561,8 +560,8 @@ SDK 呼叫事件回调。
 
 | 参数 | 描述 |
 | --- | --- |
-| `peer_id` | 发送呼叫的远端用户账号。 |
-| `attach_msg` | 呼叫的附加信息。 |
+| [in] `peer_id` | 发送呼叫的远端用户账号。 |
+| [in] `attach_msg` | 呼叫的附加信息。 |
 
 #### cb_call_answered
 
@@ -570,7 +569,7 @@ SDK 呼叫事件回调。
 
 | 参数 | 描述 |
 | --- | --- |
-| `peer_id` | 应答呼叫的远端用户账号。 |
+| [in] `peer_id` | 应答呼叫的远端用户账号。 |
 
 #### cb_call_hung_up
 
@@ -578,7 +577,7 @@ SDK 呼叫事件回调。
 
 | 参数 | 描述 |
 | --- | --- |
-| `peer_id` | 拒绝呼叫的远端用户账号。 |
+| [in] `peer_id` | 拒绝呼叫的远端用户账号。 |
 
 <!-- TODO: 超时时间是多少？ --> 
 #### cb_call_local_timeout
@@ -587,21 +586,315 @@ SDK 呼叫事件回调。
 
 | 参数 | 描述 |
 | --- | --- |
-| `peer_id` | 拒绝呼叫的远端用户账号。 |
+| [in] `peer_id` | 超时的远端用户账号。 |
 
 #### cb_call_peer_timeout
 
-本地用户呼叫远端用户时，由于远端用户没有应答或拒绝操作导致超时。
+本地用户呼叫远端用户时，由于远端用户没有进行应答或拒绝操作导致呼叫超时。
 
 | 参数 | 描述 |
 | --- | --- |
-| `peer_id` | 拒绝呼叫的远端用户账号。 |
-
-
+| [in] `peer_id` | 超时的远端用户账号。 |
 
 
 # agora_iot_device_manager.h
 
+## 引用文件
 
+无
+
+## 函数
+
+<a id="agora_iot_register_and_bind"></a>
+### agora_iot_register_and_bind
+
+```c
+int agora_iot_register_and_bind(const char *host_url, const char *product_id, const char *device_id,
+                                const char *user_id, const char *device_nickname, agora_iot_device_info_t *info);
+```
+
+注册设备并将设备与用户绑定。
+
+<!-- host_url 域名是写死的？用户可以自己设置吗？ -->
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| [in] `host_url` | SDK 使用的 AWS OpenAPI 服务的主机域名。详见示例项目中的 `CONFIG_LINK_HOST_URL` 常量。  |
+| [in] `product_id` | 你的产品 ID。 |
+| [in] `device_id` | 你的设备 ID。每个设备的设备 ID 必须是唯一的。仅支持英文字母和数字。 |
+| [in] `user_id` | 你的用户 ID。 |
+| [in] `device_nickname` | 设备昵称。 |
+| [out] `info` | 注册绑定完成后返回的设备信息。详见 [agora_iot_device_info_t](#agora_iot_device_info_t)。 |
+
+#### 返回
+
+- 0：方法调用成功。
+- < 0：方法调用失败。
+
+<a id="agora_iot_query_user"></a>
+### agora_iot_query_user
+
+```c
+int agora_iot_query_user(const char *host_url, const char *device_id, char *user_id);
+```
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| [in] `host_url` | SDK 使用的 AWS OpenAPI 服务的主机域名。详见示例项目中的 `CONFIG_LINK_HOST_URL` 常量。  |
+| [in] `device_id` | 你的设备 ID。每个设备的设备 ID 必须是唯一的。仅支持英文字母和数字。 |
+| [out] `user_id` | 与设备绑定的的用户 ID。 |
+
+查询设备绑定的用户。
+
+#### 返回
+
+- 0：方法调用成功。
+- < 0：方法调用失败。
+
+## 常量
+
+### AGORA_IOT_CERTIFICATE_MAX_LEN
+
+```c
+#define AGORA_IOT_CERTIFICATE_MAX_LEN 2048
+```
+
+证书最大长度。
+
+### AGORA_IOT_PRIVATE_KEY_MAX_LEN
+
+```c
+#define AGORA_IOT_PRIVATE_KEY_MAX_LEN 2048
+```
+
+私钥最大长度。
+
+### AGORA_IOT_DOMAIN_MAX_LEN
+
+```c
+#define AGORA_IOT_DOMAIN_MAX_LEN 256
+```
+
+域名最大长度。
+
+## 类型定义
+
+<a id="agora_iot_device_info_t"></a>
+### agora_iot_device_info_t
+
+```c
+typedef struct agora_iot_device_info {
+  char certificate[AGORA_IOT_CERTIFICATE_MAX_LEN];
+  char private_key[AGORA_IOT_PRIVATE_KEY_MAX_LEN];
+  char domain[AGORA_IOT_DOMAIN_MAX_LEN];
+} agora_iot_device_info_t;
+```
+
+设备信息。
+
+| 参数 | 描述 |
+| --- | --- |
+| `certificate[AGORA_IOT_CERTIFICATE_MAX_LEN]` | 设备证书。 |
+| `private_key[AGORA_IOT_PRIVATE_KEY_MAX_LEN]` | 设备私钥。 |
+| `domain[AGORA_IOT_DOMAIN_MAX_LEN]` | 域名。 |
 
 # agora_iot_dp.h
+
+## 引用文件
+
+```c
+#include "agora_iot_base.h"
+```
+
+## 函数
+
+<a id="agora_iot_dp_register_dp_query_handler"></a>
+### agora_iot_dp_register_dp_query_handler
+
+```c
+agora_iot_dp_result_e agora_iot_dp_register_dp_query_handler(agora_iot_handle_t handle, int dp_id,
+                                                             agora_dp_type_e dp_type, on_dp_query_callback callback,
+                                                             void *args);
+```
+
+注册数据点查询回调。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
+| [in] `dp_id` | 数据点 ID。 |
+| [in] `dp_type` | 数据点的数据类型。详见 [agora_dp_type_e](#agora_dp_type_e)。  |
+| [in] `callback` | 数据点查询回调。详见 [on_dp_query_callback](#on_dp_query_callback)。 |
+| [in] `args` | 回调参数。 |
+
+#### 返回
+
+[agora_iot_dp_result_e](#agora_iot_dp_result_e) 结构体中的枚举。
+
+<a id="agora_iot_dp_register_dp_cmd_handler"></a>
+### agora_iot_dp_register_dp_cmd_handler
+
+```c
+agora_iot_dp_result_e agora_iot_dp_register_dp_cmd_handler(agora_iot_handle_t handle, int dp_id,
+                                                           agora_dp_type_e dp_type, on_dp_cmd_callback callback,
+                                                           void *args);                                                         
+```
+
+注册数据点命令回调。
+
+<a id="agora_iot_dp_publish"></a>
+### agora_iot_dp_publish
+
+```c
+agora_iot_dp_result_e agora_iot_dp_publish(agora_iot_handle_t handle, agora_dp_info_t *info);
+```
+
+发布一个数据点。
+
+<a id="agora_iot_dp_publish_all"></a>
+### agora_iot_dp_publish_all
+
+```c
+agora_iot_dp_result_e agora_iot_dp_publish_all(agora_iot_handle_t handle);
+```
+
+发布全部数据点。
+
+## 常量
+
+### AGORA_DP_USER_LEN
+
+```c
+#define AGORA_DP_USER_LEN     64
+```
+
+数据点用户名长度。
+
+### AGORA_DP_ID_MIN
+
+```c
+#define AGORA_DP_ID_MIN       100
+```
+
+数据点 ID 长度。
+
+## 类型定义
+
+<a id="agora_iot_dp_result_e"></a>
+### agora_iot_dp_result_e
+
+```c
+typedef enum {
+  ERR_AG_DP_SUCCESS           = ERR_SUCCESS,
+  ERR_AG_DP_FAILED            = ERR_FAILED,
+  ERR_AG_DP_INVALID_ARGUMENT  = ERR_INVALID_ARGUMENT,
+} agora_iot_dp_result_e;
+```
+
+数据点函数调用结果。
+
+| 参数 | 描述 |
+| --- | --- |
+| `ERR_AG_DP_SUCCESS` | 0：方法调用成功。 |
+| `ERR_AG_DP_FAILED` | -1：方法调用失败。 |
+| `ERR_AG_DP_INVALID_ARGUMENT` | -2：参数无效。 |
+
+<a id="agora_dp_type_e"></a>
+### agora_dp_type_e
+
+```c
+typedef enum agora_dp_type {
+  AGORA_DP_TYPE_INT           = 0,
+  AGORA_DP_TYPE_BOOL          = 1,
+  AGORA_DP_TYPE_ENUM          = 2,
+  AGORA_DP_TYPE_STR           = 3,
+} agora_dp_type_e;
+```
+
+数据点类型。
+
+| 参数 | 描述 |
+| --- | --- |
+| `AGORA_DP_TYPE_INT` | 0：整数类型。 |
+| `AGORA_DP_TYPE_BOOL` | 1：布尔类型。 |
+| `AGORA_DP_TYPE_ENUM` | 2：枚举类型。 |
+| `AGORA_DP_TYPE_STR` | 3：字符串类型。 |
+
+<a id="agora_dp_value_t"></a>
+### agora_dp_value_t
+
+```c
+typedef union {
+  int dp_int;
+  bool dp_bool;
+  unsigned int dp_enum;
+  char *dp_str;
+} agora_dp_value_t;
+```
+
+数据点的值。
+
+| 参数 | 描述 |
+| --- | --- |
+| `dp_int` | 整数类型的值。 |
+| `dp_bool` | 布尔类型的值。 |
+| `dp_enum` | 枚举类型的值。 |
+| `dp_str` | 字符串类型的值。 |
+
+<a id="agora_dp_info_t"></a>
+### agora_dp_info_t
+
+```c
+typedef struct agora_dp_info {
+  unsigned int dp_id;
+  agora_dp_type_e dp_type;
+  agora_dp_value_t dp_value;
+} agora_dp_info_t;
+```
+
+数据点信息。
+
+| 参数 | 描述 |
+| --- | --- |
+| `dp_id` | 数据点 ID。 |
+| `dp_type` | 数据点的数据类型。详见 [agora_dp_type_e](#agora_dp_type_e)。 |
+| `dp_value` | 数据点的值。详见 [agora_dp_value_t](#agora_dp_value_t)。 |
+
+
+<a id="on_dp_query_callback"></a>
+### on_dp_query_callback
+
+```c
+typedef void (*on_dp_query_callback)(agora_dp_info_t *info, void *args);
+```
+
+数据点查询回调。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| [in] `info` | 数据点信息。详见 [agora_dp_info_t](#agora_dp_info_t)。你需要在此参数中传入本地数据点的信息。 |
+| [in] `args` | 回调参数。通过 [agora_iot_dp_register_dp_query_handler](#agora_iot_dp_register_dp_query_handler) 传入。 |
+
+<a id="on_dp_cmd_callback"></a>
+### on_dp_cmd_callback
+
+```c
+typedef void (*on_dp_cmd_callback)(const agora_dp_info_t *info, void *args);
+```
+
+数据点命令回调。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| [in] `info` | 数据点信息。详见 [agora_dp_info_t](#agora_dp_info_t)。你可以在此参数中传入本地数据点或远端数据点的信息。 |
+| [in] `args` | 回调参数。通过 [agora_iot_dp_register_dp_cmd_handler](#agora_iot_dp_register_dp_cmd_handler) 传入。 |
