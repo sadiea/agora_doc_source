@@ -218,7 +218,7 @@ SDK 音视频事件回调。
 
 | 参数 | 描述 |
 | --- | --- |
-| `frame` | 音频帧设置。详见 [ago_audio_frame_t](#ago_audio_frame_t)。 |
+| [in] `frame` | 音频帧设置。详见 [ago_audio_frame_t](#ago_audio_frame_t)。 |
 
 #### cb_receive_video_frame
 
@@ -226,7 +226,7 @@ SDK 音视频事件回调。
 
 | 参数 | 描述 |
 | --- | --- |
-| `frame` | 视频帧设置。详见 [ago_video_frame_t](#ago_video_frame_t)。 |
+| [in] `frame` | 视频帧设置。详见 [ago_video_frame_t](#ago_video_frame_t)。 |
 
 在 SDK 接收到视频帧时触发。
 
@@ -240,7 +240,7 @@ SDK 音视频事件回调。
 
 | 参数 | 描述 |
 | --- | --- |
-| `target_bps` | SDK 推荐你使用的码率 (bps)。 |
+| [in] `target_bps` | SDK 推荐你使用的码率 (bps)。 |
 
 <a id="ago_audio_codec_type_e"></a>
 
@@ -451,7 +451,7 @@ agora_iot_call_result_e agora_iot_hang_up(agora_iot_handle_t handle);
 
 [agora_iot_call_result_e](#agora_iot_call_result_e) 中的枚举值。
 
-<!-- TODO: agora_iot_alarm 有错误码？ -->
+<!-- TODO: agora_iot_alarm 有错误码吗？为什么返回 int?其他方法都返回枚举。 -->
 
 <a id="agora_iot_alarm"></a>
 ### agora_iot_alarm
@@ -911,6 +911,8 @@ typedef void (*on_dp_query_callback)(agora_dp_info_t *info, void *args);
 
 查询本地数据点时触发。
 
+<!-- TODO: 如何查询本地数据点？ -->
+
 #### 参数
 
 | 参数 | 描述 |
@@ -926,6 +928,8 @@ typedef void (*on_dp_cmd_callback)(const agora_dp_info_t *info, void *args);
 ```
 
 接收到远端发送的命令时触发。
+
+<!-- TODO: 具体是什么类型的 cmd？如何发送 cmd？ -->
 
 #### 参数
 
