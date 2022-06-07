@@ -90,7 +90,11 @@ int agora_iot_push_audio_frame(agora_iot_handle_t handle, ago_audio_frame_t *fra
 #define AGORA_IOT_ACCOUNT_NAME_LENGTH 64
 ```
 
+<!-- TODO: 没有发现需要填 RTC 频道名或 Token 的地方，可以理解为 SDK 把 Token 鉴权封装为内部逻辑了吗？那这个 channel length 和 Token length 指的是什么？ -->
+
 IoT 账号名长度。
+
+<!-- TODO: 这个 account name 是不是指下面的 user_id？ -->
 
 ### AGORA_IOT_CHANNEL_LENGTH
 
@@ -107,6 +111,8 @@ IoT 频道名长度。
 ```
 
 IoT Token 长度。
+
+<!-- TODO: 没有发现需要填 RTC 频道名或 Token 的地方，可以理解为 SDK 把 Token 鉴权封装为内部逻辑了吗？那这个 channel length 和 Token length 指的是什么？ -->
 
 
 ## 类型定义
@@ -323,20 +329,20 @@ typedef struct agora_iot_config {
 | `app_id` | Agora 为 app 开发者签发的 App ID，详见[获取 App ID](https://docs.agora.io/cn/Agora%20Platform/token#get-an-app-id)。使用同一个 App ID 的 SDK 才能互通。 |
 | `product_id` | 你的产品 ID。 |
 | `device_id` | 你的设备 ID。每个设备的设备 ID 必须是唯一的。仅支持英文字母和数字。 |
-| `domain` |  设备端域名。可以从 `agora_iot_device_manager.h::agora_iot_register_and_bind` 方法返回的 `agora_iot_device_info_t::domain` 参数获取。 |
-| `root_ca` | AWS 服务根证书。你需要将值设为示例项目中的 `CONFIG_AWS_ROOT_CA` 的值。 |
+| `domain` |  设备端域名。可以从 [agora_iot_register_and_bind](#agora_iot_register_and_bind) 方法返回的 `agora_iot_device_info_t::domain` 参数获取。 |
+| `root_ca` | AWS 服务根证书。你可以将值设为示例项目中的 `CONFIG_AWS_ROOT_CA` 的值，也可以自行[申请一个 AWS 根证书](https://docs.aws.amazon.com/zh_cn/acm-pca/latest/userguide/PCACertInstall.html)。 |
 | `client_crt` | 设备端证书。可以从 [agora_iot_register_and_bind](#agora_iot_register_and_bind) 方法返回的 `agora_iot_device_info_t::certificate` 参数获取。 |
 | `client_key` | 设备端私钥。可以从 [agora_iot_register_and_bind](#agora_iot_register_and_bind) 方法返回的 `agora_iot_device_info_t::private_key` 参数获取。 |
 | `enable_rtc` | 是否开启音视频传输。<ul><li>true：开启音视频传输。</li><li>false：关闭音视频传输。</li></ul> |
 | `certificate` | 使用 Agora License 机制生成的 certificate。详见示例项目的 `license_activate.c` 文件。 |
 | `enable_recv_audio` | 本地是否接收音频。<ul><li>true：接收音频。</li><li>false：不接收音频。</li></ul>  |
 | `enable_recv_video` | 本地是否接收视频。<ul><li>true：接收视频。</li><li>false：不接收视频。</li></ul> |
-| `rtc_cb` | 音视频传输事件回调。详见 `agora_iot_rtc_callback_t` 结构体。 |
+| `rtc_cb` | 音视频传输事件回调。详见 [agora_iot_rtc_callback_t](#agora_iot_rtc_callback_t) 结构体。 |
 | `disable_rtc_log` | 是否关闭日志。 <ul><li>true：关闭日志。</li><li>false：开启日志。</li></ul>|
 | `max_possible_bitrate` | 可能出现的最大码率（bps）。 |
 | `enable_audio_config` | 是否开启音频配置。 <ul><li>true：开启音频配置。你可以通过 `audio_config` 参数配置音频。</li><li>false：关闭音频配置。`audio_config` 参数的设置无效。</li></ul>|
 | `audio_config` | 音频配置。详见 [agora_iot_audio_config_t](#agora_iot_audio_config_t) 结构体。 |
-| `call_cb` | 呼叫事件回调。详见 `agora_iot_call.h::agora_iot_call_callback_t` 结构体。 |
+| `call_cb` | 呼叫事件回调。详见 [agora_iot_call_callback_t](#agora_iot_call_callback_t) 结构体。 |
 
 # agora_iot_base.h
 
@@ -406,8 +412,8 @@ agora_iot_call_result_e agora_iot_call(agora_iot_handle_t handle, const char *pe
 | 参数 | 描述 |
 | --- | --- |
 | [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
-| [in] `peer` | 应答呼叫的远端用户账号。 |
-| [in] `attach_msg` | 呼叫的附加信息。 |
+| [in] `peer` | 应答呼叫的远端用户 ID。 |
+| [in] `extra_msg` | 呼叫的附加信息。最大长度为 1024 字节（含 `'\0'`）。 |
 
 #### 返回
 
@@ -439,7 +445,7 @@ agora_iot_call_result_e agora_iot_answer(agora_iot_handle_t handle);
 agora_iot_call_result_e agora_iot_hang_up(agora_iot_handle_t handle);
 ```
 
-拒绝远端用户发来的呼叫。
+拒绝远端用户发来的呼叫或挂断当前通话。
 
 #### 参数
 
@@ -469,7 +475,7 @@ int agora_iot_alarm(agora_iot_handle_t handle, const char *peer, const char *ext
 | --- | --- |
 | [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
 | [in] `peer` | 远端用户账号。 |
-| [in] `extra_msg` | 附加信息。 |
+| [in] `extra_msg` | 呼叫的附加信息。最大长度为 1024 字节（含 `'\0'`）。 |
 | [in] `type` | 告警类型。详见 [agora_iot_alarm_type_e](#agora_iot_alarm_type_e)。 |
 
 #### 返回
