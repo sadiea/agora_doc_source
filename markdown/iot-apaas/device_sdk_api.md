@@ -84,35 +84,7 @@ int agora_iot_push_audio_frame(agora_iot_handle_t handle, ago_audio_frame_t *fra
 
 ## 常量
 
-### AGORA_IOT_ACCOUNT_NAME_LENGTH
-
-```c
-#define AGORA_IOT_ACCOUNT_NAME_LENGTH 64
-```
-
-<!-- TODO: 没有发现需要填 RTC 频道名或 Token 的地方，可以理解为 SDK 把 Token 鉴权封装为内部逻辑了吗？那这个 channel length 和 Token length 指的是什么？ -->
-
-IoT 账号名长度。
-
-<!-- TODO: 这个 account name 是不是指下面的 user_id？ -->
-
-### AGORA_IOT_CHANNEL_LENGTH
-
-```c
-#define AGORA_IOT_CHANNEL_LENGTH 64
-```
-
-IoT 频道名长度。
-
-### AGORA_IOT_TOKEN_LENGTH
-
-```c
-#define AGORA_IOT_TOKEN_LENGTH 1024
-```
-
-IoT Token 长度。
-
-<!-- TODO: 没有发现需要填 RTC 频道名或 Token 的地方，可以理解为 SDK 把 Token 鉴权封装为内部逻辑了吗？那这个 channel length 和 Token length 指的是什么？ -->
+无
 
 
 ## 类型定义
@@ -327,14 +299,14 @@ typedef struct agora_iot_config {
 | 参数 | 描述 |
 | --- | --- |
 | `app_id` | Agora 为 app 开发者签发的 App ID，详见[获取 App ID](https://docs.agora.io/cn/Agora%20Platform/token#get-an-app-id)。使用同一个 App ID 的 SDK 才能互通。 |
-| `product_id` | 你的产品 ID。 |
-| `device_id` | 你的设备 ID。每个设备的设备 ID 必须是唯一的。仅支持英文字母和数字。 |
+| [in] `product_id` | 你的产品 ID。你可以在声网控制台获取。详见 [开通 Agora 灵隼服务](enable_agora_link)。 |
+| [in] `device_id` | 你的设备 ID。每个设备的设备 ID 必须是唯一的。长度为 1 ~ 128 个字符。字符集支持：<ul><li>26 个大写英文字母和小写英文字母。</li><li>阿拉伯数字： 0-9。</li><li>特殊符号：`":"`、`"_"`、`"-"`。</li></ul>设备 ID 与商业 License 绑定。你需要联系 sales@agora.io 购买商业 License。 |
 | `domain` |  设备端域名。可以从 [agora_iot_register_and_bind](#agora_iot_register_and_bind) 方法返回的 `agora_iot_device_info_t::domain` 参数获取。 |
 | `root_ca` | AWS 服务根证书。你可以将值设为示例项目中的 `CONFIG_AWS_ROOT_CA` 的值，也可以自行[申请一个 AWS 根证书](https://docs.aws.amazon.com/zh_cn/acm-pca/latest/userguide/PCACertInstall.html)。 |
 | `client_crt` | 设备端证书。可以从 [agora_iot_register_and_bind](#agora_iot_register_and_bind) 方法返回的 `agora_iot_device_info_t::certificate` 参数获取。 |
 | `client_key` | 设备端私钥。可以从 [agora_iot_register_and_bind](#agora_iot_register_and_bind) 方法返回的 `agora_iot_device_info_t::private_key` 参数获取。 |
 | `enable_rtc` | 是否开启音视频传输。<ul><li>true：开启音视频传输。</li><li>false：关闭音视频传输。</li></ul> |
-| `certificate` | 使用 Agora License 机制生成的 certificate。详见示例项目的 `license_activate.c` 文件。 |
+| `certificate` | 使用商业 License 生成的证书。你需要联系 sales@agora.io 购买商业 License，并参考示例项目的 `license_activate.c` 文件生成包含 License 与设备 ID 信息的证书。每一个 License 对应一个设备 ID。 |
 | `enable_recv_audio` | 本地是否接收音频。<ul><li>true：接收音频。</li><li>false：不接收音频。</li></ul>  |
 | `enable_recv_video` | 本地是否接收视频。<ul><li>true：接收视频。</li><li>false：不接收视频。</li></ul> |
 | `rtc_cb` | 音视频传输事件回调。详见 [agora_iot_rtc_callback_t](#agora_iot_rtc_callback_t) 结构体。 |
@@ -466,7 +438,7 @@ agora_iot_call_result_e agora_iot_hang_up(agora_iot_handle_t handle);
 int agora_iot_alarm(agora_iot_handle_t handle, const char *peer, const char *extra_msg, int8_t type);
 ```
 
-向远端用户发送告警信息。
+向应用端用户发送告警信息。
 
 
 #### 参数
@@ -520,7 +492,7 @@ typedef enum {
 | `ERR_AG_CALL_PEER_BUSY` | -100001：本地用户无法重复呼叫。因为被呼叫的远端用户已经处于通话中。 |
 | `ERR_AG_CALL_CAN_NOT_ANSWER` | -100002：本地用户无法应答呼叫。因为没有外来或发出的呼叫。|
 | `ERR_AG_CALL_CAN_NOT_HANGUP` | -100003：本地用户无法挂断呼叫。因为本地用户不在呼叫中，也没有发送呼叫。 |
-| `ERR_AG_CALL_PEER_TIMEOUT` | -100004：本地用户呼叫远端用户时等待超时。 |
+| `ERR_AG_CALL_PEER_TIMEOUT` | -100004：本地用户呼叫远端用户时等待超过 30 秒。 |
 | `ERR_AG_CALL_IS_CALLING` | -100005： 已经有远端用户呼叫本地用户或本地用户已呼叫远端用户。|
 | `ERR_AG_CALL_ILLEGAL_ANSWER` | -100006：错误的应答操作。例如本地用户应答从本地发出的呼叫。 |
 | `ERR_AG_CALL_CAN_NOT_CALL_YOURSELF` | -100007：呼叫错误。因为本地用户无法呼叫自己。 |
@@ -585,10 +557,11 @@ SDK 呼叫事件回调。
 | --- | --- |
 | [in] `peer_id` | 拒绝呼叫的远端用户账号。 |
 
-<!-- TODO: 超时时间是多少？ --> 
 #### cb_call_local_timeout
 
-远端用户呼叫本地用户时，由于本地用户没有应答或拒绝操作导致超时。
+远端用户呼叫本地用户时，由于 30 秒内本地用户没有应答或拒绝操作导致超时。
+
+你可以[提交工单](https://agora-ticket.agora.io/)联系我们更改超时时间。
 
 | 参数 | 描述 |
 | --- | --- |
@@ -596,7 +569,9 @@ SDK 呼叫事件回调。
 
 #### cb_call_peer_timeout
 
-本地用户呼叫远端用户时，由于远端用户没有进行应答或拒绝操作导致呼叫超时。
+本地用户呼叫远端用户时，由于 30 秒内远端用户没有进行应答或拒绝操作导致呼叫超时。
+
+你可以[提交工单](https://agora-ticket.agora.io/)联系我们更改超时时间。
 
 | 参数 | 描述 |
 | --- | --- |
@@ -621,17 +596,17 @@ int agora_iot_register_and_bind(const char *host_url, const char *product_id, co
 
 注册设备并将设备与用户绑定。
 
-<!-- TODO: host_url 域名是写死的？用户可以自己设置吗？ -->
+<!-- TODO: host_url 需要从控制台获取。需要在控制台增加相关内容并在此处添加链接 -->
 
 #### 参数
 
 | 参数 | 描述 |
 | --- | --- |
-| [in] `host_url` | SDK 使用的 AWS OpenAPI 服务的主机域名。详见示例项目中的 `CONFIG_LINK_HOST_URL` 常量。  |
-| [in] `product_id` | 你的产品 ID。 |
-| [in] `device_id` | 你的设备 ID。每个设备的设备 ID 必须是唯一的。仅支持英文字母和数字。 |
+| [in] `host_url` | AWS 主机域名。  |
+| [in] `product_id` | 你的产品 ID。你可以在声网控制台获取。详见 [开通 Agora 灵隼服务](enable_agora_link)。 |
+| [in] `device_id` | 你的设备 ID。每个设备的设备 ID 必须是唯一的。长度为 1 ~ 128 个字符。字符集支持：<ul><li>26 个大写英文字母和小写英文字母。</li><li>阿拉伯数字： 0-9。</li><li>特殊符号：`":"`、`"_"`、`"-"`。</li></ul>设备 ID 与商业 License 绑定。你需要联系 sales@agora.io 购买商业 License。 |
 | [in] `user_id` | 你的用户 ID。 |
-| [in] `device_nickname` | 设备昵称。 |
+| [in] `device_nickname` | 设备昵称。客户端 SDK 的设备绑定列表会显示该昵称。 |
 | [out] `info` | 注册绑定完成后返回的设备信息。详见 [agora_iot_device_info_t](#agora_iot_device_info_t)。 |
 
 #### 返回
@@ -651,7 +626,7 @@ int agora_iot_query_user(const char *host_url, const char *device_id, char *user
 | 参数 | 描述 |
 | --- | --- |
 | [in] `host_url` | SDK 使用的 AWS OpenAPI 服务的主机域名。详见示例项目中的 `CONFIG_LINK_HOST_URL` 常量。  |
-| [in] `device_id` | 你的设备 ID。每个设备的设备 ID 必须是唯一的。仅支持英文字母和数字。 |
+| [in] `device_id` | 你的设备 ID。每个设备的设备 ID 必须是唯一的。长度为 1 ~ 128 个字符。字符集支持：<ul><li>26 个大写英文字母和小写英文字母。</li><li>阿拉伯数字： 0-9。</li><li>特殊符号：`":"`、`"_"`、`"-"`。</li></ul>设备 ID 与商业 License 绑定。你需要联系 sales@agora.io 购买商业 License。 |
 | [out] `user_id` | 与设备绑定的的用户 ID。 |
 
 查询设备绑定的用户。
@@ -727,16 +702,18 @@ agora_iot_dp_result_e agora_iot_dp_register_dp_query_handler(agora_iot_handle_t 
                                                              void *args);
 ```
 
-注册数据点查询回调。
+注册属性查询回调。
+
+你需要确保已经在控制台通过**功能定义**页面新增了相应功能。详见[开通 Agora 灵隼](enable_agora_link)。
 
 #### 参数
 
 | 参数 | 描述 |
 | --- | --- |
 | [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
-| [in] `dp_id` | 数据点 ID。 |
-| [in] `dp_type` | 数据点的数据类型。详见 [agora_dp_type_e](#agora_dp_type_e)。  |
-| [in] `callback` | 数据点查询回调。详见 [on_dp_query_callback](#on_dp_query_callback)。 |
+| [in] `dp_id` | 属性 ID。即控制台**功能定义**页面的功能标识符。详见[开通 Agora 灵隼](enable_agora_link)。 |
+| [in] `dp_type` | 属性的数据类型。详见 [agora_dp_type_e](#agora_dp_type_e)。  |
+| [in] `callback` | 属性查询回调。详见 [on_dp_query_callback](#on_dp_query_callback)。 |
 | [in] `args` | 回调参数。 |
 
 #### 返回
@@ -752,16 +729,18 @@ agora_iot_dp_result_e agora_iot_dp_register_dp_cmd_handler(agora_iot_handle_t ha
                                                            void *args);                                                         
 ```
 
-注册数据点命令回调。
+注册属性命令回调。
+
+你需要确保已经在控制台通过**功能定义**页面新增了相应功能。详见[开通 Agora 灵隼](enable_agora_link)。
 
 #### 参数
 
 | 参数 | 描述 |
 | --- | --- |
 | [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
-| [in] `dp_id` | 数据点 ID。 |
-| [in] `dp_type` | 数据点的数据类型。详见 [agora_dp_type_e](#agora_dp_type_e)。  |
-| [in] `callback` | 数据点命令回调。详见 [on_dp_cmd_callback](#on_dp_query_callback)。 |
+| [in] `dp_id` | 属性 ID。即控制台**属性定义**页面的属性标识符。参考[开通 Agora 灵隼](enable_agora_link)在控制台创建属性。 |
+| [in] `dp_type` | 属性的数据类型。详见 [agora_dp_type_e](#agora_dp_type_e)。  |
+| [in] `callback` | 属性命令回调。详见 [on_dp_cmd_callback](#on_dp_query_callback)。 |
 | [in] `args` | 回调参数。 |
 
 #### 返回
@@ -775,14 +754,16 @@ agora_iot_dp_result_e agora_iot_dp_register_dp_cmd_handler(agora_iot_handle_t ha
 agora_iot_dp_result_e agora_iot_dp_publish(agora_iot_handle_t handle, agora_dp_info_t *info);
 ```
 
-发布一个数据点。
+发布一个属性。
+
+你需要确保已经在控制台通过**功能定义**页面新增了相应属性。详见[开通 Agora 灵隼](enable_agora_link)。
 
 #### 参数
 
 | 参数 | 描述 |
 | --- | --- |
 | [in] `handle` | [agora_iot_init](#agora_iot_init) 返回的 SDK 句柄。详见 [agora_iot_handle_t](#agora_iot_handle_t)。 |
-| [in] `info` | 数据点信息。详见 [agora_dp_info_t](#agora_dp_info_t)。 |
+| [in] `info` | 属性信息。详见 [agora_dp_info_t](#agora_dp_info_t)。 |
 
 #### 返回
 
@@ -795,7 +776,9 @@ agora_iot_dp_result_e agora_iot_dp_publish(agora_iot_handle_t handle, agora_dp_i
 agora_iot_dp_result_e agora_iot_dp_publish_all(agora_iot_handle_t handle);
 ```
 
-发布全部数据点。
+发布全部属性。你需要确保已经在控制台通过**功能定义**页面新增了相应属性。详见[开通 Agora 灵隼](enable_agora_link)。
+
+在发布全部属性之前，确保你已经调用 [agora_iot_dp_register_dp_query_handler](#agora_iot_dp_register_dp_query_handler) 注册了属性回调。
 
 #### 参数
 
@@ -815,7 +798,7 @@ agora_iot_dp_result_e agora_iot_dp_publish_all(agora_iot_handle_t handle);
 #define AGORA_DP_USER_LEN     64
 ```
 
-数据点用户名长度。
+属性用户名长度。
 
 ### AGORA_DP_ID_MIN
 
@@ -823,7 +806,7 @@ agora_iot_dp_result_e agora_iot_dp_publish_all(agora_iot_handle_t handle);
 #define AGORA_DP_ID_MIN       100
 ```
 
-数据点 ID 长度。
+属性 ID 长度的最小值。
 
 ## 类型定义
 
@@ -838,7 +821,7 @@ typedef enum {
 } agora_iot_dp_result_e;
 ```
 
-数据点函数调用结果。
+属性函数调用结果。
 
 | 参数 | 描述 |
 | --- | --- |
@@ -858,7 +841,7 @@ typedef enum agora_dp_type {
 } agora_dp_type_e;
 ```
 
-数据点类型。
+属性类型。
 
 | 参数 | 描述 |
 | --- | --- |
@@ -879,7 +862,7 @@ typedef union {
 } agora_dp_value_t;
 ```
 
-数据点的值。
+属性的值。
 
 | 参数 | 描述 |
 | --- | --- |
@@ -899,13 +882,13 @@ typedef struct agora_dp_info {
 } agora_dp_info_t;
 ```
 
-数据点信息。
+属性信息。
 
 | 参数 | 描述 |
 | --- | --- |
-| `dp_id` | 数据点 ID。 |
-| `dp_type` | 数据点的数据类型。详见 [agora_dp_type_e](#agora_dp_type_e)。 |
-| `dp_value` | 数据点的值。详见 [agora_dp_value_t](#agora_dp_value_t)。 |
+| `dp_id` | 属性 ID。即控制台**功能定义**页面的属性标识符。详见[开通 Agora 灵隼](enable_agora_link)。 |
+| `dp_type` | 属性的数据类型。详见 [agora_dp_type_e](#agora_dp_type_e)。 |
+| `dp_value` | 属性的值。详见 [agora_dp_value_t](#agora_dp_value_t)。 |
 
 
 <a id="on_dp_query_callback"></a>
@@ -915,15 +898,13 @@ typedef struct agora_dp_info {
 typedef void (*on_dp_query_callback)(agora_dp_info_t *info, void *args);
 ```
 
-查询本地数据点时触发。
-
-<!-- TODO: 如何查询本地数据点？ -->
+客户端 SDK 通过设备属性方法查询本地属性时触发。
 
 #### 参数
 
 | 参数 | 描述 |
 | --- | --- |
-| [in] `info` | 数据点信息。详见 [agora_dp_info_t](#agora_dp_info_t)。你需要在此参数中传入本地数据点的信息。 |
+| [in] `info` | 属性信息。详见 [agora_dp_info_t](#agora_dp_info_t)。你需要在此参数中传入本地属性的信息。 |
 | [in] `args` | 回调参数。通过 [agora_iot_dp_register_dp_query_handler](#agora_iot_dp_register_dp_query_handler) 传入。 |
 
 <a id="on_dp_cmd_callback"></a>
@@ -933,13 +914,12 @@ typedef void (*on_dp_query_callback)(agora_dp_info_t *info, void *args);
 typedef void (*on_dp_cmd_callback)(const agora_dp_info_t *info, void *args);
 ```
 
-接收到远端发送的命令时触发。
+接收到客户端 SDK 通过设备属性方法发送的命令时触发。
 
-<!-- TODO: 具体是什么类型的 cmd？如何发送 cmd？ -->
 
 #### 参数
 
 | 参数 | 描述 |
 | --- | --- |
-| [in] `info` | 数据点信息。详见 [agora_dp_info_t](#agora_dp_info_t)。你可以在此参数中传入本地数据点或远端数据点的信息。 |
+| [in] `info` | 属性信息。详见 [agora_dp_info_t](#agora_dp_info_t)。你可以在此参数中传入本地属性或远端属性的信息。 |
 | [in] `args` | 回调参数。通过 [agora_iot_dp_register_dp_cmd_handler](#agora_iot_dp_register_dp_cmd_handler) 传入。 |
