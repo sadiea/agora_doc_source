@@ -402,6 +402,7 @@ public static class UserInfo
 | `mArea` |  |
 | `mAddress` |  |
 
+<a id="ICallback"></a>
 ## ICallback 接口
 
 ```java
@@ -554,7 +555,6 @@ default void onTokenInvalid() {}
 
 Token 过期回调。你需要重新登录。
 
-
 # IAlarmMgr 接口
 
 ```java
@@ -595,6 +595,189 @@ public static final int ALARMMGR_STATE_QUERYING = 0x0005;
 
 正在查询中。
 
+## public 方法
+
+### getStateMachine 方法
+
+```java
+int getStateMachine();
+```
+
+获取当前账号的告警状态。
+
+#### 返回
+
+当前账号的告警状态。
+
+### registerListener 方法
+
+```java
+int registerListener(IAlarmMgr.ICallback callback);
+```
+
+注册回调。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `callback` | 回调接口。详见 [ICallback](#ICallback)。 |
+
+#### 返回
+
+错误码。
+
+- 0：成功。
+- <0：失败。
+
+### unregisterListener 方法
+
+```java
+int unregisterListener(IAlarmMgr.ICallback callback);
+```
+
+注销回调。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `callback` | 回调接口。 |
+
+#### 返回
+
+错误码。
+
+- 0：成功。
+- <0：失败。
+
+### insert 方法
+
+```java
+int insert(InsertParam insertParam);
+```
+
+插入告警信息。触发 [onAlarmAddDone](#onAlarmAddDone) 回调。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `insertParam` | 要插入的告警信息。 |
+
+#### 返回
+
+错误码。
+
+- 0：成功。
+- <0：失败。
+
+### delete 方法
+
+```java
+int delete(List<Long> alarmIdList);
+```
+
+插入告警信息。触发 [onAlarmDeleteDone](#onAlarmDeleteDone) 回调。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `alarmIdList` |  要删除的告警信息 ID 列表。 |
+
+#### 返回
+
+错误码。
+
+- 0：成功。
+- <0：失败。
+
+### mark 方法
+
+```java
+int mark(List<Long> alarmIdList);
+```
+
+标记多个告警信息为已读，触发 [onAlarmMarkDone](#onAlarmMarkDone) 回调。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `alarmIdList` |  要标记的告警信息 ID 列表。 |
+
+#### 返回
+
+错误码。
+
+- 0：成功。
+- <0：失败。
+
+### queryById 方法
+
+```java
+int queryById(long alarmId);
+```
+
+根据告警 ID 查询详细的告警信息，触发 [onAlarmInfoQueryDone](#onAlarmInfoQueryDone) 回调。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `alarmId` |  要标记的告警信息 ID。 |
+
+#### 返回
+
+错误码。
+
+- 0：成功。
+- <0：失败。
+
+### queryByPage 方法
+
+```java
+int queryByPage(QueryParam queryParam);
+```
+
+查询指定页面的设备列表，触发 [onAlarmInfoQueryDone](#onAlarmInfoQueryDone) 回调。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `queryParam` |  查询参数。详见 [QueryParam](#QueryParam)。 |
+
+#### 返回
+
+错误码。
+
+- 0：成功。
+- <0：失败。
+
+### queryNumber 方法
+
+```java
+int queryNumber(QueryParam queryParam);
+```
+
+根据条件查询所有告警数量，触发 [onAlarmInfoQueryDone](#onAlarmInfoQueryDone) 回调。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `queryParam` |  查询参数。详见 [QueryParam](#QueryParam)。 |
+
+#### 返回
+
+错误码。
+
+- 0：成功。
+- <0：失败。
+
+<a id="InsertParam"></a>
 ## InsertParam 类
 
 ```java
@@ -623,19 +806,32 @@ public static final int ALARMMGR_STATE_QUERYING = 0x0005;
 
 告警消息插入参数。
 
+### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `mProductId` | 产品 ID。 |
+| `mDeviceId` | 设备 ID。 |
+| `mDeviceName` | 设备名称。 |
+| `mMessage` | 告警消息内容。 |
+| `mMsgType` | 告警消息类型。<ul><li>0：声音检测。</li><li>1：移动侦测。</li><li>99：其他。</li></ul> |
+| `mMsgStatus` | 消息状态。<ul><li>0：未读。</li><li>1：已读。</li></ul> |
+| `mFileUrl` | 录像文件 URL。 |
+
+<a id="QueryParam"></a>
 ## QueryParam 类
 
 ```java
 public static class QueryParam {
-    public String mProductId;   ///< 要查询的产品Id
-    public String mDeviceId;    ///< 要查询的设备Id
-    public int mMsgType;        ///< 消息类型
-    public int mMsgStatus;      ///< 消息状态
-    public String mBeginDate;   ///< 开始时间
-    public String mEndDate;     ///< 结束事件
-    public int mPageIndex;      ///< 要查询的页面索引，从1开始
-    public int mPageSize;       ///< 页面告警数量大小
-    public boolean mAscSort;    ///< 是否升序排序
+    public String mProductId;   
+    public String mDeviceId;    
+    public int mMsgType;       
+    public int mMsgStatus;      
+    public String mBeginDate;   
+    public String mEndDate;    
+    public int mPageIndex;      
+    public int mPageSize;     
+    public boolean mAscSort;   
 
     @Override
     public String toString() {
@@ -653,4 +849,117 @@ public static class QueryParam {
 ```
 
 告警信息页查询参数。
+
+### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `mProductId` | 产品 ID。 |
+| `mDeviceId` | 设备 ID。 |
+| `mMsgType` | 告警消息类型。<ul><li>0：声音检测。</li><li>1：移动侦测。</li><li>99：其他。</li></ul> |
+| `mMsgStatus` | 消息状态。<ul><li>0：未读。</li><li>1：已读。</li></ul> |
+| `mFileUrl` | 录像文件 URL。 |
+| `mBeginDate` | 开始时间。 |
+| `mEndDate` | 结束时间。 |
+| `mPageIndex` | 要查询的页面索引，从 1 开始。 |
+| `mPageSize` | 页面告警数量大小。 |
+| `mAscSort` | 结果是否以升序排序。 |
+
+## ICallback 接口
+
+告警信息回调接口。
+
+```java
+public static interface ICallback {
+        default void onReceivedAlarm(IotAlarm alarm) {}
+        default void onAlarmAddDone(int errCode,  InsertParam insertParam) {}
+        default void onAlarmDeleteDone(int errCode, List<Long> deletedIdList) {}
+        default void onAlarmMarkDone(int errCode, List<Long> markedIdList) {}
+        default void onAlarmInfoQueryDone(int errCode, final IotAlarm iotAlarm) {}
+        default void onAlarmPageQueryDone(int errCode, final QueryParam queryParam, final IotAlarmPage alarmPage) {}
+        default void onAlarmNumberQueryDone(int errCode, final QueryParam queryParam, long alarmNumber) {}
+    }
+```
+
+### onReceivedAlarm
+
+接收到一个新的告警事件。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `alarm` | 告警消息。 |
+
+<a id="onAlarmAddDone"></a>
+### onAlarmAddDone
+
+插入告警完成事件。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `errCode` | 错误码。<ul><li>0：成功。</li><li><0：失败。</li></ul> |
+| `insertParam` | 插入的告警参数。详见 [InsertParam](#InsertParam)。 |
+
+<a id="onAlarmDeleteDone"></a>
+### onAlarmDeleteDone
+
+告警删除完成回调。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `errCode` | 错误码。<ul><li>0：成功。</li><li><0：失败。</li></ul> |
+| `deletedIdList` | 删除的告警信息 ID 列表。 |
+
+<a id="onAlarmMarkDone"></a>
+### onAlarmMarkDone
+
+告警标记完成回调。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `errCode` | 错误码。<ul><li>0：成功。</li><li><0：失败。</li></ul> |
+| `markedIdList` | 标记的告警信息 ID 列表。 |
+
+<a id="onAlarmInfoQueryDone"></a>
+### onAlarmInfoQueryDone
+
+根据 ID 查询到的告警信息。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `errCode` | 错误码。<ul><li>0：成功。</li><li><0：失败。</li></ul> |
+| `iotAlarm` | 查询到的告警信息。 |
+
+<a id="onAlarmPageQueryDone"></a>
+### onAlarmPageQueryDone
+
+分页查询到的告警信息。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `errCode` | 错误码。<ul><li>0：成功。</li><li><0：失败。</li></ul> |
+| `alarmPage` | 查询到的告警信息页面。 |
+
+<a id="onAlarmNumberQueryDone"></a>
+### onAlarmNumberQueryDone
+
+根据条件查询到的告警信息。
+
+#### 参数
+
+| 参数 | 描述 |
+| --- | --- |
+| `errCode` | 错误码。<ul><li>0：成功。</li><li><0：失败。</li></ul> |
+| `alarmNumber` | 查询到的告警数量。 |
 
