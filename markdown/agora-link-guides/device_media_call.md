@@ -8,6 +8,12 @@
 
 环境要求详见[产品概述](agora_link_overview)。
 
+### 集成 SDK
+
+你可以通过[下载页面](https://docs-preprod.agora.io/cn/iot-apaas/downloads)下载并解压设备端 SDK。
+
+你可以通过 CMake 引用 SDK 包中的 `.h` 文件。
+
 ### 获取 License 并通过 License 对设备鉴权
 
 设备端 SDK 通过 License 对设备鉴权。License 与设备绑定，一个 License 在同一时间只能绑定一个设备。你需要联系 sales@agora.io 购买商业 License。
