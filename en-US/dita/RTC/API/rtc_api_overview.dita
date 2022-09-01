@@ -418,6 +418,10 @@ replaced by <xref keyref="IRtcEngine"/>, please use the
                 <stentry> <xref keyref="enableRemoteSuperResolution"/> </stentry>
                 <stentry> <ph conkeyref="enableRemoteSuperResolution/shortdesc"/> </stentry>
             </strow>
+            <strow props="native flutter unity">
+                <stentry> <xref keyref="enableRemoteSuperResolution2"/> </stentry>
+                <stentry> <ph conkeyref="enableRemoteSuperResolution2/shortdesc"/> </stentry>
+            </strow>
             <strow>
                 <stentry> <xref keyref="setVideoDenoiserOptions"/> </stentry>
                 <stentry> <ph conkeyref="setVideoDenoiserOptions/shortdesc"/> </stentry>
@@ -469,7 +473,7 @@ replaced by <xref keyref="IRtcEngine"/>, please use the
             </simpletable> </section>
         <section id="screen_capture">
             <title>Screen share API</title>
-            <p props="ios mac cpp android">We provide an advanced guide on the applicable scenarios, implementation, and considerations for this group of methods. For details, see 
+            <p props="ios mac cpp android">We provide an advanced guide on the applicable scenarios, implementation, and considerations for this group of methods. For details, see
 <xref keyref="guide-screensharing">Share the Screen</xref>.
             </p>
             <simpletable>

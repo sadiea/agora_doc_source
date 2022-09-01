@@ -378,11 +378,13 @@
             </keydef>
             <keydef keys="enableRemoteSuperResolution" href="../API/api_enableremotesuperresolution.dita">
                 <topicmeta>
-                    <keywords>
-                        <keyword>enableRemoteSuperResolution</keyword>
-                    </keywords>
+                    <keyword>enableRemoteSuperResolution[1/2]</keyword>
                 </topicmeta>
             </keydef>
+            <keydef keys="enableRemoteSuperResolution2" href="../API/api_enableremotesuperresolution2.dita">
+                <topicmeta>
+                    <keywords>
+                        <keyword>enableRemoteSuperResolution [2/2]</keyword>
             <keydef keys="enableVirtualBackground" href="../API/api_enablevirtualbackground.dita">
                 <topicmeta>
                     <keywords>
@@ -537,7 +539,14 @@
             <keydef keys="IChannel_enableRemoteSuperResolution" href="../API/api_ichannel_enableremotesuperresolution.dita">
                 <topicmeta>
                     <keywords>
-                        <keyword>enableRemoteSuperResolution</keyword>
+                        <keyword>enableRemoteSuperResolution[1/2]</keyword>
+                    </keywords>
+                </topicmeta>
+            </keydef>
+            <keydef keys="IChannel_enableRemoteSuperResolution2" href="../API/api_ichannel_enableremotesuperresolution2.dita">
+                <topicmeta>
+                    <keywords>
+                        <keyword>enableRemoteSuperResolution [2/2]</keyword>
                     </keywords>
                 </topicmeta>
             </keydef>
@@ -7095,6 +7104,13 @@
                 </keywords>
             </topicmeta>
         </keydef>
+        <keydef keys="SR_STATE_REASON_INSUFFICIENT_PERFORMANCE">
+            <topicmeta>
+                <keywords>
+                    <keyword>SR_STATE_REASON_INSUFFICIENT_PERFORMANCE</keyword>
+                </keywords>
+            </topicmeta>
+        </keydef>
         <keydef keys="USER_OFFLINE_REASON_TYPE" href="../API/enum_userofflinereasontype.dita">
             <topicmeta>
                 <keywords>
@@ -7344,6 +7360,13 @@
             <topicmeta>
                 <keywords>
                     <keyword>DeviceNotSupported</keyword>
+                </keywords>
+            </topicmeta>
+        </keydef>
+        <keydef keys="VIRTUAL_BACKGROUND_SOURCE_STATE_REASON_INSUFFICIENT_PERFORMANCE">
+            <topicmeta>
+                <keywords>
+                    <keyword>VIRTUAL_BACKGROUND_SOURCE_STATE_REASON_INSUFFICIENT_PERFORMANCE</keyword>
                 </keywords>
             </topicmeta>
         </keydef>

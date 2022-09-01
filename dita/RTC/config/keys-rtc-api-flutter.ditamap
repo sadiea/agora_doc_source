@@ -379,7 +379,14 @@
             <keydef keys="enableRemoteSuperResolution" href="../API/api_enableremotesuperresolution.dita">
                 <topicmeta>
                     <keywords>
-                        <keyword>enableRemoteSuperResolution</keyword>
+                        <keyword>enableRemoteSuperResolution[1/2]</keyword>
+                    </keywords>
+                </topicmeta>
+            </keydef>
+            <keydef keys="enableRemoteSuperResolution2" href="../API/api_enableremotesuperresolution2.dita">
+                <topicmeta>
+                    <keywords>
+                        <keyword>enableRemoteSuperResolution [2/2]</keyword>
                     </keywords>
                 </topicmeta>
             </keydef>
@@ -514,7 +521,14 @@
             <keydef keys="IChannel_enableRemoteSuperResolution" href="../API/api_ichannel_enableremotesuperresolution.dita">
                 <topicmeta>
                     <keywords>
-                        <keyword>enableRemoteSuperResolution</keyword>
+                        <keyword>enableRemoteSuperResolution[1/2]</keyword>
+                    </keywords>
+                </topicmeta>
+            </keydef>
+            <keydef keys="IChannel_enableRemoteSuperResolution2" href="../API/api_ichannel_enableremotesuperresolution2.dita">
+                <topicmeta>
+                    <keywords>
+                        <keyword>enableRemoteSuperResolution [2/2]</keyword>
                     </keywords>
                 </topicmeta>
             </keydef>
@@ -2071,6 +2085,13 @@
                     </keywords>
                 </topicmeta>
             </keydef>
+            <keydef keys="setLocalAccessPoint" href="../API/api_setlocalaccesspoint.dita">
+                <topicmeta>
+                    <keywords>
+                        <keyword>setLocalAccessPoint</keyword>
+                    </keywords>
+                </topicmeta>
+            </keydef>
             <keydef keys="enableDeepLearningDenoise" href="../API/api_enabledeeplearningdenoise.dita">
                 <topicmeta>
                     <keywords>
@@ -3524,6 +3545,27 @@
             <topicmeta>
                 <keywords>
                     <keyword>EchoTestConfiguration</keyword>
+                </keywords>
+            </topicmeta>
+        </keydef>
+        <keydef keys="LocalAccessPointConfiguration" href="../API/class_localaccesspointconfiguration.dita">
+            <topicmeta>
+                <keywords>
+                    <keyword>LocalAccessPointConfiguration</keyword>
+                </keywords>
+            </topicmeta>
+        </keydef>
+        <keydef keys="AdvancedConfigInfo" href="../API/class_advancedconfiginfo.dita">
+            <topicmeta>
+                <keywords>
+                    <keyword>AdvancedConfigInfo</keyword>
+                </keywords>
+            </topicmeta>
+        </keydef>
+        <keydef keys="LogUploadServerInfo" href="../API/class_loguploadserverinfo.dita">
+            <topicmeta>
+                <keywords>
+                    <keyword>LogUploadServerInfo</keyword>
                 </keywords>
             </topicmeta>
         </keydef>
@@ -7085,6 +7127,13 @@
                 </keywords>
             </topicmeta>
         </keydef>
+        <keydef keys="SR_STATE_REASON_INSUFFICIENT_PERFORMANCE">
+            <topicmeta>
+                <keywords>
+                    <keyword>SR_STATE_REASON_INSUFFICIENT_PERFORMANCE</keyword>
+                </keywords>
+            </topicmeta>
+        </keydef>
         <keydef keys="USER_OFFLINE_REASON_TYPE" href="../API/enum_userofflinereasontype.dita">
             <topicmeta>
                 <keywords>
@@ -7334,6 +7383,13 @@
             <topicmeta>
                 <keywords>
                     <keyword>DeviceNotSupported</keyword>
+                </keywords>
+            </topicmeta>
+        </keydef>
+        <keydef keys="VIRTUAL_BACKGROUND_SOURCE_STATE_REASON_INSUFFICIENT_PERFORMANCE">
+            <topicmeta>
+                <keywords>
+                    <keyword>VIRTUAL_BACKGROUND_SOURCE_STATE_REASON_INSUFFICIENT_PERFORMANCE</keyword>
                 </keywords>
             </topicmeta>
         </keydef>
