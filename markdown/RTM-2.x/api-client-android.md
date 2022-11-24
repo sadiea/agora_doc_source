@@ -1,4 +1,4 @@
-RtmClient ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
+`RtmClient` ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 ## 方法
 
 ### create
@@ -17,8 +17,6 @@ RtmClient ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 ```
 
 创建一个 `RtmClient` 实例。
-> 注意：
-> 该方法需要在 [initialize](#initialize) 之后调用。
 
 #### 返回值
 - 一个 `RtmClient` 对象：调用成功。
@@ -33,8 +31,7 @@ public abstract int initialize(RtmConfig config);
 
 初始化 `RtmClient` 实例。
 
-> 注意：
-> 创建并初始化实例必须在你调用 [create](#create) 之后，使用 RTM 其他功能之前完成，以建立正确的账号级别的凭据（例如 APP ID）。
+> 注意：初始化实例必须在你调用 [create](#create) 之后，使用 RTM 其他功能之前完成，以建立正确的账号级别的凭据（例如 APP ID）。
 
 
 | 参数  | 描述                    |
@@ -81,14 +78,21 @@ public abstract int initialize(RtmConfig config);
 public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 ```
 
-创建一个 StreamChannel 实例。
+创建一个 `StreamChannel` 实例。
 
+~8704dfd0-60c9-11ed-8dae-bf25bf08a626~
+
+创建`StreamChannel` 实例后你可以调用其他频道相关方法，详见 [StreamChannel 类](api-channel-android)。
+
+| 参数  | 描述                    |
+| --------- | ------------------------------ |
+| `channelName` | 频道名称，命名限制详见[频道名称](feature-description#%E9%A2%91%E9%81%93%E5%90%8D%E7%A7%B0)。 |
 
 #### 基本用法
 <mark>待补充</mark>
 
 #### 返回值
-- 一个 Stream Channel 实例：调用成功。
+- 一个 `StreamChannel` 实例：调用成功。
 - 空：调用失败。
 
 
@@ -97,7 +101,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 ## 回调
 
 ### IRtmEventHandler  
-通过添加事件监听处理程序以获得接口调用结果以及事件通知，包括连接状态，消息到达，Presence 状态等事件通知以及监控接口回调结果。在调用这些函数前必须先添加事件监听处理程序。
+通过添加事件监听处理程序以获得接口调用结果以及事件通知，包括连接状态，消息到达，Presence 状态等事件通知以及监控接口回调结果。如需要在 App 中接收消息和事件通知，在调用这些函数前必须先添加事件监听处理程序。
 
 ### onMessageEvent
 #### 接口描述
@@ -124,7 +128,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 
 | 参数   | 描述      | 
 | ------------ | --------- |
-| `event`  | 消息事件类型，详见 [`PresenceEvent`](#presenceeevent)。  | 
+| `event`  | 消息事件类型，详见 [`PresenceEvent`](#presenceevent)。  | 
 
 
 ### onJoinResult
@@ -138,8 +142,8 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 
 | 参数      | 描述                              |
 | ------------- | ---------------------------------------- |
-| `channelName` | 发生事件所属频道。 |
-| `userId`     | 加入频道的用户 ID。  |
+| `channelName` | 事件所在频道名称。 |
+| `userId`     | 加入频道用户的 ID。  |
 | `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。       |
 
 ### onLeaveResult
@@ -149,12 +153,12 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 @CalledByNative public void onLeaveResult(String channelName, String userId, int errorCode);
 ```
 
-离开频道后时触发该回调。
+离开频道时触发该回调。
 
 | 参数    | 描述                              |
 | -------------- | ---------------------------------------- |
-| `channelName` | 发生事件所属频道。 |
-| `userId`      | 离开频道的用户 ID。  |
+| `channelName` | 事件所在频道名称。 |
+| `userId`      | 离开频道用户的 User ID。  |
 | `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。       |
 
 ### onJoinTopicResult
@@ -170,8 +174,8 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 
 | 参数    | 描述                              |
 | ------------- | ---------------------------------------- |
-| `channelName` | 发生事件所属频道。 |
-| `userId`     | 加入 Topic 的用户 ID。  |
+| `channelName` | 事件所在频道名称。 |
+| `userId`     | 加入 Topic 用户的 User ID。  |
 | `topicName`   | Topic 名称。       |
 | `meta`        | 创建 Topic 的辅助信息。  |
 | `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。       |
@@ -189,10 +193,10 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 
 | 参数   | 描述                              |
 | ------------- | ---------------------------------------- |
-| `channelName` | 发生事件所属频道。 |
-| `userId`      | 离开 Topic 的用户 ID。  |
+| `channelName` | 事件所在频道名称。 |
+| `userId`      | 离开 Topic 用户的 User ID。  |
 | `topicName`   | Topic 名称。       |
-| `meta`        | 创建 Topic 的辅助信息。  |
+| `meta`        | 离开 Topic 的辅助信息。  |
 | `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。       |
 
 ### onTopicSubscribed
@@ -208,11 +212,11 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 
 | 参数      | 描述                                |
 | -------------- | ------------------------------------------ |
-| `channelName` | 发生事件所属频道。 |
-| `userId`      | 订阅 Topic 的用户 ID。  |
-| `topicName`   | 发生事件所属 Topic。 |
-| `successUsers` | 本次操作订阅成功的消息发布者列表，详见 [`UserList`](api-channel-android#userlist)。                       |
-| `failedUsers`  | 本次操作订阅失败的消息发布者列表，详见 [`UserList`](api-channel-android#userlist)。                       |
+| `channelName` | 事件所在频道名称。 |
+| `userId`      | 订阅 Topic 用户的 User ID。  |
+| `topicName`   | 事件所在 Topic 名称。 |
+| `successUsers` | 本次操作成功的消息发布者列表，详见 [`UserList`](api-channel-android#userlist)。                       |
+| `failedUsers`  | 本次操作失败的消息发布者列表，详见 [`UserList`](api-channel-android#userlist)。                       |
 | `errorCode`    | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。 
 
 ### onTopicUnsubscribed
@@ -228,11 +232,11 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 
 | 参数       | 描述                                |
 | --------------| ------------------------------------------ |
-| `channelName` | 发生事件所属频道。 |
-| `userId`      | 取消订阅 Topic 的用户 ID。  |
-| `topicName`   | 发生事件所属 Topic。 |
-| `successUsers` | 本次操作订阅成功的消息发布者列表，详见 [`UserList`](api-channel-android#userlist)。                       |
-| `failedUsers`  | 本次操作订阅失败的消息发布者列表，详见 [`UserList`](api-channel-android#userlist)。                       |
+| `channelName` | 事件所在频道名称。 |
+| `userId`      | 取消订阅 Topic 用户的 User ID。  |
+| `topicName`   | 事件所在 Topic 名称。 |
+| `successUsers` | 本次操作成功的消息发布者列表，详见 [`UserList`](api-channel-android#userlist)。                       |
+| `failedUsers`  | 本次操作失败的消息发布者列表，详见 [`UserList`](api-channel-android#userlist)。                       |
 | `errorCode`    | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。 
 
 
@@ -247,9 +251,9 @@ SDK 连接状态发生改变时会触发该回调。
 
 | 参数   | 描述      | 
 | ------------ | --------- |
-| `channelName` | 发生事件所属频道。 |
-| `state`  | SDK 连接状态，详见 [`RTM_CONNECTION_STATE`](#rtm_connection_state)。  | 
-| `reason` | SDK 连接状态改变原因，详见 [`RTM_CONNECTION_CHANGE_REASON`](#rtm_connection_change_reason)。  | 
+| `channelName` | 事件所在频道名称。 |
+| `state`  | SDK 连接状态，详见 [`RTM_CONNECTION_STATE`](#rtmconnectionstate)。  | 
+| `reason` | SDK 连接状态改变的原因，详见 [`RTM_CONNECTION_CHANGE_REASON`](#rtmconnectionchangereason)。  | 
 
 ## Class
 
@@ -291,50 +295,22 @@ public class RtmConfig {
   public String mUserId;
 
   public IRtmEventHandler mEventHandler;
-
-  public LogConfig mLogConfig;
 ```
 
-`RtmConfig` 实例的配置信息。
+`RtmClient` 实例的配置信息。
 
 该接口用于存储配置信息，这些信息将影响后续 RTM 客户端的行为。
 
 | 参数   | 描述           |
 | ------------ | ----------------------------------- |
-| mAppId        | 从声网控制台上获取的 APP ID。                                                        |
-| mUserId       | 用户 ID，用户或设备设置唯一的标识符。你需要维护 userId 和用户之间的映射关系，并在整个服务周期内不能改变。如果不设置该参数，将无法连接到 RTM 服务。                               |
-| mEventHandler | 事件监听函数句柄，用以监听消息通知，Presence 通知，状态变更通知等事件通知。详见 [`IRtmEventHandler`](#irtmeventhandler)。                               |
-| mLogConfig    | （选填）日志存储功能。Agora 建议你在调试和定位问题时候开启该功能，日志将会保存在你设置的位置，Agora 技术人员将根据日志详情帮助你分析定位问题。应用正式上线后建议取消设置该功能。详见 [`LogConfig`](#logconfig)。   |
+| `mAppId`        | 从声网控制台上获取的 APP ID。                                                        |
+| `mUserId`       | 用户 ID，用户或设备设置唯一的标识符。你需要维护 `mUserId` 和用户之间的映射关系，并在整个服务周期内不能改变该映射关系。如果不设置该参数，将无法连接到 RTM 服务。                               |
+| `mEventHandler` | 事件监听函数句柄，用以监听消息通知，Presence 通知，状态变更通知等事件通知。详见 [`IRtmEventHandler`](#irtmeventhandler)。                               |
+
 
 #### 基本用法
 <mark>待补充</mark>
 
-### LogConfig
-
-```java
-public static class LogConfig {
-
-    public String filePath;
-
-    public int fileSizeInKB;
-
-    public int level = RtmConstants.LogLevel.getValue(RtmConstants.LogLevel.LOG_LEVEL_INFO);
-}
-```
-
-开启日志功能，并设置日志保存路径、日志大小及日志记录等级等，为后续的问题调查收集必要的运行数据。
-
-| 参数  | 描述                             |
-| ------------ | -------------------------- |
-| `filePath`    | （选填）日志保存路径及日志文件名。请确保配置的文件路径具备读写权限<mark>参数描述和 [unity](api-config-unity#logconfig) 不一致，是预期的吗。</mark>          默认值为空。                    |
-| `fileSizeInKB` | （选填）日志文件大小，单位为 KB，取值范围为 [128,1024]，默认值为 1024。如果你将该参数设为小于 0 的值，则使用 1024。                                |
-| `level`        |（选填）日志错误等级，默认值为 `LOG_LEVEL.LOG_LEVEL_INFO`。详见 [`LogLevel`](#log_level)。 |
-
-
-#### 基本用法
-
-#### 初始化 RTM 客户端并开启日志功能
-<mark>待补充</mark>
 
 
 ### MessageEvent 
@@ -363,7 +339,7 @@ public class MessageEvent {
 | `channelName`   | 频道名称。  | 
 | `topicName`  | Topic 名称。  | 
 | `message`   | 消息负载。  | 
-| `publisher`   | 发布消息的用户 ID。  | 
+| `publisher`   | 发布消息用户的 User ID。  | 
 
 ### PresenceEvent 
 
@@ -390,8 +366,8 @@ Presence 回调事件。
 | `channelType`     | 频道类型，详见 [`RtmChannelType`](#rtmchanneltype)。  | 
 | `type`     | Presence 类型，详见 [`RtmPresenceType`](#rtmpresencetype)。  | 
 | `channelName`     | 频道名称。  | 
-| `topicInfos`    | Topic 信息，详见 [TopicInfo](#api-channel-android#topicinfo)。  | 
-| `userId`    | 触发 Presence 事件的用户 ID。  | 
+| `topicInfos`    | Topic 信息，详见 [TopicInfo](api-channel-android#topicinfo)。  | 
+| `userId`    | 触发 Presence 事件用户的 User ID。  | 
 
 ## Enum
 
