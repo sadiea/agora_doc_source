@@ -123,7 +123,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 @CalledByNative public void onPresenceEvent(PresenceEvent event);
 ```
 
-当频道中有用户的 Presence 状态发生变更时会触发该回调。比如，远端用户加入或离开频道，同一频道内远端用户加入或离开 Topic，本地用户加入频道时收到 Topic 内消息。
+当频道中有用户的 Presence 状态发生变更时会触发该回调。比如，远端用户加入或离开频道，同一频道内远端用户加入或离开 Topic，本地用户加入频道时收到 Topic 消息。
 
 
 | 参数   | 描述      | 

@@ -14,8 +14,6 @@ public abstract int join(JoinChannelOptions options);
 - 加入频道的用户本人会收到 `RTM_PRESENCE_TYPE_SELF_JOIN_CHANNEL` 事件。
 - 频道中的其他用户会收到 `RTM_PRESENCE_TYPE_REMOTE_JOIN_CHANNEL` 事件。
 
-该接口的回调通过 [`IRtmEventHandler`](#api-client-android#irtmeventhandler) 处理。
-
 > 注意：
 > - 单次调用该接口只能加入一个频道。单个客户端可以同时加入最多 100 个频道。
 > - 用户需要收到成功加入频道的 `onJoinResult` 回调才能继续进行频道相关的操作。
@@ -170,7 +168,7 @@ public abstract int publishTopicMessage(String topicName, byte[] message);
 | 参数  | 描述                                                    |
 | --------- | -------------------------------------------------------------- |
 | `topicName`   | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic，详见 [Topic 名称](feature-description#topic-名称)。 |
-| `message` | 消息负载。  |
+| `message` | 消息负载，长度在 1024 字节以内。  |
 
 
 #### 基本用法
