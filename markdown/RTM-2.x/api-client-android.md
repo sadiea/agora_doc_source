@@ -2,7 +2,7 @@
 ## 方法
 
 ### create
-#### 接口描述
+
 
 ```java
   public static synchronized RtmClient create() throws Exception {
@@ -23,7 +23,7 @@
 - 空：调用失败。
 
 ### initialize
-#### 接口描述
+
 
 ```java
 public abstract int initialize(RtmConfig config);
@@ -48,7 +48,7 @@ public abstract int initialize(RtmConfig config);
 - < `0 `：调用失败。
 
 ### release
-#### 接口描述
+
 
 ```java
   public static synchronized void release() {
@@ -72,7 +72,7 @@ public abstract int initialize(RtmConfig config);
 
 
 ### createStreamChannel
-#### 接口描述
+
 
 ```java
 public abstract StreamChannel createStreamChannel(@NonNull String channelName);
@@ -101,10 +101,10 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 ## 回调
 
 ### IRtmEventHandler  
-通过添加事件监听处理程序以获得接口调用结果以及事件通知，包括连接状态，消息到达，Presence 状态等事件通知以及监控接口回调结果。如需要在 App 中接收消息和事件通知，在调用这些函数前必须先添加事件监听处理程序。
+通过添加事件监听处理程序以获方法调用结果以及事件通知，包括连接状态，消息到达，Presence 状态等事件通知以及监控方法回调结果。如需要在 App 中接收消息和事件通知，在调用这些函数前必须先添加事件监听处理程序。
 
 ### onMessageEvent
-#### 接口描述
+
 
 ```java
 @CalledByNative public void onMessageEvent(MessageEvent event);
@@ -117,7 +117,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | `event`  | 消息事件类型，详见 [`MessageEvent`](#messageevent)。  | 
 
 ### onPresenceEvent
-#### 接口描述
+
 
 ```java
 @CalledByNative public void onPresenceEvent(PresenceEvent event);
@@ -132,7 +132,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 
 
 ### onJoinResult
-#### 接口描述
+
 
 ```java
 @CalledByNative public void onJoinResult(String channelName, String userId, int errorCode);
@@ -147,7 +147,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。       |
 
 ### onLeaveResult
-#### 接口描述
+
 
 ```java
 @CalledByNative public void onLeaveResult(String channelName, String userId, int errorCode);
@@ -162,7 +162,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。       |
 
 ### onJoinTopicResult
-#### 接口描述
+
 
 ```java
   @CalledByNative
@@ -180,8 +180,8 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | `meta`        | 创建 Topic 的辅助信息。  |
 | `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。       |
 
-#### onLeaveTopicResult
-##### 接口描述
+### onLeaveTopicResult
+
 
 ```java
   @CalledByNative
@@ -200,7 +200,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。       |
 
 ### onTopicSubscribed
-#### 接口描述
+
 
 ```java
   @CalledByNative
@@ -220,7 +220,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | `errorCode`    | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。 
 
 ### onTopicUnsubscribed
-#### 接口描述
+
 
 ```java
   @CalledByNative
@@ -241,7 +241,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 
 
 ### onConnectionStateChange
-#### 接口描述
+
 
 ```java
 @CalledByNative public void onConnectionStateChange(String channelName, int state, int reason);
@@ -252,8 +252,8 @@ SDK 连接状态发生改变时会触发该回调。
 | 参数   | 描述      | 
 | ------------ | --------- |
 | `channelName` | 事件所在频道名称。 |
-| `state`  | SDK 连接状态，详见 [`RTM_CONNECTION_STATE`](#rtmconnectionstate)。  | 
-| `reason` | SDK 连接状态改变的原因，详见 [`RTM_CONNECTION_CHANGE_REASON`](#rtmconnectionchangereason)。  | 
+| `state`  | SDK 连接状态，详见 [`RtmConnectionState`](#rtmconnectionstate)。  | 
+| `reason` | SDK 连接状态改变的原因，详见 [`RtmConnectionChangeReason`](#rtmconnectionchangereason)。  | 
 
 ## Class
 
@@ -297,9 +297,7 @@ public class RtmConfig {
   public IRtmEventHandler mEventHandler;
 ```
 
-`RtmClient` 实例的配置信息。
-
-该接口用于存储配置信息，这些信息将影响后续 RTM 客户端的行为。
+`RtmClient` 实例的配置信息，用于存储配置信息，这些信息将影响后续 RTM 客户端的行为。
 
 | 参数   | 描述           |
 | ------------ | ----------------------------------- |

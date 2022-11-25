@@ -4,9 +4,9 @@ RTM 2.x 客户端 SDK 包含以下方法和回调接口：
 
 | 方法       | 描述                                       |
 | ---------- | ------------------------------------------ |
-| [createAgoraRtmClient](api-client-linux#createagorartmclient)| 创建 IRtmClient 实例。                   |
-| [initialize](api-client-linux#initialize)| 初始化 IRtmClient 实例。                   |
-| [release](api-client-linux#release)   | 销毁一个 IRtmClient 类型实例以释放资源。 |
+| [createAgoraRtmClient](api-client-linux#createagorartmclient)| 创建 `IRtmClient` 实例。                   |
+| [initialize](api-client-linux#initialize)| 初始化 `IRtmClient` 实例。                   |
+| [release](api-client-linux#release)   | 销毁一个 `IRtmClient` 类型实例以释放资源。 |
 
 
 | 回调       | 描述                                       |
@@ -17,8 +17,8 @@ RTM 2.x 客户端 SDK 包含以下方法和回调接口：
 
 | 方法                | 描述                                       |
 | ------------------- | ------------------------------------------ |
-| [createStreamChannel](api-client-linux#createstreamchannel) | 创建一个 Stream Channel 类型实例。       |
-| [release](api-channel-linux#release)            | 销毁一个 Stream Channel 类型实例。       |
+| [createStreamChannel](api-client-linux#createstreamchannel) | 创建一个 `IStreamChannel` 类型实例。       |
+| [release](api-channel-linux#release)            | 销毁一个 `IStreamChannel` 类型实例。       |
 | [join](api-channel-linux#join)               | 加入频道。                                 |
 | [getChannelName](api-channel-linux#getchannelname)      | 获取频道名称。                             |
 | [leave](api-channel-linux#leave)               | 离开频道。                                 |

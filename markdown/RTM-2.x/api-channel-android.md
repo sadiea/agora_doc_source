@@ -2,7 +2,7 @@
 ## 方法
 
 ### join
-#### 接口描述
+
 
 ```java
 public abstract int join(JoinChannelOptions options);
@@ -10,12 +10,12 @@ public abstract int join(JoinChannelOptions options);
 
 加入频道。
 
-调用该接口会触发 [`onJoinResult`](api-client-android#onjoinresult) 事件回调，成功加入频道后，会触发 [`onPresenceEvent`](api-client-android#onpresenceevent) 事件回调：
+调用该方法会触发 [`onJoinResult`](api-client-android#onjoinresult) 事件回调。成功加入频道后，SDK 会触发 [`onPresenceEvent`](api-client-android#onpresenceevent) 事件回调：
 - 加入频道的用户本人会收到 `RTM_PRESENCE_TYPE_SELF_JOIN_CHANNEL` 事件。
 - 频道中的其他用户会收到 `RTM_PRESENCE_TYPE_REMOTE_JOIN_CHANNEL` 事件。
 
 > 注意：
-> - 单次调用该接口只能加入一个频道。单个客户端可以同时加入最多 100 个频道。
+> - 单次调用该方法只能加入一个频道，如需加入多个频道，你需要多次调用该方法。单个客户端可以同时加入最多 100 个频道。
 > - 用户需要收到成功加入频道的 `onJoinResult` 回调才能继续进行频道相关的操作。
 
 | 参数       | 描述        |
@@ -33,7 +33,7 @@ public abstract int join(JoinChannelOptions options);
 - < `0 `：调用失败。
 
 ### getChannelName
-#### 接口描述
+
 
 ```java
 public abstract String getChannelName();
@@ -45,7 +45,7 @@ public abstract String getChannelName();
 频道名称。
 
 ### leave
-#### 接口描述
+
 
 ```java
 public abstract int leave();
@@ -53,7 +53,7 @@ public abstract int leave();
 
 离开频道。
 
-调用该接口会触发 [`onLeaveResult`](api-client-android#onleaveresult) 事件回调，成功离开频道后，频道中的其他用户会收到 [`onPresenceEvent`](api-client-android#onpresenceevent) 中的 `RTM_PRESENCE_TYPE_REMOTE_LEAVE_CHANNEL` 事件。
+调用该方法会触发 [`onLeaveResult`](api-client-android#onleaveresult) 事件回调。成功离开频道后，频道中的其他用户会收到 [`onPresenceEvent`](api-client-android#onpresenceevent) 中的 `RTM_PRESENCE_TYPE_REMOTE_LEAVE_CHANNEL` 事件。
 
 #### 基本用法
 
@@ -65,14 +65,14 @@ public abstract int leave();
 - < `0 `：调用失败。                                                           
 
 ### release
-#### 接口描述
+
 
 ```java
 public abstract int release();
 ```
 销毁一个 `StreamChannel` 类型实例。
 
-如果你不再需要某个频道，可以调用该接口销毁对应的 `StreamChannel` 实例以释放资源。调用该接口销毁 `StreamChannel` 实例不会销毁此频道，后续可通过调用 [`createStreamChannel`](api-client-android#createstreamchannel) 和 [`join`](api-channel-android#join) 再次加入该频道。
+如果你不再需要某个频道，可以调用该方法销毁对应的 `StreamChannel` 实例以释放资源。调用该方法销毁 `StreamChannel` 实例不会销毁此频道，后续可通过调用 [`createStreamChannel`](api-client-android#createstreamchannel) 和 [`join`](api-channel-android#join) 再次加入该频道。
 
 > 注意：如果不先调用 [`leave`](api-channel-android#leave) 离开频道而直接调用 `release` 销毁频道实例，SDK 会自动调用 `leave` 并触发对应的事件回调。
 
@@ -87,7 +87,7 @@ public abstract int release();
 
 
 ### joinTopic
-#### 接口描述
+
 
 ```java
 public abstract int joinTopic(String topicName, JoinTopicOptions options);
@@ -97,7 +97,7 @@ public abstract int joinTopic(String topicName, JoinTopicOptions options);
 
 只有加入 Topic 才能执行发送 Topic 消息的操作。
 
-调用该接口会触发 [`onJoinTopicResult`](api-client-android#onjointopicresult) 事件回调，成功加入 Topic 后频道中的其他用户会收到 [`onPresenceEvent`](api-client-android#onpresenceevent) 中的 `RTM_PRESENCE_TYPE_REMOTE_JOIN_TOPIC` 事件通知。
+调用该方法会触发 [`onJoinTopicResult`](api-client-android#onjointopicresult) 事件回调。成功加入 Topic 后频道中的其他用户会收到 [`onPresenceEvent`](api-client-android#onpresenceevent) 中的 `RTM_PRESENCE_TYPE_REMOTE_JOIN_TOPIC` 事件通知。
 
 > 注意：
 > - 请在加入频道后调用该方法。
@@ -119,7 +119,7 @@ public abstract int joinTopic(String topicName, JoinTopicOptions options);
 - < `0`：调用失败。
 
 ### leaveTopic
-#### 接口描述
+
 
 ```java
 public abstract int leaveTopic(String topicName);
@@ -129,7 +129,7 @@ public abstract int leaveTopic(String topicName);
 
 当客户端加入的 Topic 达到上限时，需要调用 `leaveTopic` 离开某些不再需要的 Topic 以释放资源。
 
-调用该接口会触发 [`onLeaveTopicResult`](api-client-android#onleavetopicresult) 事件回调，成功离开 Topic 后频道中的其他用户会收到 [`onPresenceEvent`](api-client-android#onpresenceevent) 中的 `RTM_PRESENCE_TYPE_REMOTE_LEAVE_TOPIC` 事件通知。
+调用该方法会触发 [`onLeaveTopicResult`](api-client-android#onleavetopicresult) 事件回调。成功离开 Topic 后频道中的其他用户会收到 [`onPresenceEvent`](api-client-android#onpresenceevent) 中的 `RTM_PRESENCE_TYPE_REMOTE_LEAVE_TOPIC` 事件通知。
 
 
 | 参数 | 描述                                                    |
@@ -145,7 +145,7 @@ public abstract int leaveTopic(String topicName);
 - < `0`：调用失败。
 
 ### publishTopicMessage
-#### 接口描述
+
 
 ```java
 public abstract int publishTopicMessage(String topicName, byte[] message);
@@ -153,10 +153,10 @@ public abstract int publishTopicMessage(String topicName, byte[] message);
 
 在指定 Topic 中发送文本消息。消息在传输的过程中默认已经被 SSL/TLS 加密，以保证数据链路层安全。
 
-成功调用该接口后，，频道中订阅该 Topic 且订阅该消息发布者的用户会收到 [`onMessageEvent`](api-client-android#onmessageevent) 事件回调。
+成功调用该方法后，频道中订阅该 Topic 且订阅该消息发布者的用户会收到 [`onMessageEvent`](api-client-android#onmessageevent) 事件回调。
 
 > 注意：
-> - 调用该接口前需先调用 `joinTopic` 加入 Topic。
+> - 调用该方法前需先调用 `joinTopic` 加入 Topic。
 > - 不支持同时向多个 Topic 发送同一条消息。
 > - 以下做法可有效提升消息收发的可靠性：
 >   - 在调用 `joinTopic` 时可将 `qos` 字段配置为 `RTM_MESSAGE_QOS_ORDERED` 以开启该 Topic 的消息保序能力。
@@ -182,7 +182,7 @@ public abstract int publishTopicMessage(String topicName, byte[] message);
 
 
 ### subscribeTopic
-#### 接口描述
+
 
 ```java
 public abstract int subscribeTopic(String topicName, TopicOptions options);
@@ -190,7 +190,7 @@ public abstract int subscribeTopic(String topicName, TopicOptions options);
 
 订阅 Topic 及 Topic 中的消息发布者。
 
-`subscribeTopic` 为增量接口。例如，第一次调用该接口时，订阅消息发布者列表为 `[UserA,UserB]`  , 第二次调用该接口时，订阅消息发布者列表为 `[UserB,UserC]`，则最后成功订阅的结果是 `[UserA，UserB,UserC]`。你可以通过 [`getSubscribedUserList`](#getsubscribeduserlist) 查询当前已经订阅的消息发布者名单列表。
+`subscribeTopic` 为增量方法。例如，第一次调用该方法时，订阅消息发布者列表为 `[UserA,UserB]`, 第二次调用该方法时，订阅消息发布者列表为 `[UserB,UserC]`，则最后成功订阅的结果是 `[UserA，UserB,UserC]`。你可以通过 [`getSubscribedUserList`](#getsubscribeduserlist) 查询当前已经订阅的消息发布者名单列表。
 
 频道中单个 Topic 的消息发布者的数量没有上限，但对于 Topic 订阅者，目前最多只能同时订阅 50 个 Topic，每个 Topic 中最多只能订阅 64 个消息发布者。
 
@@ -212,7 +212,7 @@ public abstract int subscribeTopic(String topicName, TopicOptions options);
 
 
 ### unsubscribeTopic
-#### 接口描述
+
 
 ```java
 public abstract int unsubscribeTopic(String topicName, TopicOptions options);
@@ -220,7 +220,7 @@ public abstract int unsubscribeTopic(String topicName, TopicOptions options);
 
 取消订阅某 Topic 或取消对该 Topic 中指定的消息发布者的订阅。
 
-调用该接口会触发 [`onTopicUnsubscribed`](api-client-android#ontopicunsubscribed) 回调。
+调用该方法会触发 [`onTopicUnsubscribed`](api-client-android#ontopicunsubscribed) 回调。
 
 | 参数   | 描述                                                    |
 | ------------ | -------------------------------------------------------------- |
@@ -242,7 +242,7 @@ public abstract int unsubscribeTopic(String topicName, TopicOptions options);
 - < `0 `：调用失败。
 
 ### getSubscribedUserList
-#### 接口描述
+
 
 ```java
 public abstract int getSubscribedUserList(String topicName, UserList users);
@@ -250,7 +250,7 @@ public abstract int getSubscribedUserList(String topicName, UserList users);
 
 查询指定 Topic 中已订阅的消息发布者列表。
 
-> 注意：请在加入频道后调用该接口。
+> 注意：请在加入频道后调用该方法。
 
 | 参数  | 描述                                                    |
 | ---------| -------------------------------------------------------------- |
@@ -300,7 +300,7 @@ public class JoinTopicOptions {
 
 | 参数 | 描述                         |
 | ---------------- | ---------------- |
-| `messageQos` | 指定后续发送 Topic 消息时的 QoS 保障，详见 [`RTM_MESSAGE_QOS`](#rtmmessageqos)。默认值为 `RTM_MESSAGE_QOS_ORDERED` ：开启消息保序。  |
+| `messageQos` | 指定后续发送 Topic 消息时的 QoS 保障，详见 [`RtmMessageQos`](#rtmmessageqos)。默认值为 `RTM_MESSAGE_QOS_ORDERED` ：开启消息保序。  |
 
 
 ### TopicOptions

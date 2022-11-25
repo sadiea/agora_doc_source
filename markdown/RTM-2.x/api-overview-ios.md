@@ -4,8 +4,8 @@ RTM 2.x 客户端 SDK 包含以下方法和回调接口：
 
 | 方法       | 描述                                       |
 | ---------- | ------------------------------------------ |
-| [initWithConfig](api-client-ios#initwithconfig)| 初始化 RtmClient 实例。                   |
-| [destroy](api-client-ios#destroy)   | 销毁一个 RtmClient 类型实例以释放资源。 |
+| [initWithConfig](api-client-ios#initwithconfig)| 初始化 `RtmClient` 实例。                   |
+| [destroy](api-client-ios#destroy)   | 销毁一个 `RtmClient` 类型实例以释放资源。 |
 
 
 | 回调       | 描述                                       |
@@ -16,7 +16,7 @@ RTM 2.x 客户端 SDK 包含以下方法和回调接口：
 
 | 方法                | 描述                                       |
 | ------------------- | ------------------------------------------ |
-| [createStreamChannel](api-client-ios#createstreamchannel) | 创建一个 Stream Channel 类型实例。       |
+| [create`StreamChannel`](api-client-ios#create`StreamChannel`) | 创建一个 Stream Channel 类型实例。       |
 | [destroy](api-channel-ios#destroy)            | 销毁一个 Stream Channel 类型实例。       |
 | [joinWithOption](api-channel-ios#joinwithoption)               | 加入频道。                                 |
 | [getChannelName](api-channel-ios#getchannelname)      | 获取频道名称。                             |

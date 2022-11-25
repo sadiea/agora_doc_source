@@ -4,8 +4,8 @@ RTM 2.x 客户端 SDK 包含以下方法和回调接口：
 
 | 方法       | 描述                                       |
 | ---------- | ------------------------------------------ |
-| [Initialize](api-client-unity#initialize)| 初始化 IRtmClient 实例。                   |
-| [Release](api-client-unity#release)   | 销毁一个 IRtmClient 类型实例以释放资源。 |
+| [Initialize](api-client-unity#initialize)| 初始化 `IRtmClient` 实例。                   |
+| [Release](api-client-unity#release)   | 销毁一个 `IRtmClient` 类型实例以释放资源。 |
 
 
 | 回调       | 描述                                       |
@@ -16,8 +16,8 @@ RTM 2.x 客户端 SDK 包含以下方法和回调接口：
 
 | 方法                | 描述                                       |
 | ------------------- | ------------------------------------------ |
-| [CreateStreamChannel](api-client-unity#createstreamchannel) | 创建一个 Stream Channel 类型实例。       |
-| [Release](api-channel-unity#release)            | 销毁一个 Stream Channel 类型实例。       |
+| [CreateStreamChannel](api-client-unity#createstreamchannel) | 创建一个 `IStreamChannel` 类型实例。       |
+| [Release](api-channel-unity#release)            | 销毁一个 `IStreamChannel` 类型实例。       |
 | [Join](api-channel-unity#join)               | 加入频道。                                 |
 | [GetChannelName](api-channel-unity#getchannelname)      | 获取频道名称。                             |
 | [Leave](api-channel-unity#leave)               | 离开频道。                                 |

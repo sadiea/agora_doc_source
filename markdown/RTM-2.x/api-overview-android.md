@@ -4,9 +4,9 @@ RTM 2.x 客户端 SDK 包含以下方法和回调接口：
 
 | 方法       | 描述                                       |
 | ---------- | ------------------------------------------ |
-| [create](api-client-android#create)| 创建 RtmClient 实例。                   |
-| [initialize](api-client-android#initialize)| 初始化 RtmClient 实例。                   |
-| [release](api-client-android#release)   | 销毁一个 RtmClient 类型实例以释放资源。 |
+| [create](api-client-android#create)| 创建 `RtmClient` 实例。                   |
+| [initialize](api-client-android#initialize)| 初始化 `RtmClient` 实例。                   |
+| [release](api-client-android#release)   | 销毁一个 `RtmClient` 类型实例以释放资源。 |
 
 
 | 回调       | 描述                                       |
@@ -17,8 +17,8 @@ RTM 2.x 客户端 SDK 包含以下方法和回调接口：
 
 | 方法                | 描述                                       |
 | ------------------- | ------------------------------------------ |
-| [createStreamChannel](api-client-android#createstreamchannel) | 创建一个 StreamChannel 类型实例。       |
-| [release](api-channel-android#release)            | 销毁一个 StreamChannel 类型实例。       |
+| [createStreamChannel](api-client-android#createstreamchannel) | 创建一个 `StreamChannel` 类型实例。       |
+| [release](api-channel-android#release)            | 销毁一个 `StreamChannel` 类型实例。       |
 | [join](api-channel-android#join)               | 加入频道。                                 |
 | [getChannelName](api-channel-android#getchannelname)      | 获取频道名称。                             |
 | [leave](api-channel-android#leave)               | 离开频道。                                 |
