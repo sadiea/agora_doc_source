@@ -8,10 +8,10 @@ RtmClient ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 ```cpp
 AGORA_API IRtmClient* AGORA_CALL createAgoraRtmClient();
 ```
-创建一个 `RtmClient` 实例。
+创建一个 `IRtmClient` 实例。
 
 #### 返回值
-- 一个 `RtmClient` 对象指针：调用成功。
+- 一个 `RtmClient` 对象：调用成功。
 - 空：调用失败。
 
 ### initialize
@@ -20,14 +20,13 @@ AGORA_API IRtmClient* AGORA_CALL createAgoraRtmClient();
 ```cpp
 virtual int initialize(const RtmConfig& config) = 0;
 ```
-初始化 RtmClient 实例。
+初始化 `IRtmClient` 实例。
 
-> 注意：
-> 创建并初始化实例必须在你使用 RTM 其他功能之前完成，以建立正确的账号级别的凭据（例如 APP ID）。
+> 注意：初始化实例必须在你调用 [`createAgoraRtmClient`](#createagorartmclient) 之后，使用 RTM 其他功能之前完成，以建立正确的账号级别的凭据（例如 APP ID）。
 
 | 参数 |描述                    |
 | --------- |  ------------------------------ |
-| `config` | 该 `RtmClient` 实例的配置信息，详见 [`RtmConfig`](#rtmconfig)。 |
+| `config` | 该 `IRtmClient` 实例的配置信息，详见 [`RtmConfig`](#rtmconfig)。 |
 
 #### 基本用法
 
@@ -45,7 +44,7 @@ virtual int initialize(const RtmConfig& config) = 0;
 virtual int release() = 0;
 ```
 
-销毁一个 `RtmClient` 类型实例以释放资源。
+销毁一个 `IRtmClient` 类型实例以释放资源。
 
 #### 基本用法
 <mark>待补充</mark>
@@ -54,14 +53,39 @@ virtual int release() = 0;
 - `0`：调用成功。
 - <`0`：调用失败。
 
+### CreateStreamChannel
+#### 接口描述
+
+```cpp
+public abstract IStreamChannel CreateStreamChannel(string channelName);
+```
+
+创建一个 `IStreamChannel` 类型实例。
+
+~8704dfd0-60c9-11ed-8dae-bf25bf08a626~
+
+创建 `IStreamChannel` 实例后你可以调用其他频道相关方法，详见 [IStreamChannel 类](api-channel-linux)。
+
+| 参数     | 描述                  |
+| ------------- | ---------------------------- |
+| `channelName` | 频道名称，命名规范参照[频道名称](feature-description#频道名称)。 |
+
+#### 基本用法
+
+##### 创建一个 `IStreamChannel` 类型实例
+
+
+#### 返回值
+- 一个 `IStreamChannel` 类型实例：调用成功。
+- 空：调用失败。
 
 ## 回调
 
 ### IRtmEventHandler 类
 
-通过添加事件监听处理程序以获得接口调用结果以及事件通知，包括连接状态，消息到达，Presence 状态等事件通知以及监控接口回调结果。在调用这些函数前必须先添加事件监听处理程序。
+通过添加事件监听处理程序以获方法调用结果以及事件通知，包括连接状态，消息到达，Presence 状态等事件通知以及监控方法回调结果。如需要在 App 中接收消息和事件通知，在调用这些函数前必须先添加事件监听处理程序。
 
-#### 基本用法（需要提供代码）
+#### 基本用法
 
 ##### 添加事件监听程序
 <mark>待补充</mark>
@@ -85,11 +109,12 @@ virtual void onMessageEvent(MessageEvent& event) {}
 
 ### onPresenceEvent
 #### 接口描述
-当频道中有用户的 Presence 状态发生变更时会触发该回调。比如，远端用户加入或离开频道，同一频道内远端用户加入或离开 Topic，本地用户加入频道。
 
 ```cpp
 virtual void onPresenceEvent(PresenceEvent& event) {}
 ```
+
+当频道中有用户的 Presence 状态发生变更时会触发该回调。比如，远端用户加入或离开频道，同一频道内远端用户加入或离开 Topic，用户自身加入频道。
 
 | 参数   |  描述      | 
 | ------------ |  --------- |
@@ -106,9 +131,9 @@ virtual void onJoinResult(const char* channelName, const char* userId, STREAM_CH
 
 | 参数      | 描述                              |
 | ------------- |  ---------------------------------------- |
-| `channelName` |  发生事件所属频道。 |
-| `userId`      | 加入频道的用户 ID。  |
-| `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-cpp#stream_channel_error_code)。       |
+| `channelName` |  事件所在频道名称。 |
+| `userId`      | 加入频道用户的 User ID。  |
+| `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-linux#stream_channel_error_code)。       |
 
 ### onLeaveResult
 #### 接口描述
@@ -120,9 +145,9 @@ virtual void onLeaveResult(const char* channelName, const char* userId, STREAM_C
 
 | 参数      | 描述                              |
 | ------------- |  ---------------------------------------- |
-| `channelName` | 发生事件所属频道。 |
-| `userId`      | 离开频道的用户 ID。  |
-| `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-cpp#stream_channel_error_code)。       |
+| `channelName` | 事件所在频道名称。 |
+| `userId`      | 离开频道用户的 User ID。  |
+| `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-linux#stream_channel_error_code)。       |
 
 ### onJoinTopicResult
 #### 接口描述
@@ -134,11 +159,11 @@ virtual void onJoinTopicResult(const char* channelName, const char* userId, cons
 
 | 参数      | 描述                              |
 | ------------- | ---------------------------------------- |
-| `channelName` | 发生事件所属频道。 |
-| `userId`      | 加入 Topic 的用户 ID。  |
+| `channelName` | 事件所在频道名称。 |
+| `userId`      | 加入 Topic 用户的 User ID。  |
 | `topic`       | Topic 名称。       |
 | `meta`        | 创建 Topic 的辅助信息。  |
-| `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-cpp#stream_channel_error_code)。       |
+| `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-linux#stream_channel_error_code)。       |
 
 ### onLeaveTopicResult
 #### 接口描述
@@ -151,11 +176,11 @@ virtual void onLeaveTopicResult(const char* channelName, const char* userId, con
 
 | 参数      | 描述                              |
 | ------------- | ---------------------------------------- |
-| `channelName` | 发生事件所属频道。 |
-| `userId`      | 离开 Topic 的用户 ID。  |
+| `channelName` | 事件所在频道名称。 |
+| `userId`      | 离开 Topic 用户的 User ID。  |
 | `topic`       | Topic 名称。       |
 | `meta`        | 创建 Topic 的辅助信息。  |
-| `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-cpp#stream_channel_error_code)。       |
+| `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-linux#stream_channel_error_code)。       |
 
 ### onTopicSubscribed
 #### 接口描述
@@ -168,12 +193,12 @@ virtual void onTopicSubscribed(const char* channelName, const char* userId, cons
 
 | 参数       | 描述                                |
 | --------------| ------------------------------------------ |
-| `channelName` | 发生事件所属频道。 |
-| `userId`      | 订阅 Topic 的用户 ID。  |
-| `topic`        | 发生事件所属 Topic。 |
-| `succeedUsers` | 本次操作订阅成功的消息发布者列表，详见 [`UserList`](api-message-cpp#userlist)。                       |
-| `failedUsers`  | 本次操作订阅失败的消息发布者列表，详见 [`UserList`](api-message-cpp#userlist)。                       |
-| `errorCode`    | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-cpp#stream_channel_error_code)。 
+| `channelName` | 事件所在频道名称。 |
+| `userId`      | 订阅 Topic 用户的 User ID。  |
+| `topic`        | 事件所在 Topic 名称。 |
+| `succeedUsers` | 本次操作成功的消息发布者列表，详见 [`UserList`](api-channel-linux#userlist)。                       |
+| `failedUsers`  | 本次操作订失败的消息发布者列表，详见 [`UserList`](api-channel-linux#userlist)。                       |
+| `errorCode`    | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-linux#stream_channel_error_code)。 
 
 ### onTopicUnsubscribed
 #### 接口描述
@@ -186,12 +211,12 @@ virtual void onTopicUnsubscribed(const char* channelName, const char* userId, co
 
 | 参数       | 描述                                |
 | --------------| ------------------------------------------ |
-| `channelName` | 发生事件所属频道。 |
-| `userId`      | 取消订阅 Topic 的用户 ID。  |
-| `topic`        | 发生事件所属 Topic。 |
-| `succeedUsers` | 本次操作订阅成功的消息发布者列表，详见 [`UserList`](api-message-cpp#userlist)。                       |
-| `failedUsers`  | 本次操作订阅失败的消息发布者列表，详见 [`UserList`](api-message-cpp#userlist)。
-| `errorCode`    |频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-cpp#stream_channel_error_code)。 
+| `channelName` | 事件所在频道名称。 |
+| `userId`      | 取消订阅 Topic 用户的 User ID。  |
+| `topic`        | 事件所在 Topic 名称。 |
+| `succeedUsers` | 本次操作订阅成功的消息发布者列表，详见 [`UserList`](api-channel-linux#userlist)。                       |
+| `failedUsers`  | 本次操作订阅失败的消息发布者列表，详见 [`UserList`](api-channel-linux#userlist)。
+| `errorCode`    |频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-linux#stream_channel_error_code)。 
 
 
 ### onConnectionStateChange
@@ -205,7 +230,7 @@ SDK 连接状态发生改变时会触发该回调。
 
 | 参数   | 描述      | 
 | ------------ | --------- |
-| `channelName` | 发生事件所属频道。 |
+| `channelName` | 事件所在频道名称。 |
 | `state`  | SDK 连接状态，详见 [`RTM_CONNECTION_STATE`](#rtm_connection_state)。  | 
 | `reason`   | SDK 连接状态改变原因，详见 [`RTM_CONNECTION_CHANGE_REASON`](#rtm_connection_change_reason)。  | 
 
@@ -229,14 +254,14 @@ struct RtmConfig {
                 eventHandler(nullptr) {}
 ```
 
-该接口用于存储配置信息，这些信息将影响后续 RTM 客户端的行为。
+用于存储配置信息，这些信息将影响后续 RTM 客户端的行为。
 
 | 参数   | 描述           |
 | ------------ | ----------------------------------- |
-| appId        | 从声网控制台上获取的 APP ID。                                                        |
-| userId       | 用户 ID，用户或设备设置唯一的标识符。你需要维护 userId 和用户之间的映射关系，并在整个服务周期内不能改变。如果不设置该参数，将无法连接到 RTM 服务。                               |
-| eventHandler | 事件监听函数句柄，用以监听消息通知，Presence 通知，状态变更通知等事件通知。详见 [`IRtmEventHandler`](#irtmeventhandler)。                               |
-| logConfig    | （选填）日志存储功能。Agora 建议你在调试和定位问题时候开启该功能，日志将会保存在你设置的位置，Agora 技术人员将根据日志详情帮助你分析定位问题。应用正式上线后建议取消设置该功能。详见 [`LogConfig`](#logconfig)。   |
+| `appId`        | 从声网控制台上获取的 APP ID。                                                        |
+| `userId`       | 用户 ID，用户或设备设置唯一的标识符。你需要维护 `userId` 和用户之间的映射关系，并在整个服务周期内不能改变该映射关系。如果不设置该参数，将无法连接到 RTM 服务。                              |
+| `eventHandler` | 事件监听函数句柄，用以监听消息通知，Presence 通知，状态变更通知等事件通知。详见 [`IRtmEventHandler`](#irtmeventhandler)。                               |
+| `logConfig`    | （选填）日志存储功能。Agora 建议你在调试和定位问题时候开启该功能，日志将会保存在你设置的位置，Agora 技术人员将根据日志详情帮助你分析定位问题。应用正式上线后建议取消设置该功能。详见 [`LogConfig`](#logconfig)。   |
 
 #### 基本用法
 <mark>待补充</mark>
@@ -276,7 +301,7 @@ struct RtmConfig {
 | `channelTopic`  | Topic 名称。  | 
 | `message`   | 消息负载。  | 
 | `messageLength`   | 消息负载。  | 
-| `publisher`   | 发布消息的用户 ID。  | 
+| `publisher`   | 发布消息用户的 User ID。  | 
 
 ### PresenceEvent
 
@@ -311,9 +336,9 @@ Presence 回调事件。
 | `channelType`     | 频道类型，详见 [`RTM_CHANNEL_TYPE`](#rtm_channel_type)。  | 
 | `type`     | Presence 类型，详见 [`RTM_PRESENCE_TYPE`](#rtm_presence_type)。  | 
 | `channelName`     | 频道名称。  | 
-| `topicInfos`    | Topic 信息，详见 [TopicInfo](#api-topic-cpp#topicinfo)。  | 
+| `topicInfos`    | Topic 信息，详见 [TopicInfo](#api-topic-linux#topicinfo)。  | 
 | `topicInfoNumber`    | Topic 信息数量。  | 
-| `userId`    | Presence 所属用户 ID。  | 
+| `userId`    | 触发 Presence 事件用户的 User ID。。  | 
 
 ## Enum
 

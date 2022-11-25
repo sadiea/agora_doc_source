@@ -56,7 +56,7 @@
 ```
 离开频道。
 
-调用该接口会触发 [`leaveChannel`](api-client-ios#leavechannel) 事件回调。成功离开频道后，频道中的其他用户会收到 [`onPresenceEvent`](api-client-ios#onpresenceevent) 中的 `AgoraRtmPresenceTypeRemoteLeaveChannel` 事件通知。
+调用该方法会触发 [`leaveChannel`](api-client-ios#leavechannel) 事件回调。成功离开频道后，频道中的其他用户会收到 [`onPresenceEvent`](api-client-ios#onpresenceevent) 中的 `AgoraRtmPresenceTypeRemoteLeaveChannel` 事件通知。
 
 #### 基本用法
 
@@ -77,7 +77,7 @@
 
 销毁一个 `StreamChannel` 类型实例。
 
-如果你不再需要某个频道，可以调用方法销毁对应的 `StreamChannel` 实例以释放资源。调用该接口销毁 `StreamChannel` 实例不会销毁此频道，后续可通过调用 [`createStreamChannel`](api-client-ios#createstreamchannel) 和 [`joinWithOption`](#joinwithoption) 再次加入该频道。
+如果你不再需要某个频道，可以调用方法销毁对应的 `StreamChannel` 实例以释放资源。调用该方法销毁 `StreamChannel` 实例不会销毁此频道，后续可通过调用 [`createStreamChannel`](api-client-ios#createstreamchannel) 和 [`joinWithOption`](#joinwithoption) 再次加入该频道。
 
 > 注意：如果不先调用 [`leave`](#leave) 离开频道而直接调用 `destroy` 销毁频道实例，SDK 会自动调用 `leave` 并触发对应的事件回调。
 
@@ -205,6 +205,8 @@
 
 如果用户网络连接出现问题，RTM 2.0 将自动尝试重新连接，但在断连期间的消息会丢失。
 
+调用该方法会触发 [subscribe](api-client-ios#subscribe) 回调。
+
 | 参数    | 描述                                                    |
 | ------------| -------------------------------------------------------------- |
 | `topic`      |  Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic，详见 [Topic 名称](feature-description#topic-%E5%90%8D%E7%A7%B0)。 |
@@ -265,6 +267,8 @@ public abstract int unsubscribeTopic(String topicName, TopicOptions options);
 
 查询指定 Topic 中已订阅的消息发布者列表。
 
+> 注意：请在加入频道后调用该方法。
+
 | 参数 | 描述                                                    |
 | ---------| -------------------------------------------------------------- |
 | `topic`   | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic，详见 [Topic 名称](feature-description#topic-%E5%90%8D%E7%A7%B0)。 |
@@ -309,7 +313,7 @@ __attribute__((visibility("default"))) @interface AgoraRtmJoinTopicOption: NSObj
 
 | 属性 | 描述                         |
 | ---------------- | ---------------- |
-| `qos` | 指定后续发送 Topic 消息时的 QoS 保障，详见 [`MessageQos`](#messageqos) 默认值为 `AgoraRtmMessageQosOrdered` 开启消息保序。  |
+| `qos` | 指定后续发送 Topic 消息时的 QoS 保障，详见 [`MessageQos`](#messageqos) 。默认值为 `AgoraRtmMessageQosOrdered`：开启消息保序。  |
 
 ### TopicOption
 

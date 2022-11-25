@@ -54,7 +54,7 @@ RtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 
 ~8704dfd0-60c9-11ed-8dae-bf25bf08a626~
 
-创建`StreamChannel` 实例后你可以调用其他频道相关方法，详见 [StreamChannel 类](api-channel-ios)。
+创建 `StreamChannel` 实例后你可以调用其他频道相关方法，详见 [StreamChannel 类](api-channel-ios)。
 
 | 参数  | 描述                    |
 | --------- | ------------------------------ |

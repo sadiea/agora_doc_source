@@ -2,7 +2,7 @@
 ## 方法
 
 ### join
-
+#### 接口描述
 
 ```java
 public abstract int join(JoinChannelOptions options);
@@ -33,7 +33,7 @@ public abstract int join(JoinChannelOptions options);
 - < `0 `：调用失败。
 
 ### getChannelName
-
+#### 接口描述
 
 ```java
 public abstract String getChannelName();
@@ -45,7 +45,7 @@ public abstract String getChannelName();
 频道名称。
 
 ### leave
-
+#### 接口描述
 
 ```java
 public abstract int leave();
@@ -65,7 +65,7 @@ public abstract int leave();
 - < `0 `：调用失败。                                                           
 
 ### release
-
+#### 接口描述
 
 ```java
 public abstract int release();
@@ -87,7 +87,7 @@ public abstract int release();
 
 
 ### joinTopic
-
+#### 接口描述
 
 ```java
 public abstract int joinTopic(String topicName, JoinTopicOptions options);
@@ -119,7 +119,7 @@ public abstract int joinTopic(String topicName, JoinTopicOptions options);
 - < `0`：调用失败。
 
 ### leaveTopic
-
+#### 接口描述
 
 ```java
 public abstract int leaveTopic(String topicName);
@@ -145,7 +145,7 @@ public abstract int leaveTopic(String topicName);
 - < `0`：调用失败。
 
 ### publishTopicMessage
-
+#### 接口描述
 
 ```java
 public abstract int publishTopicMessage(String topicName, byte[] message);
@@ -156,7 +156,7 @@ public abstract int publishTopicMessage(String topicName, byte[] message);
 成功调用该方法后，频道中订阅该 Topic 且订阅该消息发布者的用户会收到 [`onMessageEvent`](api-client-android#onmessageevent) 事件回调。
 
 > 注意：
-> - 调用该方法前需先调用 `joinTopic` 加入 Topic。
+> - 调用该方法前需先调用 [`joinTopic`](#jointopic) 加入 Topic。
 > - 不支持同时向多个 Topic 发送同一条消息。
 > - 以下做法可有效提升消息收发的可靠性：
 >   - 在调用 `joinTopic` 时可将 `qos` 字段配置为 `RTM_MESSAGE_QOS_ORDERED` 以开启该 Topic 的消息保序能力。
@@ -182,7 +182,7 @@ public abstract int publishTopicMessage(String topicName, byte[] message);
 
 
 ### subscribeTopic
-
+#### 接口描述
 
 ```java
 public abstract int subscribeTopic(String topicName, TopicOptions options);
@@ -196,10 +196,12 @@ public abstract int subscribeTopic(String topicName, TopicOptions options);
 
 如果用户网络连接出现问题，RTM 2.0 将自动尝试重新连接，但在断连期间的消息会丢失。
 
+调用该方法会触发 [`onTopicSubscribed`](api-client-android#ontopicsubscribed) 回调。
+
 | 参数    | 描述                                                    |
 | ------------| -------------------------------------------------------------- |
 | `topicName`      |Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic，详见 [Topic 名称](feature-description#topic-名称)。 |
-| `options`    | （选填）订阅 Topic 时的配置选项，详见 [`TopicOptions`](api-channel-android#topicoptions)。如果不填写该字段，SDK 将随机订阅该 Topic 中 64 个消息发布者；如果该 Topic 中消息发布者不超过 64 人，则订阅所有消息发布者。                     |
+| `options`    | （选填）订阅 Topic 时的配置选项，详见 [`TopicOptions`](api-channel-android#topicoptions)。<ul><li>如果不填写该字段，SDK 将随机订阅该 Topic 中 64 个消息发布者。</li><li>如果该 Topic 中消息发布者不超过 64 人，则订阅所有消息发布者。</li></ul>                     |
 
 #### 基本用法
 
@@ -212,7 +214,7 @@ public abstract int subscribeTopic(String topicName, TopicOptions options);
 
 
 ### unsubscribeTopic
-
+#### 接口描述
 
 ```java
 public abstract int unsubscribeTopic(String topicName, TopicOptions options);
@@ -242,7 +244,7 @@ public abstract int unsubscribeTopic(String topicName, TopicOptions options);
 - < `0 `：调用失败。
 
 ### getSubscribedUserList
-
+#### 接口描述
 
 ```java
 public abstract int getSubscribedUserList(String topicName, UserList users);

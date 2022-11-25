@@ -2,7 +2,7 @@
 ## 方法
 
 ### create
-
+#### 接口描述
 
 ```java
   public static synchronized RtmClient create() throws Exception {
@@ -23,7 +23,7 @@
 - 空：调用失败。
 
 ### initialize
-
+#### 接口描述
 
 ```java
 public abstract int initialize(RtmConfig config);
@@ -48,7 +48,7 @@ public abstract int initialize(RtmConfig config);
 - < `0 `：调用失败。
 
 ### release
-
+#### 接口描述
 
 ```java
   public static synchronized void release() {
@@ -72,7 +72,7 @@ public abstract int initialize(RtmConfig config);
 
 
 ### createStreamChannel
-
+#### 接口描述
 
 ```java
 public abstract StreamChannel createStreamChannel(@NonNull String channelName);
@@ -82,7 +82,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 
 ~8704dfd0-60c9-11ed-8dae-bf25bf08a626~
 
-创建`StreamChannel` 实例后你可以调用其他频道相关方法，详见 [StreamChannel 类](api-channel-android)。
+创建 `StreamChannel` 实例后你可以调用其他频道相关方法，详见 [StreamChannel 类](api-channel-android)。
 
 | 参数  | 描述                    |
 | --------- | ------------------------------ |
@@ -104,7 +104,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 通过添加事件监听处理程序以获方法调用结果以及事件通知，包括连接状态，消息到达，Presence 状态等事件通知以及监控方法回调结果。如需要在 App 中接收消息和事件通知，在调用这些函数前必须先添加事件监听处理程序。
 
 ### onMessageEvent
-
+#### 接口描述
 
 ```java
 @CalledByNative public void onMessageEvent(MessageEvent event);
@@ -117,13 +117,13 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | `event`  | 消息事件类型，详见 [`MessageEvent`](#messageevent)。  | 
 
 ### onPresenceEvent
-
+#### 接口描述
 
 ```java
 @CalledByNative public void onPresenceEvent(PresenceEvent event);
 ```
 
-当频道中有用户的 Presence 状态发生变更时会触发该回调。比如，远端用户加入或离开频道，同一频道内远端用户加入或离开 Topic，本地用户加入频道时收到 Topic 消息。
+当频道中有用户的 Presence 状态发生变更时会触发该回调。比如，远端用户加入或离开频道，同一频道内远端用户加入或离开 Topic，用户自身加入频道。
 
 
 | 参数   | 描述      | 
@@ -132,7 +132,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 
 
 ### onJoinResult
-
+#### 接口描述
 
 ```java
 @CalledByNative public void onJoinResult(String channelName, String userId, int errorCode);
@@ -147,7 +147,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。       |
 
 ### onLeaveResult
-
+#### 接口描述
 
 ```java
 @CalledByNative public void onLeaveResult(String channelName, String userId, int errorCode);
@@ -162,7 +162,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。       |
 
 ### onJoinTopicResult
-
+#### 接口描述
 
 ```java
   @CalledByNative
@@ -181,7 +181,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。       |
 
 ### onLeaveTopicResult
-
+#### 接口描述
 
 ```java
   @CalledByNative
@@ -200,7 +200,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。       |
 
 ### onTopicSubscribed
-
+#### 接口描述
 
 ```java
   @CalledByNative
@@ -220,7 +220,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | `errorCode`    | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。 
 
 ### onTopicUnsubscribed
-
+#### 接口描述
 
 ```java
   @CalledByNative
@@ -241,7 +241,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 
 
 ### onConnectionStateChange
-
+#### 接口描述
 
 ```java
 @CalledByNative public void onConnectionStateChange(String channelName, int state, int reason);
