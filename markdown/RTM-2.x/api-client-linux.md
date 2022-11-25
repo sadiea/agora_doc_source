@@ -53,11 +53,11 @@ virtual int release() = 0;
 - `0`：调用成功。
 - <`0`：调用失败。
 
-### CreateStreamChannel
+### createStreamChannel
 #### 接口描述
 
 ```cpp
-public abstract IStreamChannel CreateStreamChannel(string channelName);
+virtual IStreamChannel* createStreamChannel(const char* channelName) = 0;
 ```
 
 创建一个 `IStreamChannel` 类型实例。

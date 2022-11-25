@@ -64,7 +64,7 @@ virtual int leave() = 0;
 - `0 `：调用成功。
 - < `0 `：调用失败。                                                             
 
-### Release
+### release
 #### 接口描述
 
 ```cpp
