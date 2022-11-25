@@ -16,8 +16,8 @@ RTM 2.x 客户端 SDK 包含以下方法和回调接口：
 
 | 方法                | 描述                                       |
 | ------------------- | ------------------------------------------ |
-| [create`StreamChannel`](api-client-ios#create`StreamChannel`) | 创建一个 Stream Channel 类型实例。       |
-| [destroy](api-channel-ios#destroy)            | 销毁一个 Stream Channel 类型实例。       |
+| [createStreamChannel](api-client-ios#createstreamchannel) | 创建一个 `StreamChannel` 类型实例。       |
+| [destroy](api-channel-ios#destroy)            | 销毁一个 `StreamChannel` 类型实例。       |
 | [joinWithOption](api-channel-ios#joinwithoption)               | 加入频道。                                 |
 | [getChannelName](api-channel-ios#getchannelname)      | 获取频道名称。                             |
 | [leave](api-channel-ios#leave)               | 离开频道。                                 |
@@ -35,7 +35,7 @@ RTM 2.x 客户端 SDK 包含以下方法和回调接口：
 | ------------------------ | ------------------------------------------------------------ |
 | [joinTopic](api-channel-ios#jointopic)                | 加入一个 Topic。                                             |
 | [leaveTopic](api-channel-ios#leavetopic)               | 离开一个 Topic。                                             |
-| [publishTopicMessage](api-channel-ios#publishtopicmessage)      | 在指定 Topic 中发送文本消息。                                |
+| [publishMessage](api-channel-ios#publishmessage)      | 在指定 Topic 中发送文本消息。                                |
 | [subscribeTopic](api-channel-ios#subscribetopic)           | 订阅 Topic 及 Topic 中的消息发送者。                         |
 | [unsubscribeTopic](api-channel-ios#unsubscribetopic)         | 取消订阅某 Topic 或取消对该 Topic 中指定的消息发布者的订阅。 |
 | [getSubscribedUserList](api-channel-ios#getsubscribeduserlist)    | 查询指定 Topic 中已订阅的消息发布者列表。                    |

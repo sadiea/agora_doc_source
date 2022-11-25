@@ -9,15 +9,14 @@ RtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
                                  delegate:(id <AgoraRtmClientDelegate> _Nullable)delegate;
 ```
 
-初始化 RtmClient 实例。
+初始化 `RtmClient` 实例。
 
-> 注意：
-> 创建并初始化实例必须在你使用 RTM 其他功能之前完成，以建立正确的账号级别的凭据（例如 APP ID）。
+> 注意：初始化实例必须在你使用 RTM 其他功能之前完成，以建立正确的账号级别的凭据（例如 APP ID）。
 
 | 参数 |描述                    |
 | --------- | ------------------------------ |
-| `config` | 该 `RtmClient` 实例的配置信息，详见 [`AgoraRtmClientConfig`](#agorartmclientconfig)。 |
-| `delegate` | 频道事件监听程序，详见 [`AgoraRtmClientDelegate`](#agorartmclientdelegate)。 |
+| `config` | 该 `RtmClient` 实例的配置信息，详见 [`ClientConfig`](#clientconfig)。 |
+| `delegate` | 频道事件监听程序，详见 [`AgoraRtmClientDelegate`](#agorartmclientdelegate-协议)。 |
 
 #### 基本用法
 
@@ -25,7 +24,7 @@ RtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 <mark>待补充</mark>
 
 #### 返回值
-- 一个`RtmClient` 实例：调用成功。
+- `0 `：调用成功。
 - < `0 `：调用失败。
 
 ### destroy
@@ -44,12 +43,35 @@ RtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 - `0 `：调用成功。
 - < `0 `：调用失败。
 
+### createStreamChannel
+#### 接口描述
+
+```objc
+- (AgoraRtmStreamChannel * _Nullable)createStreamChannel:(NSString * _Nonnull)channelName;
+```
+
+创建一个 `StreamChannel` 实例。
+
+~8704dfd0-60c9-11ed-8dae-bf25bf08a626~
+
+创建`StreamChannel` 实例后你可以调用其他频道相关方法，详见 [StreamChannel 类](api-channel-ios)。
+
+| 参数  | 描述                    |
+| --------- | ------------------------------ |
+| `channelName` | 频道名称，命名限制详见[频道名称](feature-description#%E9%A2%91%E9%81%93%E5%90%8D%E7%A7%B0)。 |
+
+#### 基本用法
+<mark>待补充</mark>
+
+#### 返回值
+- 一个 `StreamChannel` 实例：调用成功。
+- 空：调用失败。
 
 ## 回调
 
 ### AgoraRtmClientDelegate 协议
 
-通过 `AgoraRtmClientDelegate` 协议以获得接口调用结果以及事件通知，包括连接状态，消息到达，Presence 状态等事件通知以及监控接口回调结果。在调用这些函数前必须先添加事件监听处理程序。
+通过添加事件监听处理程序以获方法调用结果以及事件通知，包括连接状态，消息到达，Presence 状态等事件通知以及监控方法回调结果。如需要在 App 中接收消息和事件通知，在调用这些函数前必须先添加事件监听处理程序。
 
 #### 添加事件监听程序
 
@@ -75,7 +97,7 @@ RtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 
 | 参数   | 描述      | 
 | ------------ | --------- |
-| `event`  | 消息事件类型，详见 [`AgoraRtmMessageEvent`](#agorartmmessageevent)。  | 
+| `event`  | 消息事件类型，详见 [`MessageEvent`](#messageevent)。  | 
 
 
 ### onPresenceEvent
@@ -86,11 +108,11 @@ RtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
     onPresenceEvent:(AgoraRtmPresenceEvent * _Nonnull)event;
 ```
 
-当频道中有用户的 Presence 状态发生变更时会触发该回调。比如，远端用户加入或离开频道，同一频道内远端用户加入或离开 Topic，本地用户加入频道。
+当频道中有用户的 Presence 状态发生变更时会触发该回调。比如，远端用户加入或离开频道，同一频道内远端用户加入或离开 Topic，用户自身加入频道。
 
 | 参数   | 描述      | 
 | ------------ | --------- |
-| `event`  | 消息事件类型，详见 [`AgoraRtmPresenceEvent`](#aogrartmpresenceeevent)。  | 
+| `event`  | 消息事件类型，详见 [`PresenceEvent`](#presenceeevent)。  | 
 
 
 ### joinChannel
@@ -107,9 +129,9 @@ RtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 
 | 参数      | 描述                              |
 | ------------- | ---------------------------------------- |
-| `channelName` | 发生事件所属频道。 |
-| `userId`      | 加入频道的用户 ID。  |
-| `errorCode`   | 频道错误码，详见[`AgoraRtmStreamChannelErrorCode`](api-channel-ios#agorartmstreamchannelerrorcode)。       |
+| `channelName` | 事件所在频道名称。 |
+| `userId`      | 加入频道用户的 User ID。  |
+| `errorCode`   | 频道错误码，详见[`StreamChannelErrorCode`](api-channel-ios#streamchannelerrorcode)。       |
 
 ### leaveChannel
 #### 接口描述
@@ -121,13 +143,13 @@ RtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
     result:(AgoraRtmStreamChannelErrorCode)errorCode;
 ```
 
-离开频道后时触发该回调。
+离开频道时触发该回调。
 
 | 参数    | 描述                              |
 | ------------- | ---------------------------------------- |
-| `channelName`| 发生事件所属频道。 |
-| `userId`     | 离开频道的用户 ID。  |
-| `errorCode`  | 频道错误码，详见[`AgoraRtmStreamChannelErrorCode`](api-channel-ios#agorartmstreamchannelerrorcode)。       |
+| `channelName`| 事件所在频道名称。 |
+| `userId`     | 离开频道用户的 User ID。  |
+| `errorCode`  | 频道错误码，详见[`StreamChannelErrorCode`](api-channel-ios#streamchannelerrorcode)。       |
 
 ### joinTopic
 #### 接口描述
@@ -145,11 +167,11 @@ RtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 
 | 参数    | 描述                              |
 | ------------- | ---------------------------------------- |
-| `channelName`  | 发生事件所属频道。 |
-| `userId`      | 加入 Topic 的用户 ID。  |
+| `channelName`  | 事件所在频道名称。 |
+| `userId`      | 加入 Topic 用户的 User ID。  |
 | `topic`        | Topic 名称。       |
 | `meta`        | 创建 Topic 的辅助信息。  |
-| `errorCode`    | 频道错误码，详见[`AgoraRtmStreamChannelErrorCode`](api-channel-ios#agorartmstreamchannelerrorcode)。       |
+| `errorCode`    | 频道错误码，详见[`StreamChannelErrorCode`](api-channel-ios#streamchannelerrorcode)。       |
 
 ### leaveTopic
 #### 接口描述
@@ -167,11 +189,11 @@ RtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 
 | 参数    | 描述                              |
 | -------------  | ---------------------------------------- |
-| `channelName` | 发生事件所属频道。 |
-| `userId`      | 离开 Topic 的用户 ID。  |
+| `channelName` | 事件所在频道名称。 |
+| `userId`      | 离开 Topic 用户的 User ID。  |
 | `topic`       | Topic 名称。       |
 | `meta`        | 创建 Topic 的辅助信息。  |
-| `errorCode`   | 频道错误码，详见[`AgoraRtmStreamChannelErrorCode`](api-channel-ios#agorartmstreamchannelerrorcode)。       |
+| `errorCode`   | 频道错误码，详见[`StreamChannelErrorCode`](api-channel-ios#streamchannelerrorcode)。       |
 
 ### subscribe
 #### 接口描述
@@ -190,12 +212,12 @@ RtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 
 | 参数      | 描述                                |
 | --------------| ------------------------------------------ |
-| `channelName` | 发生事件所属频道。 |
-| `userId`      | 订阅 Topic 的用户 ID。  |
-| `topic`       | 发生事件所属 Topic。 |
-| `succeedUsers`| 本次操作订阅成功的消息发布者列表。                       |
-| `failedUsers` | 本次操作订阅失败的消息发布者列表。                       |
-| `errorCode`   | 频道错误码，详见[`AgoraRtmStreamChannelErrorCode`](api-channel-ios#agorartmstreamchannelerrorcode)。       |
+| `channelName` | 事件所在频道名称。 |
+| `userId`      | 订阅 Topic 用户的 User ID。  |
+| `topic`       | 事件所在 Topic 名称。|
+| `succeedUsers`| 本次操作成功的消息发布者列表。                       |
+| `failedUsers` | 本次操作失败的消息发布者列表。                       |
+| `errorCode`   | 频道错误码，详见[`StreamChannelErrorCode`](api-channel-ios#streamchannelerrorcode)。       |
 
 ### unsubscribe
 #### 接口描述
@@ -214,12 +236,12 @@ RtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 
 | 参数        | 描述                                |
 | --------------| ------------------------------------------ |
-| `channelName` | 发生事件所属频道。 |
-| `userId`     | 取消订阅 Topic 的用户 ID。  |
-| `topicName`     | 发生事件所属 Topic。 |
-| `succeedUsers` | 本次操作订阅成功的消息发布者列表。                       |
-| `failedUsers`   | 本次操作订阅失败的消息发布者列表。                       |
-| `errorCode`    | 频道错误码，详见[`AgoraRtmStreamChannelErrorCode`](api-channel-ios#agorartmstreamchannelerrorcode)。       |
+| `channelName` | 事件所在频道名称。 |
+| `userId`     | 取消订阅 Topic 用户的 User ID。  |
+| `topicName`     | 事件所在 Topic 名称。 |
+| `succeedUsers` | 本次操作成功的消息发布者列表。                       |
+| `failedUsers`   | 本次操作失败的消息发布者列表。                       |
+| `errorCode`    | 频道错误码，详见[`StreamChannelErrorCode`](api-channel-ios#streamchannelerrorcode)。       |
 
 
 ### connectionStateChange
@@ -236,14 +258,14 @@ SDK 连接状态发生改变时会触发该回调。
 
 | 参数   | 描述      | 
 | ------------ | --------- |
-| `channelName` | 发生事件所属频道。 |
-| `state`  | SDK 连接状态，详见 [`AgoraRtmClientConnectionState`](#agorartmclientconnectionstate)。  | 
-| `reason`   | SDK 连接状态改变原因，详见 [`AgoraRtmClientConnectionChangeReason`](#agorartmclientconnectionchangereason)。  | 
+| `channelName` | 事件所在频道名称。 |
+| `state`  | SDK 连接状态，详见 [`ClientConnectionState`](#clientconnectionstate)。  | 
+| `reason`   | SDK 连接状态改变原因，详见 [`ClientConnectionChangeReason`](#clientconnectionchangereason)。  | 
 
 
 ## Interface
 
-### AgoraRtmClientConfig
+### ClientConfig
 
 
 ```objc
@@ -254,12 +276,12 @@ __attribute__((visibility("default"))) @interface AgoraRtmClientConfig: NSObject
 @property (nonatomic, copy, nonnull) NSString *userId;
 ```
 
-该接口用于存储配置信息，这些信息将影响后续 RTM 客户端的行为。
+用于存储 `RtmClient` 实例的配置信息，这些信息将影响后续 RTM 客户端的行为。
 
 | 属性  | 描述           |
 | ------------ |----------------------------------- |
-| appId       | 从声网控制台上获取的 APP ID。                                                        |
-| userId      | 用户 ID，用户或设备设置唯一的标识符。你需要维护 userId 和用户之间的映射关系，并在整个服务周期内不能改变。如果不设置该属性，将无法连接到 RTM 服务。                               |
+| `appId`       | 从声网控制台上获取的 APP ID。                                                        |
+| `userId`      | 用户 ID，用户或设备设置唯一的标识符。你需要维护 `userId` 和用户之间的映射关系，并在整个服务周期内不能改变该映射关系。如果不设置该属性，将无法连接到 RTM 服务。     |
 
 
 #### 基本用法
@@ -288,11 +310,11 @@ rty (nonatomic, assign, readonly) AgoraRtmChannelType channelType;
 
 | 属性   | 描述      | 
 | ------------  | --------- |
-| `channelType`  | 频道类型，详见 [`RtmChannelType`](#rtmchanneltype)。  | 
+| `channelType`  | 频道类型，详见 [`ChannelType`](#channeltype)。  | 
 | `channelName`   | 频道名称。  | 
 | `channelTopic`  | Topic 名称。  | 
 | `message`   | 消息负载。  | 
-| `publisher`   | 发布消息的用户 ID。  | 
+| `publisher`   | 发布消息用户的 User ID。  | 
 
 ### PresenceEvent
 
@@ -314,15 +336,15 @@ Presence 回调事件。
 
 | 属性    | 描述      | 
 | ------------ | --------- |
-| `channelType`         |频道类型，详见 [`AgoraRtmChannelType`](#rtmchanneltype)。  | 
-| `type`        |Presence 类型，详见 [`AgoraRtmPresenceType`](#rtmpresencetype)。  | 
+| `channelType`         |频道类型，详见 [`ChannelType`](#channeltype)。  | 
+| `type`        |Presence 类型，详见 [`PresenceType`](#presencetype)。  | 
 | `channelName`      | 频道名称。  | 
-| `topicInfos`    | Topic 信息，详见 [TopicInfo](#api-topic-ios#topicinfo)。  | 
-| `userId`    | Presence 所属用户 ID。  | 
+| `topicInfos`    | Topic 信息，详见 [TopicInfo](#api-channel-ios#topicinfo)。  | 
+| `userId`    | 触发 Presence 事件用户的 User ID。  | 
 
 ## Enum
 
-### AgoraRtmChannelType
+### ChannelType
 
 ```objc
 typedef NS_ENUM(NSInteger, AgoraRtmChannelType) {
@@ -341,49 +363,7 @@ RTM 频道类型。
 | `AgoraRtmChannelTypeStream`     | 1: Stream Channel。  | 
 
 
-
-### AgoraRtmClientErrorCode
-
-```objc
-typedef NS_ENUM(NSInteger, AgoraRtmClientErrorCode) {
-
-  AgoraRtmClientErrTopicAlreadyExist = 10001,
-
-  AgoraRtmClientErrExceedCreateTopicLimitation = 10002,
-
-  AgoraRtmClientErrInvalidTopicName = 10003,
-
-  AgoraRtmClientErrPublishTopicFailed = 10004,
-
-  AgoraRtmClientErrExceedSubscribeTopicLimitation = 10005,
-
-  AgoraRtmClientErrExceedUserLimitation = 10006,
-
-  AgoraRtmClientErrExceedChannelLimitation = 10007,
-
-  AgoraRtmClientErrAlreadyJoinChannel = 10008,
-
-  AgoraRtmClientErrNotJoinChannel = 10009,
-};
-```
-
-RTM 错误码。
-
-| 枚举值    | 描述      | 
-| ------------ | --------- |
-| `AgoraRtmClientErrTopicAlreadyExist`     | 10001: Topic 已存在。  | 
-| `AgoraRtmClientErrExceedCreateTopicLimitation`     | 10002: 创建的 Topic 超出数量限制。  | 
-| `AgoraRtmClientErrInvalidTopicName`     | 10003: 不是有效的 Topic 名称。  | 
-| `AgoraRtmClientErrPublishTopicFailed`    | 10004: 发布 Topic 失败。  | 
-| `AgoraRtmClientErrExceedSubscribeTopicLimitation`    | 10005: 订阅的 Topic 超出数量限制。  | 
-| `AgoraRtmClientErrExceedUserLimitation`    | 10006: 频道内用户超出数量限制。  | 
-| `AgoraRtmClientErrExceedChannelLimitation`    | 10007: 创建的频道超出数量限制。  | 
-| `AgoraRtmClientErrAlreadyJoinChannel`    | 10008: 已加入该频道。  | 
-| `AgoraRtmClientErrNotJoinChannel`    | 10009: 未加入任何频道。  | 
-
-
-
-### AgoraRtmClientConnectionState
+### ClientConnectionState
 
 ```objc
 typedef NS_ENUM(NSInteger, AgoraRtmClientConnectionState) {
@@ -410,7 +390,7 @@ SDK 连接状态。
 | `AgoraRtmClientConnectionStateReconnecting` | 4: SDK 和服务器断开连接，正在重新连接服务器。 |
 | `AgoraRtmClientConnectionStateFailed`       | 5: SDK 无法连接服务器。                                                                      |
 
-### AgoraRtmClientConnectionChangeReason
+### ClientConnectionChangeReason
 
 ```objc
 typedef NS_ENUM(NSInteger, AgoraRtmClientConnectionChangeReason) {
@@ -485,7 +465,7 @@ SDK 连接状态改变原因。
 |  `AgoraRtmClientConnectionChangedSameUidLogin`  |  19: 使用相同的 UID 从不同的设备加入同一频道。   |
 |  `AgoraRtmClientConnectionChangedTooManyBroadcasters`  |  20: 频道内主播人数已达上限。   |
 
-### AgoraRtmPresenceType
+### PresenceType
 
 ```objc
 typedef NS_ENUM(NSInteger, AgoraRtmPresenceType) {
