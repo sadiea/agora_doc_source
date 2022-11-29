@@ -72,7 +72,7 @@ public abstract int release();
 ```
 销毁一个 `StreamChannel` 类型实例。
 
-如果你不再需要某个频道，可以调用该方法销毁对应的 `StreamChannel` 实例以释放资源。调用该方法销毁 `StreamChannel` 实例不会销毁此频道，后续可通过调用 [`createStreamChannel`](api-client-android#createstreamchannel) 和 [`join`](api-channel-android#join) 再次加入该频道。
+如果你不再需要某个频道，可以调用该方法销毁对应的 `StreamChannel` 实例以释放资源。调用该方法销毁 `StreamChannel` 实例不会销毁此频道，后续可通过再次调用 [`createStreamChannel`](api-client-android#createstreamchannel) 和 [`join`](api-channel-android#join) 重新加入该频道。
 
 > 注意：如果不先调用 [`leave`](api-channel-android#leave) 离开频道而直接调用 `release` 销毁频道实例，SDK 会自动调用 `leave` 并触发对应的事件回调。
 
@@ -105,7 +105,7 @@ public abstract int joinTopic(String topicName, JoinTopicOptions options);
 
 | 参数 | 描述                                                    |
 | --------- | ------------------------------------------------- |
-| `topicName`   | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic，详见 [Topic 名称](feature-description#topic-名称)。 |
+| `topicName`   | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
 | `options` | （选填）加入 Topic 时的配置选项，详见 [`JoinTopicOptions`](#jointopicoptions)                                             |
 
 
@@ -134,7 +134,7 @@ public abstract int leaveTopic(String topicName);
 
 | 参数 | 描述                                                    |
 | --------- | -------------------------------------------------------------- |
-| `topicName`   |Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic，详见 [Topic 名称](feature-description#topic-名称)。 |
+| `topicName`   |Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
 
 #### 基本用法
 <mark>待补充</mark>
@@ -167,7 +167,7 @@ public abstract int publishTopicMessage(String topicName, byte[] message);
 
 | 参数  | 描述                                                    |
 | --------- | -------------------------------------------------------------- |
-| `topicName`   | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic，详见 [Topic 名称](feature-description#topic-名称)。 |
+| `topicName`   | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
 | `message` | 消息负载，长度在 1024 字节以内。  |
 
 
@@ -194,14 +194,14 @@ public abstract int subscribeTopic(String topicName, TopicOptions options);
 
 频道中单个 Topic 的消息发布者的数量没有上限，但对于 Topic 订阅者，目前最多只能同时订阅 50 个 Topic，每个 Topic 中最多只能订阅 64 个消息发布者。
 
-如果用户网络连接出现问题，RTM 2.0 将自动尝试重新连接，但在断连期间的消息会丢失。
+如果用户网络连接出现问题，RTM 2 将自动尝试重新连接，但在断连期间的消息会丢失。
 
 调用该方法会触发 [`onTopicSubscribed`](api-client-android#ontopicsubscribed) 回调。
 
 | 参数    | 描述                                                    |
 | ------------| -------------------------------------------------------------- |
-| `topicName`      |Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic，详见 [Topic 名称](feature-description#topic-名称)。 |
-| `options`    | （选填）订阅 Topic 时的配置选项，详见 [`TopicOptions`](api-channel-android#topicoptions)。<ul><li>如果不填写该字段，SDK 将随机订阅该 Topic 中 64 个消息发布者。</li><li>如果该 Topic 中消息发布者不超过 64 人，则订阅所有消息发布者。</li></ul>                     |
+| `topicName`      |Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
+| `options`    | （选填）订阅 Topic 时的配置选项，详见 [`TopicOptions`](api-channel-android#topicoptions)。如果不填写该字段，SDK 将随机订阅该 Topic 中 64 个消息发布者。                     |
 
 #### 基本用法
 
@@ -226,7 +226,7 @@ public abstract int unsubscribeTopic(String topicName, TopicOptions options);
 
 | 参数   | 描述                                                    |
 | ------------ | -------------------------------------------------------------- |
-| `topic`      |Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic，详见 [Topic 名称](feature-description#topic-名称)。 |
+| `topic`      |Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
 | `options`    | （选填）取消订阅 Topic 时的配置选项，详见 [`TopicOptions`](api-channel-android#topicoptions)。你可以指定想要取消订阅的消息发布者。<ul><li>如果 `options` 中配置的用户列表不在已订阅的用户名单中，API 会返回正常调用结果，但订阅用户列表不会有任何变化。</li><li>如果该字段为空，将取消订阅该 Topic 及取消订阅该 Topic 中所有消息发布者。</li></ul>        |
 
 #### 基本用法
@@ -256,7 +256,7 @@ public abstract int getSubscribedUserList(String topicName, UserList users);
 
 | 参数  | 描述                                                    |
 | ---------| -------------------------------------------------------------- |
-| `topicName`   | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic，详见 [Topic 名称](feature-description#topic-名称)。 |
+| `topicName`   | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
 | `users`   | `UserList` 对象的引用，用于返回已订阅的用户列表。详见  [`UserList`](#userlist)。                                                  |
 
 
@@ -295,6 +295,8 @@ public class JoinChannelOptions {
 public class JoinTopicOptions {
 
   public RtmMessageQos messageQos;
+
+  public String topicMeta;
 }
 ```
 
@@ -303,6 +305,7 @@ public class JoinTopicOptions {
 | 参数 | 描述                         |
 | ---------------- | ---------------- |
 | `messageQos` | 指定后续发送 Topic 消息时的 QoS 保障，详见 [`RtmMessageQos`](#rtmmessageqos)。默认值为 `RTM_MESSAGE_QOS_ORDERED` ：开启消息保序。  |
+| `topicMeta` | （选填）Topic 的元数据。  |
 
 
 ### TopicOptions
@@ -319,7 +322,7 @@ public class TopicOptions {
 
 | 参数 | 描述                         |
 | ---------------- | ---------------- |
-| `users`     | 该 Topic 中想要订阅或取消订阅的消息发布者列表，消息发布者数量不能超过 64 个。    |
+| `users`     | （选填）该 Topic 中想要订阅或取消订阅的消息发布者列表，消息发布者数量不能超过 64 个。    |
 
 
 ### TopicInfo
@@ -330,6 +333,8 @@ public class TopicInfo {
   public String topicName;
 
   public ArrayList<String> publisherUserIds;
+
+  public ArrayList<String> publisherMetas;
 }
 ```
 
@@ -337,8 +342,9 @@ Topic 信息。
 
 | 参数 | 描述                                                    |
 | --------- | -------------------------------------------------------------- |
-| `topicName`   |Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic，详见 [Topic 名称](feature-description#topic-名称)。 |
+| `topicName`   |Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
 | `publisherUserIds`   | 向该 Topic 发布消息的用户 ID 列表。 |
+| `publisherMetas`   | 向该 Topic 发布消息的用户的元数据列表。 |
 
 ### UserList
 
