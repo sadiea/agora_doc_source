@@ -75,9 +75,9 @@
 - (int) destroy;
 ```
 
-销毁一个 `StreamChannel` 类型实例。
+销毁一个 `AgoraRtmStreamChannel` 类型实例。
 
-如果你不再需要某个频道，可以调用方法销毁对应的 `StreamChannel` 实例以释放资源。调用该方法销毁 `StreamChannel` 实例不会销毁此频道，后续可通过再次调用 [`createStreamChannel`](api-client-ios#createstreamchannel) 和 [`joinWithOption`](#joinwithoption) 重新加入该频道。
+如果你不再需要某个频道，可以调用方法销毁对应的 `AgoraRtmStreamChannel` 实例以释放资源。调用该方法销毁 `AgoraRtmStreamChannel` 实例不会销毁此频道，后续可通过再次调用 [`createStreamChannel`](api-client-ios#createstreamchannel) 和 [`joinWithOption`](#joinwithoption) 重新加入该频道。
 
 > 注意：如果不先调用 [`leave`](#leave) 离开频道而直接调用 `destroy` 销毁频道实例，SDK 会自动调用 `leave` 并触发对应的事件回调。
 
@@ -111,7 +111,7 @@
 | 参数 | 描述                                                    |
 | --------- | ----------------------------------------------------- |
 | `topic`   | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
-| `option`  | （选填）加入 Topic 时的配置选项，详见 [`JoinTopicOption`](#jointopicoption)                                             |
+| `option`  | （选填）加入 Topic 时的配置选项，详见 [`AgoraRtmJoinTopicOption`](#agorartmjointopicoption)                                             |
 
 
 #### 基本用法
@@ -162,13 +162,13 @@
 
 在指定 Topic 中发送文本消息。消息在传输的过程中默认已经被 SSL/TLS 加密，以保证数据链路层安全。
 
-成功调用该方法后，频道中订阅该 Topic 且订阅该消息发布者的用户会收到 [`onMessageEvent`](#agorartmclientdelegate) 事件回调。
+成功调用该方法后，频道中订阅该 Topic 且订阅该消息发布者的用户会收到 [`onMessageEvent`](api-client-ios#onmessageevent) 事件回调。
 
 > 注意：
 > - 调用该方法前需先调用 [`joinTopic`](#jointopic) 加入 Topic。
 > - 不支持同时向多个 Topic 发送同一条消息。
 > - 以下做法可有效提升消息收发的可靠性：
->   - 在调用 `joinTopic` 时可将 `qos` 字段配置为 `RTM_MESSAGE_QOS_ORDERED(1)` 以开启该 Topic 的消息保序能力。
+>   - 在调用 `joinTopic` 时可将 `qos` 字段配置为 `AgoraRtmMessageQosOrdered(1)` 以开启该 Topic 的消息保序能力。
  >  - 以串行的方式发送消息。
  >  - 消息负载不要超过 1 KB，否则发送会失败。
  >  - 单个客户端在单个 Topic 中发送消息的速率上限为 60 QPS，如果发送速率超限，将会有部分消息会被丢弃。在满足要求的情况下，速率越低越好。
@@ -210,7 +210,7 @@
 | 参数    | 描述                                                    |
 | ------------| -------------------------------------------------------------- |
 | `topic`      |  Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
-| `option`    | （选填）订阅 Topic 时的配置选项，详见 [`TopicOption`](#topicoption)。如果不填写该字段，SDK 将随机订阅该 Topic 中 64 个消息发布者；如果该 Topic 中消息发布者不超过 64 人，则订阅所有消息发布者。   |
+| `option`    | （选填）订阅 Topic 时的配置选项，详见 [`AgoraRtmTopicOption`](#agorartmtopicoption)。如果不填写该字段，SDK 将随机订阅该 Topic 中 64 个消息发布者；如果该 Topic 中消息发布者不超过 64 人，则订阅所有消息发布者。   |
 
 
 #### 基本用法
@@ -239,7 +239,7 @@ public abstract int unsubscribeTopic(String topicName, TopicOptions options);
 | 参数    | 描述                                                    |
 | ------------| -------------------------------------------------------------- |
 | `topic`      | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
-| `options`    | （选填）取消订阅 Topic 时的配置选项，详见 [`TopicOptions`](api-topic-ios#topicoptions)。你可以指定想要取消订阅的消息发布者。<ul><li>如果 options 中配置的用户列表不在已订阅的用户名单中，API 会返回正常调用结果，但订阅用户列表不会有任何变化。</li>
+| `options`    | （选填）取消订阅 Topic 时的配置选项，详见 [`AgoraRtmTopicOptions`](api-topic-ios#agorartmtopicoptions)。你可以指定想要取消订阅的消息发布者。<ul><li>如果 <code>options</code> 中配置的用户列表不在已订阅的用户名单中，API 会返回正常调用结果，但订阅用户列表不会有任何变化。</li>
 <li>如果该字段为空，将取消订阅该 Topic 及取消订阅该 Topic 中所有消息发布者。</li></ul>        |
 
 
@@ -286,7 +286,7 @@ public abstract int unsubscribeTopic(String topicName, TopicOptions options);
 
 ## Interface
 
-### JoinChannelOptions
+### AgoraRtmJoinChannelOptions
 
 ```objc
 __attribute__((visibility("default"))) @interface AgoraRtmJoinChannelOption: NSObject
@@ -300,7 +300,7 @@ __attribute__((visibility("default"))) @interface AgoraRtmJoinChannelOption: NSO
 | ------------ | --------- |
 | `token`    | （选填） 用于鉴权的 RTM Token。                  |
 
-### JoinTopicOptions
+### AgoraRtmJoinTopicOptions
 
 ```objc
 __attribute__((visibility("default"))) @interface AgoraRtmJoinTopicOption: NSObject
@@ -314,10 +314,10 @@ __attribute__((visibility("default"))) @interface AgoraRtmJoinTopicOption: NSObj
 
 | 属性 | 描述                         |
 | ---------------- | ---------------- |
-| `qos` | 指定后续发送 Topic 消息时的 QoS 保障，详见 [`MessageQos`](#messageqos) 。默认值为 `AgoraRtmMessageQosOrdered`：开启消息保序。  |
+| `qos` | 指定后续发送 Topic 消息时的 QoS 保障，详见 [`AgoraRtmMessageQos`](#agorartmmessageqos) 。默认值为 `AgoraRtmMessageQosOrdered`：开启消息保序。  |
 | `topicMeta` | （选填）Topic 的元数据。  |
 
-### TopicOption
+### AgoraRtmTopicOption
 
 ```objc
 __attribute__((visibility("default"))) @interface AgoraRtmTopicOption: NSObject
@@ -332,7 +332,7 @@ __attribute__((visibility("default"))) @interface AgoraRtmTopicOption: NSObject
 | `users`     | （选填）该 Topic 中想要订阅的消息发布者列表，消息发布者数量不能超过 64 个。  |
 
 
-### TopicInfo
+### AgoraRtmTopicInfo
 
 ```objc
 __attribute__((visibility("default"))) @interface AgoraRtmTopicInfo: NSObject
@@ -354,7 +354,7 @@ Topic 信息。
 
 ## Enum
 
-### StreamChannelErrorCode
+### AgoraRtmStreamChannelErrorCode
 
 ```objc
 typedef NS_ENUM(NSInteger, AgoraRtmStreamChannelErrorCode) {
@@ -376,7 +376,7 @@ typedef NS_ENUM(NSInteger, AgoraRtmStreamChannelErrorCode) {
 | `AgoraRtmStreamChannelErrorUserNotExist`     | 2: 订阅或取消订阅的用户不存在。  | 
 
 
-### MessageQos
+### AgoraRtmMessageQos
 
 ```objc
 typedef NS_ENUM(NSInteger, AgoraRtmMessageQos) {
