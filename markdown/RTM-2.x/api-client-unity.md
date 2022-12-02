@@ -1,5 +1,25 @@
-`RtmClient` ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
+`IRtmClient` ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 ## 方法
+
+### CreateAgoraRtmClient
+#### 接口描述
+
+```csharp
+public static IRtmClient CreateAgoraRtmClient()
+{
+    return instance ?? (instance = new RtmClient());
+}
+```
+
+创建一个 `IRtmClient` 单实例。
+
+> 注意：
+> - 在调用 `IRtmClient` 类的方法之前，你需要调用该方法创建 `IRtmClient` 单实例。
+> - 在调用 [`Release`](#release) 销毁 `IRtmClient` 单实例之前，多次调用 `CreateAgoraRtmClient` 获取的是同一个 `IRtmClient` 单实例。Agora 不推荐多次调用 `CreateAgoraRtmClient`。
+
+#### 返回值
+- 一个 `IRtmClient` 对象：调用成功。
+- `null`：调用失败。
 
 ### Initialize
 #### 接口描述
@@ -8,9 +28,9 @@
 public abstract int Initialize(RtmConfig config);
 ```
 
-初始化 `IRtmClient` 实例。
+初始化 `IRtmClient` 单实例。
 
-> 注意：初始化实例必须在你使用 RTM 其他功能之前完成，以建立正确的账号级别的凭据（例如 APP ID）。
+> 注意：初始化实例必须在你调用 [`CreateAgoraRtmClient`](#createagorartmclient) 之后，使用 RTM 其他功能之前完成，以建立正确的账号级别的凭据（例如 APP ID）。
 
 | 参数 | 描述                    |
 | --------- | ------------------------------ |
@@ -22,7 +42,7 @@ public abstract int Initialize(RtmConfig config);
 ```csharp
 // 初始化一个 RtmConfig 实例。
 Rtmconfig rtmConfig = new Rtmconfig();
-// 从声网控制台上获取 APP ID 并填入 "my_appId"。  
+// 从声网控制台上获取 APP ID 并填入 "my_appId"。
 rtmConfig.appId = "my_appId";
 // 为用户或设备设置唯一标识符 userId 并填入 "my_userId"。
 rtmConfig.userId = "my_userId";
@@ -46,7 +66,9 @@ rtmClient.Initialize(rtmConfig);
 public abstract int Release();
 ```
 
-销毁一个 `IRtmClient` 类型实例以释放资源。
+销毁 `IRtmClient` 单实例以释放资源。
+
+成功销毁后，如需调用 `IRtmClient` 类的 API，你需要调用 [`CreateAgoraRtmClient`](#createagorartmclient) 重新创建 `IRtmClient` 单实例。
 
 #### 基本用法
 <mark>待补充</mark>
@@ -70,7 +92,7 @@ public abstract IStreamChannel CreateStreamChannel(string channelName);
 
 | 参数     | 描述                  |
 | ------------- | ---------------------------- |
-| `channelName` | 频道名称，命名规范参照[频道名称](feature-description#频道名称)。 |
+| `channelName` | 频道名称。~23141e20-6fb8-11ed-8dae-bf25bf08a626~ |
 
 #### 基本用法
 
@@ -89,7 +111,7 @@ Loc_stChannel = rtmClient.CreateStreamChannel("Location");
 
 #### 返回值
 - 一个 `IStreamChannel` 类型实例：调用成功。
-- 空：调用失败。
+- `null`：调用失败。
 
 
 ## 回调
@@ -103,7 +125,7 @@ Loc_stChannel = rtmClient.CreateStreamChannel("Location");
 ```csharp
 // 初始化一个 RtmConfig 实例。
 Rtmconfig rtmConfig = new Rtmconfig();
-// 从声网控制台上获取 APP ID 并填入 "my_appId"。  
+// 从声网控制台上获取 APP ID 并填入 "my_appId"。
 rtmConfig.appId = "my_appId";
 // 为用户或设备设置唯一标识符 userId 并填入 "my_userId"。
 rtmConfig.userId = "my_userId";
@@ -117,12 +139,12 @@ rtmClient.Initialize(rtmConfig);
 internal class rtmEventHandler: IRtmEventHandler
 {
     // 消息事件监听程序，消息到达会触发该事件。
-    public override void OnMessageEvent (MessageEvent @event) 
-    { 
+    public override void OnMessageEvent (MessageEvent @event)
+    {
     }
     // Presence 事件监听程序，频道 presence 变更会触发该事件。
     public override void OnPresenceEvent (PresenceEvent @event)
-    { 
+    {
     }
     // 加入频道事件回调。
     public override void OnJoinResult(string channelName, string userId, STREAM_CHANNEL_ERROR_CODE errorCode)
@@ -133,37 +155,154 @@ internal class rtmEventHandler: IRtmEventHandler
     {
     }
     // 加入 Topic 事件回调。
-    public override void OnJoinTopicResult(string channelName, string userId, string topic, string meta, STREAM_CHANNEL_ERROR_CODE errorCode) 
+    public override void OnJoinTopicResult(string channelName, string userId, string topic, string meta, STREAM_CHANNEL_ERROR_CODE errorCode)
     {
     }
     // 离开 Topic 事件回调。
-    public override void OnLeaveTopicResult(string channelName, string userId, string topic, string meta, STREAM_CHANNEL_ERROR_CODE errorCode) 
+    public override void OnLeaveTopicResult(string channelName, string userId, string topic, string meta, STREAM_CHANNEL_ERROR_CODE errorCode)
     {
     }
     // 订阅 Topic 或订阅消息发布者事件回调。
-    public override void OnTopicSubscribed(string channelName, string userId, string topic, UserList succeedUsers, UserList failedUsers, STREAM_CHANNEL_ERROR_CODE errorCode) 
+    public override void OnTopicSubscribed(string channelName, string userId, string topic, UserList succeedUsers, UserList failedUsers, STREAM_CHANNEL_ERROR_CODE errorCode)
     {
     }
     // 取消订阅 Topic 或取消订阅消息发布者事件回调。
-    public override void OnTopicUnsubscribed(string channelName, string userId, string topic, UserList succeedUsers, UserList failedUsers, STREAM_CHANNEL_ERROR_CODE errorCode) 
+    public override void OnTopicUnsubscribed(string channelName, string userId, string topic, UserList succeedUsers, UserList failedUsers, STREAM_CHANNEL_ERROR_CODE errorCode)
     {
     }
     // SDK 连接状态变更事件回调。
-    public override void OnConnectionStateChange(string channelName, RTM_CONNECTION_STATE state, RTM_CONNECTION_CHANGE_REASON reason) 
+    public override void OnConnectionStateChange(string channelName, RTM_CONNECTION_STATE state, RTM_CONNECTION_CHANGE_REASON reason)
     {
     }
 
 }
 ```
 
-#### 处理断连
 
-你可以使用如下代码，通过 [`OnConnectionStateChange`](#onconnectionstatechange) 回调，[`RTM_CONNECTION_STATE`](#rtm_connection_state) 和 [`RTM_CONNECTION_CHANGE_REASON`](#rtm_connection_change_reason) 枚举搜集 SDK 断连原因。
+### OnJoinResult
+#### 接口描述
+
+```csharp
+public virtual void OnJoinResult(string channelName, string userId, STREAM_CHANNEL_ERROR_CODE errorCode) {}
+```
+
+[`Join`](api-channel-unity#join) 调用的异步回调，在加入频道时触发。
+
+| 参数      | 描述                              |
+| -------------  | ---------------------------------------- |
+| `channelName`  | 事件所在频道名称。 |
+| `userId`       | 加入频道用户的 User ID。  |
+| `errorCode`    | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。       |
+
+### OnLeaveResult
+#### 接口描述
+
+```csharp
+public virtual void OnLeaveResult(string channelName, string userId, STREAM_CHANNEL_ERROR_CODE errorCode) {}
+```
+
+[`Leave`](api-channel-unity#leave) 调用的异步回调，在离开频道时触发。
+
+| 参数      | 描述                              |
+| ------------- | ---------------------------------------- |
+| `channelName` | 事件所在频道名称。 |
+| `userId`      | 离开频道用户的 User ID。  |
+| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。       |
+
+### OnJoinTopicResult
+#### 接口描述
+
+```csharp
+public virtual void OnJoinTopicResult(string channelName, string userId, string topic, string meta, STREAM_CHANNEL_ERROR_CODE errorCode) {}
+```
+
+[`JoinTopic`](api-channel-unity#jointopic) 调用的异步回调，在加入 Topic 时触发。
+
+| 参数      | 描述                              |
+| -------------  | ---------------------------------------- |
+| `channelName` | 事件所在频道名称。 |
+| `userId`      | 加入 Topic 用户的 User ID。  |
+| `topic`       | Topic 名称。       |
+| `meta`        | 创建 Topic 的元数据。  |
+| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。       |
+
+### OnLeaveTopicResult
+#### 接口描述
+
+```csharp
+public virtual void OnLeaveTopicResult(string channelName, string userId, string topic, string meta, STREAM_CHANNEL_ERROR_CODE errorCode) {}
+```
+
+[`LeaveTopic`](api-channel-unity#leavetopic) 调用的异步回调，在离开 Topic 时触发。
+
+| 参数     | 描述                              |
+| ------------- | ---------------------------------------- |
+| `channelName`  | 事件所在频道名称。 |
+| `userId`        | 离开 Topic 用户的 User ID。  |
+| `topic`            | Topic 名称。       |
+| `meta`              | 创建 Topic 的元数据。  |
+| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。       |
+
+### OnTopicSubscribed
+#### 接口描述
+
+```csharp
+public virtual void OnTopicSubscribed(string channelName, string userId, string topic, UserList succeedUsers, UserList failedUsers, STREAM_CHANNEL_ERROR_CODE errorCode) {}
+```
+
+[`SubscribeTopic`](api-channel-unity#subscribetopic) 调用的异步回调，订阅 Topic 或订阅 Topic 中消息发布者时会触发该回调。
+
+| 参数        | 描述                                |
+| -------------- | ------------------------------------------ |
+| `channelName`   | 事件所在频道名称。 |
+| `userId`      | 订阅 Topic 用户的 User ID。  |
+| `topic`        | 事件所在 Topic 名称。 |
+| `succeedUsers`   | 本次订阅成功的消息发布者列表，详见 [`UserList`](api-channel-unity#userlist)。                       |
+| `failedUsers`   | 本次订阅失败的消息发布者列表，详见 [`UserList`](api-channel-unity#userlist)。订阅失败的原因可能是超过了订阅数量限制。                      |
+| `errorCode`    | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。
+
+### OnTopicUnsubscribed
+#### 接口描述
+
+```csharp
+public virtual void OnTopicUnsubscribed(string channelName, string userId, string topic, UserList succeedUsers, UserList failedUsers, STREAM_CHANNEL_ERROR_CODE errorCode) {}
+```
+
+[`UnsubscribeTopic`](api-channel-unity#unsubscribetopic) 调用的异步回调，取消订阅 Topic 或取消订阅 Topic 中消息发布者时会触发该回调。
+
+| 参数      | 描述                                |
+| -------------- | ------------------------------------------ |
+| `channelName`  | 事件所在频道名称。 |
+| `userId`      | 取消订阅 Topic 用户的 User ID。  |
+| `topic`        | 事件所在 Topic 名称。 |
+| `succeedUsers`  | 本次取消订阅成功的消息发布者列表，详见 [`UserList`](api-channel-unity#userlist)。                       |
+| `failedUsers`   | 本次取消订阅失败的消息发布者列表，详见 [`UserList`](api-channel-unity#userlist)。取消订阅失败的原因可能是之前未订阅过该用户。                       |
+| `errorCode`     | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。
+
+## 事件通知
+
+### OnConnectionStateChange
+#### 接口描述
+
+```csharp
+public virtual void OnConnectionStateChange(string channelName, RTM_CONNECTION_STATE state, RTM_CONNECTION_CHANGE_REASON reason) {}
+```
+
+SDK 连接状态发生改变时会发送该事件通知。
+
+| 参数   | 描述      |
+| ------------ | --------- |
+| `channelName` | 事件所在频道名称。 |
+| `state`  | SDK 连接状态，详见 [`RTM_CONNECTION_STATE`](#rtm_connection_state)。  |
+| `reason`   | SDK 连接状态改变原因，详见 [`RTM_CONNECTION_CHANGE_REASON`](#rtm_connection_change_reason)。  |
+
+#### 基本用法
+##### 处理断连
 
 ```csharp
 internal class rtmEventHandler: IRtmEventHandler
 {
-    public override void OnConnectionStateChange(string channelName, RTM_CONNECTION_STATE state, RTM_CONNECTION_CHANGE_REASON reason) 
+    public override void OnConnectionStateChange(string channelName, RTM_CONNECTION_STATE state, RTM_CONNECTION_CHANGE_REASON reason)
     {
         RTM_CONNECTION_STATE e = state as RTM_CONNECTION_STATE;
         RTM_CONNECTION_CHANGE_REASON r = reason as RTM_CONNECTION_CHANGE_REASON;
@@ -181,20 +320,6 @@ internal class rtmEventHandler: IRtmEventHandler
 }
 ```
 
-### OnMessageEvent
-#### 接口描述
-
-```csharp
-public virtual void OnMessageEvent(MessageEvent @event) {}
-```
-
-当你订阅的 Topic 中订阅的用户发布消息时，会触发该回调。
-
-| 参数   |描述      | 
-| ------------ | --------- |
-| `event`  | 消息事件类型，详见 [`MessageEvent`](#messageevent)。  | 
-
-
 ### OnPresenceEvent
 #### 接口描述
 
@@ -202,126 +327,40 @@ public virtual void OnMessageEvent(MessageEvent @event) {}
 public virtual void OnPresenceEvent(PresenceEvent @event) {}
 ```
 
-当频道中有用户的 Presence 状态发生变更时会触发该回调。比如，远端用户加入或离开频道，同一频道内远端用户加入或离开 Topic，用户自身加入频道。
+当频道中有用户的 Presence 状态发生变更时，SDK 会发送该事件通知。
 
-| 参数   | 描述      | 
+你可以根据实际场景监听需要的 Presence 类型：
+
+- 频道相关类型，你可以在该类型中获取频道类型（`channelType`）、频道名（`channelName`）、用户 ID（`userId`）：
+	- `RTM_PRESENCE_TYPE_REMOTE_JOIN_CHANNEL(0)`：远端用户加入频道。
+	- `RTM_PRESENCE_TYPE_REMOTE_LEAVE_CHANNEL(1)`：远端用户离开频道。
+	- `RTM_PRESENCE_TYPE_REMOTE_CONNECTION_TIMEOUT(2)`：远端用户连接超时。
+
+- Topic 相关类型，你可以在该类型中获取频道类型（`channelType`）、频道名（`channelName`）、用户 ID（`userId`）、Topic 信息（`topicInfos`）、Topic 信息数量（`topicInfoNumber`）：
+	- `RTM_PRESENCE_TYPE_REMOTE_JOIN_TOPIC(3)`：远端用户加入 Topic。
+	- `RTM_PRESENCE_TYPE_REMOTE_LEAVE_TOPIC(4)`：远端用户离开 Topic。
+	- `RTM_PRESENCE_TYPE_SELF_JOIN_CHANNEL(5)`：本地用户加入频道，收到该频道中所有 Topic 的信息。
+
+| 参数   | 描述      |
 | ------------ |  --------- |
-| `event`  | 消息事件类型，详见 [`PresenceEvent`](#presenceeevent)。  | 
+| `event`  | 消息事件类型，详见 [`PresenceEvent`](#presenceevent)。  |
 
 
-### OnJoinResult
+### OnMessageEvent
 #### 接口描述
 
 ```csharp
-public virtual void OnJoinResult(string channelName, string userId, STREAM_CHANNEL_ERROR_CODE errorCode) {}
+public virtual void OnMessageEvent(MessageEvent @event) {}
 ```
 
-加入频道时会触发该回调。
+在不同频道类型中，SDK 发送该事件通知的情况不同。具体如下：
+- 在 Message Channel 中，当你在频道中订阅的用户发布消息时，SDK 会发送该事件通知。
+- 在 Stream Channel 中，当你在 Topic 中订阅的用户发布消息时，SDK 会发送该事件通知。
 
-| 参数      | 描述                              |
-| -------------  | ---------------------------------------- |
-| `channelName`  | 事件所在频道名称。 |
-| `userId`       | 加入频道用户的 User ID。  |
-| `errorCode`    | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。       |
-
-### OnLeaveResult
-#### 接口描述
-
-```csharp
-public virtual void OnLeaveResult(string channelName, string userId, STREAM_CHANNEL_ERROR_CODE errorCode) {}
-```
-
-离开频道时会触发该回调。
-
-| 参数      | 描述                              |
-| ------------- | ---------------------------------------- |
-| `channelName` | 事件所在频道名称。 |
-| `userId`      | 离开频道用户的 User ID。  |
-| `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。       |
-
-### OnJoinTopicResult
-#### 接口描述
-
-```csharp
-public virtual void OnJoinTopicResult(string channelName, string userId, string topic, string meta, STREAM_CHANNEL_ERROR_CODE errorCode) {}
-```
-加入 Topic 时会触发该回调。
-
-| 参数      | 描述                              |
-| -------------  | ---------------------------------------- |
-| `channelName` | 事件所在频道名称。 |
-| `userId`      | 加入 Topic 用户的 User ID。  |
-| `topic`       | Topic 名称。       |
-| `meta`        | 创建 Topic 的辅助信息。  |
-| `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。       |
-
-### OnLeaveTopicResult
-#### 接口描述
-
-```csharp
-public virtual void OnLeaveTopicResult(string channelName, string userId, string topic, string meta, STREAM_CHANNEL_ERROR_CODE errorCode) {}
-```
-
-离开 Topic 时会触发该回调。
-
-| 参数     | 描述                              |
-| ------------- | ---------------------------------------- |
-| `channelName`  | 事件所在频道名称。 |
-| `userId`        | 离开 Topic 用户的 User ID。  |
-| `topic`            | Topic 名称。       |
-| `meta`              | 创建 Topic 的辅助信息。  |
-| `errorCode`   | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。       |
-
-### OnTopicSubscribed
-#### 接口描述
-
-```csharp
-public virtual void OnTopicSubscribed(string channelName, string userId, string topic, UserList succeedUsers, UserList failedUsers, STREAM_CHANNEL_ERROR_CODE errorCode) {}
-```
-
-订阅 Topic 或订阅 Topic 中发布消息的用户时会触发该回调。
-
-| 参数        | 描述                                |
-| -------------- | ------------------------------------------ |
-| `channelName`   | 事件所在频道名称。 |
-| `userId`      | 订阅 Topic 用户的 User ID。  |
-| `topic`        | 事件所在 Topic 名称。 |
-| `succeedUsers`   | 本次操作成功的消息发布者列表，详见 [`UserList`](api-channel-unity#userlist)。                       |
-| `failedUsers`   | 本次操作失败的消息发布者列表，详见 [`UserList`](api-channel-unity#userlist)。                       |
-| `errorCode`    | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。 
-
-### OnTopicUnsubscribed
-#### 接口描述
-
-```csharp
-public virtual void OnTopicUnsubscribed(string channelName, string userId, string topic, UserList succeedUsers, UserList failedUsers, STREAM_CHANNEL_ERROR_CODE errorCode) {}
-```
-
-取消订阅 Topic 或取消订阅 Topic 中发布消息的用户时会触发该回调。
-
-| 参数      | 描述                                |
-| -------------- | ------------------------------------------ |
-| `channelName`  | 事件所在频道名称。 |
-| `userId`      | 取消订阅 Topic 用户的 User ID。  |
-| `topic`        | 事件所在 Topic 名称。 |
-| `succeedUsers`  | 本次操作成功的消息发布者列表，详见 [`UserList`](api-channel-unity#userlist)。                       |
-| `failedUsers`   | 本次操作失败的消息发布者列表，详见 [`UserList`](api-channel-unity#userlist)。                       |
-| `errorCode`     | 频道错误码，详见[`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。 
-
-### OnConnectionStateChange
-#### 接口描述
-
-```csharp
-public virtual void OnConnectionStateChange(string channelName, RTM_CONNECTION_STATE state, RTM_CONNECTION_CHANGE_REASON reason) {}
-```
-
-SDK 连接状态发生改变时会触发该回调。
-
-| 参数   | 描述      | 
+| 参数   |描述      |
 | ------------ | --------- |
-| `channelName` | 事件所在频道名称。 |
-| `state`  | SDK 连接状态，详见 [`RTM_CONNECTION_STATE`](#rtm_connection_state)。  | 
-| `reason`   | SDK 连接状态改变原因，详见 [`RTM_CONNECTION_CHANGE_REASON`](#rtm_connection_change_reason)。  | 
+| `event`  | 消息事件类型，详见 [`MessageEvent`](#messageevent)。  |
+
 
 ## Class
 
@@ -336,6 +375,8 @@ SDK 连接状态发生改变时会触发该回调。
 
         public IRtmEventHandler eventHandler { set; get; }
 
+        public LogConfig logConfig { set; get; }
+    }
 ```
 
 RTM 客户端配置信息。
@@ -353,7 +394,7 @@ RTM 客户端配置信息。
 ```csharp
 // 初始化一个 RtmConfig 实例。
 Rtmconfig rtmConfig = new Rtmconfig();
-// 从声网控制台上获取 APP ID 并填入 "my_appId"。  
+// 从声网控制台上获取 APP ID 并填入 "my_appId"。
 rtmConfig.appId = "my_appId";
 // 为用户或设备设置唯一标识符 userId 并填入 "my_userId"。
 rtmConfig.userId = "my_userId";
@@ -367,7 +408,7 @@ IRtmClient rtmClient = RtmClient.CreateAgoraRtmClient();
 rtmClient.Initialize(rtmConfig);
 ```
 
-### LogConfig 
+### LogConfig
 
 #### 接口描述
 
@@ -406,7 +447,7 @@ logConfig.fileSizeInKB = 512;
 logConfig.level = LOG_LEVEL_ERROR;
 // 初始化一个 RtmConfig 实例。
 Rtmconfig rtmConfig = new Rtmconfig();
-// 从声网控制台上获取 APP ID 并填入 "my_appId"。  
+// 从声网控制台上获取 APP ID 并填入 "my_appId"。
 rtmConfig.appId = "my_appId";
 // 为用户或设备设置唯一标识符 userId 并填入 "my_userId"。
 rtmConfig.userId = "my_userId";
@@ -439,14 +480,14 @@ public class MessageEvent
 
 消息回调事件。
 
-| 参数   | 描述      | 
+| 参数   | 描述      |
 | ------------ |  --------- |
-| `channelType`  | 频道类型，详见 [`RTM_CHANNEL_TYPE`](#rtm_channel_type)。  | 
-| `channelName`   | 频道名称。  | 
-| `channelTopic`  | Topic 名称。  | 
-| `message`   | 消息负载。  | 
-| `messageLength`  | 消息负载长度。  | 
-| `publisher`   | 发布消息用户的 User ID。  | 
+| `channelType`  | 频道类型，详见 [`RTM_CHANNEL_TYPE`](#rtm_channel_type)。  |
+| `channelName`   | 频道名称。  |
+| `channelTopic`  | Topic 名称。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>RTM_CHANNEL_TYPE_STREAM(1)</code> 时生效。</div>  |
+| `message`   | 消息负载。  |
+| `messageLength`  | 消息负载长度。  |
+| `publisher`   | 发布消息用户的 User ID。  |
 
 ### PresenceEvent
 
@@ -469,14 +510,67 @@ public class PresenceEvent
 
 Presence 回调事件。
 
-| 参数    | 描述      | 
+| 参数    | 描述      |
 | ------------ | --------- |
-| `channelType`     | 频道类型，详见 [`RTM_CHANNEL_TYPE`](#rtm_channel_type)。  | 
-| `type`     | Presence 类型，详见 [`RTM_PRESENCE_TYPE`](#rtm_presence_type)。  | 
-| `channelName`     | 频道名称。  | 
-| `topicInfos`    | Topic 信息，详见 [TopicInfo](#api-topic-unity#topicinfo)。  | 
-| `topicInfoNumber`    | Topic 信息数量。  | 
-| `userId`    | 触发 Presence 事件用户的 User ID。  | 
+| `type`     | Presence 类型，详见 [`RTM_PRESENCE_TYPE`](#rtm_presence_type)。  |
+| `channelType`     | 频道类型，详见 [`RTM_CHANNEL_TYPE`](#rtm_channel_type)。  |
+| `channelName`     | 频道名称。  |
+| `topicInfos`    | Topic 信息，详见 [`TopicInfo`](#topicinfo)。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>RTM_CHANNEL_TYPE_STREAM(1)</code> 且 <code>type</code> 为 <code>RTM_PRESENCE_TYPE_REMOTE_JOIN_TOPIC(3)</code>、<code>RTM_PRESENCE_TYPE_REMOTE_LEAVE_TOPIC(4)</code> 或 <code>RTM_PRESENCE_TYPE_SELF_JOIN_CHANNEL(5)</code> 时生效。</div>   |
+| `topicInfoNumber`    | Topic 信息数量。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>RTM_CHANNEL_TYPE_STREAM(1)</code> 且 <code>type</code> 为 <code>RTM_PRESENCE_TYPE_REMOTE_JOIN_TOPIC(3)</code>、<code>RTM_PRESENCE_TYPE_REMOTE_LEAVE_TOPIC(4)</code> 或 <code>RTM_PRESENCE_TYPE_SELF_JOIN_CHANNEL(5)</code> 时生效。</div>   |
+| `userId`    | 触发 Presence 事件用户的 User ID。  |
+
+### TopicInfo
+
+```csharp
+    public class Agora.Rtm.TopicInfo
+    {
+
+        public string topic { set; get; }
+
+        public uint numOfPublisher { set; get; }
+
+        public string[] publisherUserIds { set; get; }
+
+        public string[] publisherMetas { set; get; }
+    };
+```
+
+Topic 信息。
+
+| 参数 | 描述                                                    |
+| --------- | ------------------------------------------------------------ |
+| `topic`   | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
+| `numOfPublisher`   | 向该 Topic 发布消息的用户数量。 |
+| `publisherUserIds`   | 向该 Topic 发布消息的用户 ID 列表。 |
+| `publisherMetas`   | 发布消息的用户的元数据。 |
+
+
+### TopicSubUsersUpdated
+
+```csharp
+public class TopicSubUsersUpdated
+{
+    public string topic { set; get; }
+
+    public string[] succeedUsers { set; get; }
+
+    public uint succeedUserCount { set; get; }
+
+    public string[] failedUsers { set; get; }
+
+    public uint failedUserCount { set; get; }
+};
+```
+
+Topic 中订阅的用户更新。
+
+| 参数 | 描述                                                    |
+| --------- | -------------------------------------------------------------- |
+| `topic`   | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。 |
+| `succeedUsers`   | 订阅或取消订阅成功的用户的 User ID 列表。 |
+| `succeedUserCount`   | 订阅或取消订阅成功的用户的数量。 |
+| `failedUsers`   | 订阅或取消订阅失败的用户的 User ID 列表。 |
+| `failedUserCount`   | 订阅或取消订阅失败的用户的数量。 |
 
 ## Enum
 
@@ -492,10 +586,10 @@ public enum RTM_CHANNEL_TYPE
 ```
 RTM 频道类型。
 
-| 枚举值    | 描述      | 
+| 枚举值    | 描述      |
 | ------------ | --------- |
-| `RTM_CHANNEL_TYPE_MESSAGE`     | 0: Message Channel。  | 
-| `RTM_CHANNEL_TYPE_STREAM`     | 1: Stream Channel。  | 
+| `RTM_CHANNEL_TYPE_MESSAGE`     | 0: Message Channel。  |
+| `RTM_CHANNEL_TYPE_STREAM`     | 1: Stream Channel。  |
 
 
 
@@ -590,7 +684,7 @@ SDK 连接状态改变原因。
 |  `RTM_CONNECTION_CHANGE_INVALID_APP_ID` |  6: 不是有效的 APP ID，无法加入频道。    |
 |  `RTM_CONNECTION_CHANGE_INVALID_CHANNEL_NAME` |  7: 不是有效的频道名，无法加入频道。     |
 |  `RTM_CONNECTION_CHANGE_INVALID_TOKEN`  |   8: Token 无效，无法加入频道。   |
-|  `RTM_CONNECTION_CHANGE_TOKEN_EXPIRED` |  9: Token 过期D，无法加入频道。     |
+|  `RTM_CONNECTION_CHANGE_TOKEN_EXPIRED` |  9: Token 过期，无法加入频道。     |
 |  `RTM_CONNECTION_CHANGE_REJECTED_BY_SERVER`  |  10: 被服务器禁止连接。    |
 |  `RTM_CONNECTION_CHANGE_SETTING_PROXY_SERVER` |  11: 由于设置了代理服务器，SDK 尝试重连。   |
 |  `RTM_CONNECTION_CHANGE_RENEW_TOKEN`  |   12: 更新 Token 引起网络连接状态改变。    |
@@ -619,14 +713,14 @@ public enum RTM_PRESENCE_TYPE
 
 Presence 类型。
 
-| 枚举值    | 描述      | 
+| 枚举值    | 描述      |
 | ------------ | --------- |
-| `RTM_PRESENCE_TYPE_REMOTE_JOIN_CHANNEL`     | 0: 远端用户加入频道。  | 
-| `RTM_PRESENCE_TYPE_REMOTE_LEAVE_CHANNEL`     | 1: 远端用户离开频道。  | 
-| `RTM_PRESENCE_TYPE_REMOTE_CONNECTION_TIMEOUT`     | 2: 远端用户连接超时。  | 
-| `RTM_PRESENCE_TYPE_REMOTE_JOIN_TOPIC`     | 3: 远端用户加入 Topic。  | 
-| `RTM_PRESENCE_TYPE_REMOTE_LEAVE_TOPIC`     | 4: 远端用户离开 Topic。  | 
-| `RTM_PRESENCE_TYPE_SELF_JOIN_CHANNEL`     | 5: 本地用户加入频道。  | 
+| `RTM_PRESENCE_TYPE_REMOTE_JOIN_CHANNEL`     | 0: 远端用户加入频道。  |
+| `RTM_PRESENCE_TYPE_REMOTE_LEAVE_CHANNEL`     | 1: 远端用户离开频道。  |
+| `RTM_PRESENCE_TYPE_REMOTE_CONNECTION_TIMEOUT`     | 2: 远端用户连接超时。  |
+| `RTM_PRESENCE_TYPE_REMOTE_JOIN_TOPIC`     | 3: 远端用户加入 Topic。  |
+| `RTM_PRESENCE_TYPE_REMOTE_LEAVE_TOPIC`     | 4: 远端用户离开 Topic。  |
+| `RTM_PRESENCE_TYPE_SELF_JOIN_CHANNEL`     | 5: 本地用户加入频道，收到该频道中所有 Topic 的信息。  |
 
 ### LOG_LEVEL
 
@@ -648,10 +742,10 @@ Presence 类型。
 
 日志错误等级。
 
-| 枚举值    | 描述      | 
+| 枚举值    | 描述      |
 | ------------ | --------- |
-| `LOG_LEVEL_NONE`     | 0x0000: 不生成任何日志。  | 
-| `LOG_LEVEL_INFO`     | 0x0001: 生成 INFO（信息）等级及以上的日志，即包含 FATAL（严重错误），ERROR（错误），WARN（警告），INFO 四个等级的日志。Agora 推荐你设置为该等级。  | 
-| `LOG_LEVEL_WARN`     | 0x0002: 生成 WARN 等级及以上的日志，即包含 FATAL，ERROR），WARN 三个等级的日志。  | 
-| `LOG_LEVEL_ERROR`    | 0x0004: 生成 ERROR 等级及以上的日志，即包含 FATAL 和 ERROR 两个等级的日志。  | 
-| `LOG_LEVEL_FATAL`    | 0x0008: 只生成 FATAL 等级的日志。  | 
+| `LOG_LEVEL_NONE`     | 0x0000: 不生成任何日志。  |
+| `LOG_LEVEL_INFO`     | 0x0001: 生成 INFO（信息）等级及以上的日志，即包含 FATAL（严重错误），ERROR（错误），WARN（警告），INFO 四个等级的日志。Agora 推荐你设置为该等级。  |
+| `LOG_LEVEL_WARN`     | 0x0002: 生成 WARN 等级及以上的日志，即包含 FATAL，ERROR），WARN 三个等级的日志。  |
+| `LOG_LEVEL_ERROR`    | 0x0004: 生成 ERROR 等级及以上的日志，即包含 FATAL 和 ERROR 两个等级的日志。  |
+| `LOG_LEVEL_FATAL`    | 0x0008: 只生成 FATAL 等级的日志。  |
