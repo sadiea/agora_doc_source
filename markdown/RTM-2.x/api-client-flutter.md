@@ -400,7 +400,7 @@ Presence 回调事件。
 | `topicInfoNumber`    | Topic 信息数量。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>rtmChannelTypeStream(1)</code> 且 <code>type</code> 为 <code>rtmPresenceTypeRemoteJoinTopic(3)</code>、<code>rtmPresenceTypeRemoteLeaveTopic(4)</code> 或 <code>rtmPresenceTypeSelfJoinChannel(5)</code> 时生效。</div>   |
 | `userId`    | 触发 Presence 事件用户的 User ID。  |
 
-## TopicInfo
+### TopicInfo
 
 ```dart
 class TopicInfo {
