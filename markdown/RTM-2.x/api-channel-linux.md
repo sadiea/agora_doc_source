@@ -388,28 +388,6 @@ struct UserList {
 
 ## Enum
 
-### STREAM_CHANNEL_ERROR_CODE
-
-```cpp
-enum STREAM_CHANNEL_ERROR_CODE {
-
-  STREAM_CHANNEL_ERROR_OK = 0,
-
-  STREAM_CHANNEL_ERROR_EXCEED_LIMITATION = 1,
-
-  STREAM_CHANNEL_ERROR_USER_NOT_EXIST = 2,
-};
-```
-
-频道事件错误码。
-
-| 枚举值    | 描述      | 
-| ------------ | --------- |
-| `STREAM_CHANNEL_ERROR_OK`     | 0: 操作成功。  | 
-| `STREAM_CHANNEL_ERROR_EXCEED_LIMITATION`     | 1: 订阅用户数量超出限制。  | 
-| `STREAM_CHANNEL_ERROR_JOIN_FAILURE`     | 2: 所订阅用户不存在。  | 
-
-
 ### RTM_MESSAGE_QOS
 
 ```cpp

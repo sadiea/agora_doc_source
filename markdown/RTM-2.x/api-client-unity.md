@@ -192,7 +192,7 @@ public virtual void OnJoinResult(string channelName, string userId, STREAM_CHANN
 | -------------  | ---------------------------------------- |
 | `channelName`  | 事件所在频道名称。 |
 | `userId`       | 加入频道用户的 User ID。  |
-| `errorCode`    | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。       |
+| `errorCode`    | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。       |
 
 ### OnLeaveResult
 #### 接口描述
@@ -207,7 +207,7 @@ public virtual void OnLeaveResult(string channelName, string userId, STREAM_CHAN
 | ------------- | ---------------------------------------- |
 | `channelName` | 事件所在频道名称。 |
 | `userId`      | 离开频道用户的 User ID。  |
-| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。       |
+| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。       |
 
 ### OnJoinTopicResult
 #### 接口描述
@@ -224,7 +224,7 @@ public virtual void OnJoinTopicResult(string channelName, string userId, string 
 | `userId`      | 加入 Topic 用户的 User ID。  |
 | `topic`       | Topic 名称。       |
 | `meta`        | 创建 Topic 的元数据。  |
-| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。       |
+| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。       |
 
 ### OnLeaveTopicResult
 #### 接口描述
@@ -241,7 +241,7 @@ public virtual void OnLeaveTopicResult(string channelName, string userId, string
 | `userId`        | 离开 Topic 用户的 User ID。  |
 | `topic`            | Topic 名称。       |
 | `meta`              | 创建 Topic 的元数据。  |
-| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。       |
+| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。       |
 
 ### OnTopicSubscribed
 #### 接口描述
@@ -259,7 +259,7 @@ public virtual void OnTopicSubscribed(string channelName, string userId, string 
 | `topic`        | 事件所在 Topic 名称。 |
 | `succeedUsers`   | 本次订阅成功的消息发布者列表，详见 [`UserList`](api-channel-unity#userlist)。                       |
 | `failedUsers`   | 本次订阅失败的消息发布者列表，详见 [`UserList`](api-channel-unity#userlist)。订阅失败的原因可能是超过了订阅数量限制。                      |
-| `errorCode`    | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。
+| `errorCode`    | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。
 
 ### OnTopicUnsubscribed
 #### 接口描述
@@ -277,7 +277,7 @@ public virtual void OnTopicUnsubscribed(string channelName, string userId, strin
 | `topic`        | 事件所在 Topic 名称。 |
 | `succeedUsers`  | 本次取消订阅成功的消息发布者列表，详见 [`UserList`](api-channel-unity#userlist)。                       |
 | `failedUsers`   | 本次取消订阅失败的消息发布者列表，详见 [`UserList`](api-channel-unity#userlist)。取消订阅失败的原因可能是之前未订阅过该用户。                       |
-| `errorCode`     | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。
+| `errorCode`     | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。
 
 ## 事件通知
 
@@ -573,6 +573,34 @@ Topic 中订阅的用户更新。
 | `failedUserCount`   | 订阅或取消订阅失败的用户的数量。 |
 
 ## Enum
+
+
+### STREAM_CHANNEL_ERROR_CODE
+
+```csharp
+public enum STREAM_CHANNEL_ERROR_CODE
+{
+    STREAM_CHANNEL_ERROR_OK = 0,
+    STREAM_CHANNEL_ERROR_INVALID_ARGUMENT = 1,
+    STREAM_CHANNEL_ERROR_JOIN_FAILURE = 2,
+    STREAM_CHANNEL_ERROR_JOIN_REJECTED = 3,
+    STREAM_CHANNEL_ERROR_REJOIN_FAILURE = 4,
+    STREAM_CHANNEL_ERROR_LEAVE_FAILURE = 5,
+    STREAM_CHANNEL_ERROR_EXCEED_LIMITATION = 6,
+};
+```
+
+频道错误码。
+
+| 枚举值    | 描述      | 
+| ------------ | --------- |
+| `STREAM_CHANNEL_ERROR_OK`     | 操作成功。  | 
+| `STREAM_CHANNEL_ERROR_INVALID_ARGUMENT`     | 参数错误。  | 
+| `STREAM_CHANNEL_ERROR_JOIN_FAILURE`     | 加入频道失败。  | 
+| `STREAM_CHANNEL_ERROR_JOIN_REJECTED`     | 加入频道被拒绝。  | 
+| `STREAM_CHANNEL_ERROR_REJOIN_FAILURE`     | 重新加入频道失败。  | 
+| `STREAM_CHANNEL_ERROR_LEAVE_FAILURE`     | 离开频道失败。  | 
+| `STREAM_CHANNEL_ERROR_EXCEED_LIMITATION`     | 超出限制。  | 
 
 ### RTM_CHANNEL_TYPE
 

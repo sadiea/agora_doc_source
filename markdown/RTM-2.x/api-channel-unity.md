@@ -464,31 +464,6 @@ public class TopicOptions
 | `userCount` | （选填）订阅的消息发布者数量。                                                  |
 
 
-### TopicInfo
-
-```csharp
-    public class Agora.Rtm.TopicInfo
-    {
-
-        public string topic { set; get; }
-
-        public uint numOfPublisher { set; get; }
-
-        public string[] publisherUserIds { set; get; }
-
-        public string[] publisherMetas { set; get; }
-    };
-```
-
-Topic 信息。
-
-| 参数 | 描述                                                    |
-| --------- | ------------------------------------------------------------ |
-| `topic`   | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
-| `numOfPublisher`   | 向该 Topic 发布消息的用户数量。 |
-| `publisherUserIds`   | 向该 Topic 发布消息的用户 ID 列表。 |
-| `publisherMetas`   | 发布消息的用户的元数据。 |
-
 ### TopicSubUsersUpdated
 
 ```csharp
@@ -537,35 +512,6 @@ public class UserList
 
 
 ## Enum
-
-### STREAM_CHANNEL_ERROR_CODE
-
-```csharp
-public enum STREAM_CHANNEL_ERROR_CODE
-{
-    STREAM_CHANNEL_ERROR_OK = 0,
-    STREAM_CHANNEL_ERROR_INVALID_ARGUMENT = 1,
-    STREAM_CHANNEL_ERROR_JOIN_FAILURE = 2,
-    STREAM_CHANNEL_ERROR_JOIN_REJECTED = 3,
-    STREAM_CHANNEL_ERROR_REJOIN_FAILURE = 4,
-    STREAM_CHANNEL_ERROR_LEAVE_FAILURE = 5,
-    STREAM_CHANNEL_ERROR_EXCEED_LIMITATION = 6,
-};
-```
-
-频道错误码。
-
-| 枚举值    | 描述      | 
-| ------------ | --------- |
-| `STREAM_CHANNEL_ERROR_OK`     | 操作成功。  | 
-| `STREAM_CHANNEL_ERROR_INVALID_ARGUMENT`     | 参数错误。  | 
-| `STREAM_CHANNEL_ERROR_JOIN_FAILURE`     | 加入频道失败。  | 
-| `STREAM_CHANNEL_ERROR_JOIN_REJECTED`     | 加入频道被拒绝。  | 
-| `STREAM_CHANNEL_ERROR_REJOIN_FAILURE`     | 重新加入频道失败。  | 
-| `STREAM_CHANNEL_ERROR_LEAVE_FAILURE`     | 离开频道失败。  | 
-| `STREAM_CHANNEL_ERROR_EXCEED_LIMITATION`     | 超出限制。  | 
-
-
 ### RTM_MESSAGE_QOS
 
 ```csharp

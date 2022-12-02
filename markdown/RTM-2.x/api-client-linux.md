@@ -109,7 +109,7 @@ virtual void onJoinResult(const char* channelName, const char* userId, STREAM_CH
 | ------------- |  ---------------------------------------- |
 | `channelName` |  事件所在频道名称。 |
 | `userId`      | 加入频道用户的 User ID。  |
-| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-linux#stream_channel_error_code)。       |
+| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。       |
 
 ### onLeaveResult
 #### 接口描述
@@ -124,7 +124,7 @@ virtual void onLeaveResult(const char* channelName, const char* userId, STREAM_C
 | ------------- |  ---------------------------------------- |
 | `channelName` | 事件所在频道名称。 |
 | `userId`      | 离开频道用户的 User ID。  |
-| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-linux#stream_channel_error_code)。       |
+| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。       |
 
 ### onJoinTopicResult
 #### 接口描述
@@ -141,7 +141,7 @@ virtual void onJoinTopicResult(const char* channelName, const char* userId, cons
 | `userId`      | 加入 Topic 用户的 User ID。  |
 | `topic`       | Topic 名称。       |
 | `meta`        | 创建 Topic 的元数据。  |
-| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-linux#stream_channel_error_code)。       |
+| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。       |
 
 ### onLeaveTopicResult
 #### 接口描述
@@ -158,7 +158,7 @@ virtual void onLeaveTopicResult(const char* channelName, const char* userId, con
 | `userId`      | 离开 Topic 用户的 User ID。  |
 | `topic`       | Topic 名称。       |
 | `meta`        | 创建 Topic 的元数据。  |
-| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-linux#stream_channel_error_code)。       |
+| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。       |
 
 ### onTopicSubscribed
 #### 接口描述
@@ -176,7 +176,7 @@ virtual void onTopicSubscribed(const char* channelName, const char* userId, cons
 | `topic`        | 事件所在 Topic 名称。 |
 | `succeedUsers` | 本次订阅成功的消息发布者列表，详见 [`UserList`](api-channel-linux#userlist)。                       |
 | `failedUsers`  | 本次订阅失败的消息发布者列表，详见 [`UserList`](api-channel-linux#userlist)。订阅失败的原因可能是超过了订阅数量限制。                       |
-| `errorCode`    | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-linux#stream_channel_error_code)。
+| `errorCode`    | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。
 
 ### onTopicUnsubscribed
 #### 接口描述
@@ -194,7 +194,7 @@ virtual void onTopicUnsubscribed(const char* channelName, const char* userId, co
 | `topic`        | 事件所在 Topic 名称。 |
 | `succeedUsers` | 本次取消订阅成功的消息发布者列表，详见 [`UserList`](api-channel-linux#userlist)。                       |
 | `failedUsers`  | 本次取消订阅失败的消息发布者列表，详见 [`UserList`](api-channel-linux#userlist)。取消订阅失败的原因可能是之前未订阅过该用户。|
-| `errorCode`    |频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-linux#stream_channel_error_code)。
+| `errorCode`    |频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。
 
 ## 事件通知
 
@@ -362,11 +362,32 @@ Presence 回调事件。
 | `type`     | Presence 类型，详见 [`RTM_PRESENCE_TYPE`](#rtm_presence_type)。  |
 | `channelType`     | 频道类型，详见 [`RTM_CHANNEL_TYPE`](#rtm_channel_type)。  |
 | `channelName`     | 频道名称。  |
-| `topicInfos`    | Topic 信息，详见 [`TopicInfo`](#api-topic-linux#topicinfo)。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>RTM_CHANNEL_TYPE_STREAM(1)</code> 且 <code>type</code> 为 <code>RTM_PRESENCE_TYPE_REMOTE_JOIN_TOPIC(3)</code>、<code>RTM_PRESENCE_TYPE_REMOTE_LEAVE_TOPIC(4)</code> 或 <code>RTM_PRESENCE_TYPE_SELF_JOIN_CHANNEL(5)</code> 时生效。</div>  |
+| `topicInfos`    | Topic 信息，详见 [`TopicInfo`](#topicinfo)。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>RTM_CHANNEL_TYPE_STREAM(1)</code> 且 <code>type</code> 为 <code>RTM_PRESENCE_TYPE_REMOTE_JOIN_TOPIC(3)</code>、<code>RTM_PRESENCE_TYPE_REMOTE_LEAVE_TOPIC(4)</code> 或 <code>RTM_PRESENCE_TYPE_SELF_JOIN_CHANNEL(5)</code> 时生效。</div>  |
 | `topicInfoNumber`    | Topic 信息数量。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>RTM_CHANNEL_TYPE_STREAM(1)</code> 且 <code>type</code> 为 <code>RTM_PRESENCE_TYPE_REMOTE_JOIN_TOPIC(3)</code>、<code>RTM_PRESENCE_TYPE_REMOTE_LEAVE_TOPIC(4)</code> 或 <code>RTM_PRESENCE_TYPE_SELF_JOIN_CHANNEL(5)</code> 时生效。</div>  |
 | `userId`    | 触发 Presence 事件用户的 User ID。。  |
 
 ## Enum
+
+### STREAM_CHANNEL_ERROR_CODE
+
+```cpp
+enum STREAM_CHANNEL_ERROR_CODE {
+
+  STREAM_CHANNEL_ERROR_OK = 0,
+
+  STREAM_CHANNEL_ERROR_EXCEED_LIMITATION = 1,
+
+  STREAM_CHANNEL_ERROR_USER_NOT_EXIST = 2,
+};
+```
+
+频道事件错误码。
+
+| 枚举值    | 描述      | 
+| ------------ | --------- |
+| `STREAM_CHANNEL_ERROR_OK`     | 0: 操作成功。  | 
+| `STREAM_CHANNEL_ERROR_EXCEED_LIMITATION`     | 1: 订阅用户数量超出限制。  | 
+| `STREAM_CHANNEL_ERROR_JOIN_FAILURE`     | 2: 所订阅用户不存在。  | 
 
 ### RTM_CHANNEL_TYPE
 
