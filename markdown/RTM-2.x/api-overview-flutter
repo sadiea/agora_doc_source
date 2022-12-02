@@ -28,12 +28,12 @@ RTM 2 客户端 SDK 包含以下方法和回调接口：
 
 | 回调       | 描述                                       |
 | ---------- | ------------------------------------------ |
-| [onJoinResult](api-client-flutter#onjoinresult) | [Join](api-channel-flutter#join) 调用的异步回调，在加入频道时触发。     |
-| [onLeaveResult](api-client-flutter#onleaveresult)    | [Leave](api-channel-flutter#leave) 调用的异步回调，在离开频道时触发。 |
-| [onJoinTopicResult](api-client-flutter#onjointopicresult) | [JoinTopic](api-channel-flutter#jointopic) 调用的异步回调，在加入 Topic 时触发。     |
-| [onLeaveTopicResult](api-client-flutter#onleavetopicresult) | [LeaveTopic](api-channel-flutter#leavetopic) 调用的异步回调，在离开 Topic 时触发。     |
-| [onTopicSubscribed](api-client-flutter#ontopicsubscribed) | [SubscribeTopic](api-channel-flutter#subscribetopic) 调用的异步回调，订阅 Topic 或订阅 Topic 中消息发布者时会触发该回调。     |
-| [onTopicUnsubscribed](api-client-flutter#ontopicunsubscribed) | [UnsubscribeTopic](api-channel-flutter#unsubscribetopic) 调用的异步回调，取消订阅 Topic 或取消订阅 Topic 中消息发布者时会触发该回调。     |
+| [onJoinResult](api-client-flutter#onjoinresult) | [join](api-channel-flutter#join) 调用的异步回调，在加入频道时触发。     |
+| [onLeaveResult](api-client-flutter#onleaveresult)    | [leave](api-channel-flutter#leave) 调用的异步回调，在离开频道时触发。 |
+| [onJoinTopicResult](api-client-flutter#onjointopicresult) | [joinTopic](api-channel-flutter#jointopic) 调用的异步回调，在加入 Topic 时触发。     |
+| [onLeaveTopicResult](api-client-flutter#onleavetopicresult) | [leaveTopic](api-channel-flutter#leavetopic) 调用的异步回调，在离开 Topic 时触发。     |
+| [onTopicSubscribed](api-client-flutter#ontopicsubscribed) | [subscribeTopic](api-channel-flutter#subscribetopic) 调用的异步回调，订阅 Topic 或订阅 Topic 中消息发布者时会触发该回调。     |
+| [onTopicUnsubscribed](api-client-flutter#ontopicunsubscribed) | [unsubscribeTopic](api-channel-flutter#unsubscribetopic) 调用的异步回调，取消订阅 Topic 或取消订阅 Topic 中消息发布者时会触发该回调。     |
 
 ### 事件通知
 

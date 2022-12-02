@@ -14,11 +14,11 @@ RtmClient createAgoraRtmClient() {
 
 > 注意：
 > - 在调用 `RtmClient` 类的方法之前，你需要调用该方法创建 `RtmClient` 单实例。
-> - 在调用 `release` 销毁 `RtmClient` 单实例之前，多次调用 `createAgoraRtmClient` 获取的是同一个 `RtmClient` 单实例。Agora 不推荐多次调用 `createAgoraRtmClient`。
+> - 在调用 [`release`](#release) 销毁 `RtmClient` 单实例之前，多次调用 `createAgoraRtmClient` 获取的是同一个 `RtmClient` 单实例。Agora 不推荐多次调用 `createAgoraRtmClient`。
 
 #### 返回值
 - 一个 `RtmClient` 对象：调用成功。
-- 空：调用失败。<mark>TBD</mark>
+- `null`：调用失败。<mark>TBD</mark>
 
 ### initialize
 #### 接口描述
@@ -79,7 +79,7 @@ Future<StreamChannel> createStreamChannel(String channelName);
 
 #### 返回值
 - 一个 `StreamChannel` 类型实例：调用成功。
-- 空：调用失败。<mark>TBD</mark>
+- `null`：调用失败。<mark>TBD</mark>
 
 ## 回调
 
@@ -108,7 +108,7 @@ final void Function(
 | ------------- |  ---------------------------------------- |
 | `channelName` |  事件所在频道名称。 |
 | `userId`      | 加入频道用户的 User ID。  |
-| `errorCode`   | 频道错误码，详见[`StreamChannelErrorCode`](#streamchannelerrorcode)。       |
+| `errorCode`   | 频道错误码，详见 [`StreamChannelErrorCode`](#streamchannelerrorcode)。       |
 
 ### onLeaveResult
 #### 接口描述
@@ -125,7 +125,7 @@ final void Function(
 | ------------- |  ---------------------------------------- |
 | `channelName` | 事件所在频道名称。 |
 | `userId`      | 离开频道用户的 User ID。  |
-| `errorCode`   | 频道错误码，详见[`StreamChannelErrorCode`](#streamchannelerrorcode)。       |
+| `errorCode`   | 频道错误码，详见 [`StreamChannelErrorCode`](#streamchannelerrorcode)。       |
 
 ### onJoinTopicResult
 #### 接口描述
@@ -143,7 +143,7 @@ final void Function(String channelName, String userId, String topic,
 | `userId`      | 加入 Topic 用户的 User ID。  |
 | `topic`       | Topic 名称。       |
 | `meta`        | 创建 Topic 的元数据。  |
-| `errorCode`   | 频道错误码，详见[`StreamChannelErrorCode`](#streamchannelerrorcode)。       |
+| `errorCode`   | 频道错误码，详见 [`StreamChannelErrorCode`](#streamchannelerrorcode)。       |
 
 ### onLeaveTopicResult
 #### 接口描述
@@ -161,7 +161,7 @@ final void Function(String channelName, String userId, String topic,
 | `userId`      | 离开 Topic 用户的 User ID。  |
 | `topic`       | Topic 名称。       |
 | `meta`        | 创建 Topic 的元数据。  |
-| `errorCode`   | 频道错误码，详见[`StreamChannelErrorCode`](#streamchannelerrorcode)。       |
+| `errorCode`   | 频道错误码，详见 [`StreamChannelErrorCode`](#streamchannelerrorcode)。       |
 
 ### onTopicSubscribed
 #### 接口描述
@@ -185,7 +185,7 @@ final void Function(
 | `topic`        | 事件所在 Topic 名称。 |
 | `succeedUsers` | 本次订阅成功的消息发布者列表，详见 [`UserList`](api-channel-flutter#userlist)。                       |
 | `failedUsers`  | 本次订阅订失败的消息发布者列表，详见 [`UserList`](api-channel-flutter#userlist)。 订阅失败的原因可能是超过了订阅数量限制。                      |
-| `errorCode`    | 频道错误码，详见[`StreamChannelErrorCode`](#streamchannelerrorcode)。 |
+| `errorCode`    | 频道错误码，详见 [`StreamChannelErrorCode`](#streamchannelerrorcode)。 |
 
 ### onTopicUnsubscribed
 #### 接口描述
@@ -207,9 +207,9 @@ final void Function(
 | `channelName` | 事件所在频道名称。 |
 | `userId`      | 取消订阅 Topic 用户的 User ID。  |
 | `topic`        | 事件所在 Topic 名称。 |
-| `succeedUsers` | 本次取消订阅成功的消息发布者列表，详见 [`UserList`](api-channel-flutter#userlist)。  |                     
+| `succeedUsers` | 本次取消订阅成功的消息发布者列表，详见 [`UserList`](api-channel-flutter#userlist)。  |
 | `failedUsers`  | 本次取消订阅失败的消息发布者列表，详见 [`UserList`](api-channel-flutter#userlist)。取消订阅失败的原因可能是之前未订阅过该用户。|
-| `errorCode`    |频道错误码，详见[`StreamChannelErrorCode`](#streamchannelerrorcode)。 |
+| `errorCode`    |频道错误码，详见 [`StreamChannelErrorCode`](#streamchannelerrorcode)。 |
 
 ## 事件通知
 
@@ -222,13 +222,13 @@ final void Function(String channelName, RtmConnectionState state,
 }
 ```
 
-SDK 连接状态发生改变时会触发该回调。
+SDK 连接状态发生改变时会发送该事件通知。
 
-| 参数   | 描述      | 
+| 参数   | 描述      |
 | ------------ | --------- |
 | `channelName` | 事件所在频道名称。 |
-| `state`  | SDK 连接状态，详见 [`RtmConnectionState`](#rtmconnectionstate)。  | 
-| `reason`   | SDK 连接状态改变原因，详见 [`RtmConnectionChangeReason`](#rtmconnectionchangereason)。  | 
+| `state`  | SDK 连接状态，详见 [`RtmConnectionState`](#rtmconnectionstate)。  |
+| `reason`   | SDK 连接状态改变原因，详见 [`RtmConnectionChangeReason`](#rtmconnectionchangereason)。  |
 
 #### 基本用法
 ##### 处理断连
@@ -255,9 +255,9 @@ final void Function(PresenceEvent event)? onPresenceEvent;
 	- `rtmPresenceTypeRemoteLeaveTopic(4)`：远端用户离开 Topic。
 	- `rtmPresenceTypeSelfJoinChannel(5)`：本地用户加入频道，收到该频道中所有 Topic 的信息。
 
-| 参数   |  描述      | 
+| 参数   |  描述      |
 | ------------ |  --------- |
-| `event`  | 消息事件类型，详见 [`PresenceEvent`](#presenceeevent)。  | 
+| `event`  | 消息事件类型，详见 [`PresenceEvent`](#presenceeevent)。  |
 
 ### onMessageEvent
 #### 接口描述
@@ -270,9 +270,9 @@ final void Function(MessageEvent event)? onMessageEvent;
 - 在 Message Channel 中，当你在频道中订阅的用户发布消息时，SDK 会发送该事件通知。
 - 在 Stream Channel 中，当你在 Topic 中订阅的用户发布消息时，SDK 会发送该事件通知。
 
-| 参数   | 描述      | 
+| 参数   | 描述      |
 | ------------ |--------- |
-| `event`  | 消息事件类型，详见 [`MessageEvent`](#messageevent)。  | 
+| `event`  | 消息事件类型，详见 [`MessageEvent`](#messageevent)。  |
 
 
 ## Class
@@ -350,14 +350,14 @@ class MessageEvent {
 
 消息回调事件。
 
-| 参数   | 描述      | 
+| 参数   | 描述      |
 | ------------ |  --------- |
-| `channelType`  | 频道类型，详见 [`RtmChannelType`](#rtmchanneltype)。  | 
-| `channelName`   | 频道名称。  | 
-| `channelTopic`  | Topic 名称。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>rtmChannelTypeStream(1)</code> 时生效。</div>  | 
-| `message`   | 消息负载。  | 
-| `messageLength`  | 消息负载长度。  | 
-| `publisher`   | 发布消息用户的 User ID。  | 
+| `channelType`  | 频道类型，详见 [`RtmChannelType`](#rtmchanneltype)。  |
+| `channelName`   | 频道名称。  |
+| `channelTopic`  | Topic 名称。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>rtmChannelTypeStream(1)</code> 时生效。</div>  |
+| `message`   | 消息负载。  |
+| `messageLength`  | 消息负载长度。  |
+| `publisher`   | 发布消息用户的 User ID。  |
 
 ### PresenceEvent
 
@@ -391,14 +391,14 @@ class PresenceEvent {
 
 Presence 回调事件。
 
-| 参数    | 描述      | 
+| 参数    | 描述      |
 | ------------ | --------- |
-| `type`     | Presence 类型，详见 [`RtmPresenceType`](#rtmpresencetype)。  | 
-| `channelType`     | 频道类型，详见 [`RtmChannelType`](#rtmchanneltype)。  | 
-| `channelName`     | 频道名称。  | 
-| `topicInfos`    | Topic 信息，详见 [TopicInfo](#api-topic-flutter#topicinfo)。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>rtmChannelTypeStream(1)</code> 且 <code>type</code> 为 <code>rtmPresenceTypeRemoteJoinTopic(3)</code>、<code>rtmPresenceTypeRemoteLeaveTopic(4)</code> 或 <code>rtmPresenceTypeSelfJoinChannel(5)</code> 时生效。</div>   | 
-| `topicInfoNumber`    | Topic 信息数量。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>rtmChannelTypeStream(1)</code> 且 <code>type</code> 为 <code>rtmPresenceTypeRemoteJoinTopic(3)</code>、<code>rtmPresenceTypeRemoteLeaveTopic(4)</code> 或 <code>rtmPresenceTypeSelfJoinChannel(5)</code> 时生效。</div>   | 
-| `userId`    | 触发 Presence 事件用户的 User ID。  | 
+| `type`     | Presence 类型，详见 [`RtmPresenceType`](#rtmpresencetype)。  |
+| `channelType`     | 频道类型，详见 [`RtmChannelType`](#rtmchanneltype)。  |
+| `channelName`     | 频道名称。  |
+| `topicInfos`    | Topic 信息，详见 [TopicInfo](#topicinfo)。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>rtmChannelTypeStream(1)</code> 且 <code>type</code> 为 <code>rtmPresenceTypeRemoteJoinTopic(3)</code>、<code>rtmPresenceTypeRemoteLeaveTopic(4)</code> 或 <code>rtmPresenceTypeSelfJoinChannel(5)</code> 时生效。</div>   |
+| `topicInfoNumber`    | Topic 信息数量。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>rtmChannelTypeStream(1)</code> 且 <code>type</code> 为 <code>rtmPresenceTypeRemoteJoinTopic(3)</code>、<code>rtmPresenceTypeRemoteLeaveTopic(4)</code> 或 <code>rtmPresenceTypeSelfJoinChannel(5)</code> 时生效。</div>   |
+| `userId`    | 触发 Presence 事件用户的 User ID。  |
 
 ### TopicInfo
 
@@ -447,10 +447,10 @@ enum RtmChannelType {
 
 RTM 频道类型。
 
-| 枚举值    | 描述      | 
+| 枚举值    | 描述      |
 | ------------ | --------- |
-| `rtmChannelTypeMessage`     | 0: Message Channel。  | 
-| `rtmChannelTypeStream`     | 1: Stream Channel。  | 
+| `rtmChannelTypeMessage`     | 0: Message Channel。  |
+| `rtmChannelTypeStream`     | 1: Stream Channel。  |
 
 
 ### RtmConnectionState
@@ -566,7 +566,7 @@ SDK 连接状态改变原因。
 |  `rtmConnectionChangedInvalidAppId` |  6: 不是有效的 APP ID，无法加入频道。    |
 |  `rtmConnectionChangedInvalidChannelName` |  7: 不是有效的频道名，无法加入频道。     |
 |  `rtmConnectionChangedInvalidToken`  |   8: Token 无效，无法加入频道。   |
-|  `rtmConnectionChangedTokenExpired` |  9: Token 过期D，无法加入频道。     |
+|  `rtmConnectionChangedTokenExpired` |  9: Token 过期，无法加入频道。     |
 |  `rtmConnectionChangedRejectedByServer`  |  10: 被服务器禁止连接。    |
 |  `rtmConnectionChangedSettingProxyServer` |  11: 由于设置了代理服务器，SDK 尝试重连。   |
 |  `rtmConnectionChangedRenewToken`  |   12: 更新 Token 引起网络连接状态改变。    |
@@ -596,11 +596,11 @@ enum StreamChannelErrorCode {
 
 频道事件错误码。
 
-| 枚举值    | 描述      | 
+| 枚举值    | 描述      |
 | ------------ | --------- |
-| `streamChannelErrorOk`     | 0: 操作成功。  | 
-| `streamChannelErrorExceedLimitation`     | 1: 订阅用户数量超出限制。  | 
-| `streamChannelErrorUserNotExist`     | 2: 所订阅用户不存在。  | 
+| `streamChannelErrorOk`     | 0: 操作成功。  |
+| `streamChannelErrorExceedLimitation`     | 1: 订阅用户数量超出限制。  |
+| `streamChannelErrorUserNotExist`     | 2: 所订阅用户不存在。  |
 
 ### RtmPresenceType
 
@@ -628,12 +628,12 @@ enum RtmPresenceType {
 
 Presence 类型。
 
-| 枚举值    | 描述      | 
+| 枚举值    | 描述      |
 | ------------ | --------- |
-| `rtmPresenceTypeRemoteJoinChannel`     | 0: 远端用户加入频道。  | 
-| `rtmPresenceTypeRemoteLeaveChannel`     | 1: 远端用户离开频道。  | 
-| `rtmPresenceTypeRemoteConnectionTimeout`     | 2: 远端用户连接超时。  | 
-| `rtmPresenceTypeRemoteJoinTopic`     | 3: 远端用户加入 Topic。  | 
-| `rtmPresenceTypeRemoteLeaveTopic`     | 4: 远端用户离开 Topic。  | 
-| `rtmPresenceTypeSelfJoinChannel`     | 5: 本地用户加入频道。  | 
+| `rtmPresenceTypeRemoteJoinChannel`     | 0: 远端用户加入频道。  |
+| `rtmPresenceTypeRemoteLeaveChannel`     | 1: 远端用户离开频道。  |
+| `rtmPresenceTypeRemoteConnectionTimeout`     | 2: 远端用户连接超时。  |
+| `rtmPresenceTypeRemoteJoinTopic`     | 3: 远端用户加入 Topic。  |
+| `rtmPresenceTypeRemoteLeaveTopic`     | 4: 远端用户离开 Topic。  |
+| `rtmPresenceTypeSelfJoinChannel`     | 5: 本地用户加入频道，收到该频道中所有 Topic 的信息。  |
 
