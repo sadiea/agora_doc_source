@@ -1,5 +1,8 @@
 ~8704dfd0-60c9-11ed-8dae-bf25bf08a626~
+
 ## 方法
+
+方法调用失败时会抛出 `AgoraRtcException` 错误，请根据返回的错误码对照 [RTM 错误码](error-codes)查看错误原因。
 
 ### join
 #### 接口描述
