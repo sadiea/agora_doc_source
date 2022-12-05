@@ -18,7 +18,6 @@ RtmClient createAgoraRtmClient() {
 
 #### 返回值
 - 一个 `RtmClient` 对象：调用成功。
-- `null`：调用失败。<mark>TBD</mark>
 
 ### initialize
 #### 接口描述
@@ -79,11 +78,10 @@ Future<StreamChannel> createStreamChannel(String channelName);
 
 #### 返回值
 - 一个 `StreamChannel` 类型实例：调用成功。
-- `null`：调用失败。<mark>TBD</mark>
 
 ## 回调
 
-### IRtmEventHandler 类
+### RtmEventHandler 类
 
 通过添加事件监听处理程序以获方法调用结果以及事件通知，包括连接状态，消息到达，Presence 状态等事件通知以及监控方法回调结果。如需要在 App 中接收消息和事件通知，在调用这些函数前必须先添加事件监听处理程序。
 

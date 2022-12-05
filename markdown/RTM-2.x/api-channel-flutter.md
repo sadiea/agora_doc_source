@@ -38,7 +38,7 @@ Future<String> getChannelName();
 获取频道名称。
 
 #### 返回值
-频道名称。
+- 频道名称：调用成功。
 
 ### leave
 #### 接口描述
@@ -241,7 +241,6 @@ Future<UserList> getSubscribedUserList(String topic);
 
 #### 返回值
 - 已订阅的用户列表：调用成功。
-- 其他：调用失败。<mark>TBD</mark>
 
 ## Class
 
