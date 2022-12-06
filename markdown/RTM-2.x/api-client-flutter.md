@@ -2,7 +2,7 @@ RtmClient ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 
 ## 方法
 
-方法调用失败时会抛出 `AgoraRtcException` 错误，请根据返回的错误码对照 [RTM 错误码](error-codes)查看错误原因。
+方法调用失败时 SDK 会返回错误码，如返回的错误码数值小于或等于 10000，参照 [RTC 错误码](extension_customer/API%20Reference/windows_ng/API/rtc_api_data_type.html#enum_errorcodetype) 查看错误原因，大于 10000 则参照 [RTM 错误码](error-codes)查看错误原因。
 ### createAgoraRtmClient
 #### 接口描述
 
@@ -16,6 +16,11 @@ RtmClient createAgoraRtmClient() {
 > 注意：
 > - 在调用 `RtmClient` 类的方法之前，你需要调用该方法创建 `RtmClient` 单实例。
 > - 在调用 [`release`](#release) 销毁 `RtmClient` 单实例之前，多次调用 `createAgoraRtmClient` 获取的是同一个 `RtmClient` 单实例。Agora 不推荐多次调用 `createAgoraRtmClient`。
+
+#### 基本用法
+```dart
+RtmClient rtmClient = createAgoraRtmClient();
+```
 
 #### 返回值
 - 一个 `RtmClient` 对象：调用成功。
@@ -37,7 +42,41 @@ Future<void> initialize(RtmConfig config);
 #### 基本用法
 
 #### 初始化 RTM 实例
-<mark>待补充</mark>
+```dart
+// 初始化 RtcEngine 实例
+RtcEngine engine = createAgoraRtcEngine();
+// 从声网控制台上获取 APP ID 并填入 "my_appId"
+await _engine.initialize(RtcEngineContext(
+  appId: 'my_appId',
+));
+ 
+// 创建 RtmClient 实例
+RtmClient rtmClient = createAgoraRtmClient();
+final rtmConfig = RtmConfig(
+  // 从声网控制台上获取 APP ID 并填入 "my_appId"
+  appId: 'my_appId',
+  // 为用户或设备设置唯一标识符 userId 并填入 "my_userId"
+  userId: 'my_userId',
+  // 设置事件监听程序
+  eventHandler: RtmEventHandler(
+    onMessageEvent: (MessageEvent event) {
+        debugPrint('onMessageEvent');
+    },
+    onJoinResult: (String channelName, String userId,
+        StreamChannelErrorCode errorCode) {
+        debugPrint('onJoinResult');
+    },
+    onLeaveResult: (String channelName, String userId,
+        StreamChannelErrorCode errorCode) {
+        debugPrint('onLeaveResult');
+    },
+    ...
+  ),
+);
+ 
+// 初始化 RtmClient 实例
+await _rtmClient.initialize(rtmConfig);
+```
 
 
 ### release
@@ -52,8 +91,11 @@ Future<void> release();
 成功销毁后，如需调用 `RtmClient` 类的 API，你需要调用 [`createAgoraRtmClient`](#createagorartmclient) 重新创建 `RtmClient` 单实例。
 
 #### 基本用法
-<mark>待补充</mark>
-
+```dart
+// 先销毁 RtmClient 实例 再销毁 RtcEngine 实例
+await rtmClient.release();
+await rtcEngine.release();
+```
 
 ### createStreamChannel
 #### 接口描述
@@ -75,8 +117,10 @@ Future<StreamChannel> createStreamChannel(String channelName);
 #### 基本用法
 
 ##### 创建一个 `StreamChannel` 类型实例
-
-
+```dart
+// 创建一个频道名为 Location 的 StreamChannel 实例
+final streamChannel = await _rtmClient.createStreamChannel('Location');
+```
 #### 返回值
 - 一个 `StreamChannel` 类型实例：调用成功。
 
@@ -89,7 +133,82 @@ Future<StreamChannel> createStreamChannel(String channelName);
 #### 基本用法
 
 ##### 添加事件监听程序
-<mark>待补充</mark>
+```dart
+// 初始化 RtcEngine 实例
+RtcEngine engine = createAgoraRtcEngine();
+// 从声网控制台上获取 APP ID 并填入 "my_appId"
+await _engine.initialize(RtcEngineContext(
+  appId: 'my_appId',
+));
+ 
+// 创建 RtmClient 实例
+RtmClient rtmClient = createAgoraRtmClient();
+final rtmConfig = RtmConfig(
+  // 从声网控制台上获取 APP ID 并填入 "my_appId"
+  appId: 'my_appId',
+  // 为用户或设备设置唯一标识符 userId 并填入 "my_userId"
+  userId: 'my_userId',
+  // 设置事件监听程序
+  eventHandler: RtmEventHandler(
+    // 消息事件通知，消息到达会触发该事件。
+    onMessageEvent: (MessageEvent event) {
+        debugPrint('onMessageEvent');
+    },
+    // Presence 事件通知，频道 presence 变更会触发该事件。
+    onPresenceEvent: (PresenceEvent event) {
+        debugPrint('onPresenceEvent');
+    },
+    // SDK 连接状态变更事件通知
+    onConnectionStateChange: (String channelName, RtmConnectionState state,
+    RtmConnectionChangeReason reason) {
+        debugPrint('onConnectionStateChange');
+    },
+    // 加入频道事件回调。
+    onJoinResult: (String channelName, String userId,
+        StreamChannelErrorCode errorCode) {
+        debugPrint('onJoinResult');
+    },
+    // 离开频道事件回调。
+    onLeaveResult: (String channelName, String userId,
+        StreamChannelErrorCode errorCode) {
+        debugPrint('onLeaveResult');
+    },
+    // 加入 Topic 事件回调。
+    onJoinTopicResult: (String channelName, String userId, String topic,
+    String meta, StreamChannelErrorCode errorCode) {
+        debugPrint('onJoinTopicResult');
+    },    
+    // 离开 Topic 事件回调。
+    onLeaveTopicResult: (String channelName, String userId, String topic,
+    String meta, StreamChannelErrorCode errorCode) {
+        debugPrint('onLeaveTopicResult');
+    },
+    // 订阅 Topic 及订阅用户事件回调。
+    onTopicSubscribed: (
+    String channelName,
+    String userId,
+    String topic,
+    UserList succeedUsers,
+    UserList failedUsers,
+    StreamChannelErrorCode errorCode) {
+        debugPrint('onTopicSubscribed');
+    },
+    // 取消订阅 Topic 及取消订阅用户事件回调。
+    onTopicUnsubscribed: (
+    String channelName,
+    String userId,
+    String topic,
+    UserList succeedUsers,
+    UserList failedUsers,
+    StreamChannelErrorCode errorCode) {
+        debugPrint('onTopicUnsubscribed');
+    },   
+  ),
+);
+ 
+// 初始化 RtmClient 实例
+await _rtmClient.initialize(rtmConfig);
+```
 
 
 ### onJoinResult
@@ -309,12 +428,40 @@ RTM 客户端配置信息。
 | ------------ | ----------------------------------- |
 | `appId`        | 从声网控制台上获取的 APP ID。                                                        |
 | `userId`       | 用户 ID，用户或设备设置唯一的标识符。你需要维护 `userId` 和用户之间的映射关系，并在整个服务周期内不能改变该映射关系。如果不设置该参数，将无法连接到 RTM 服务。                               |
-| `useStringUserId`   | 是否使用 String 型 User ID：<ul><li>`true`：使用 String 型 User ID，即 `userId` 填 String。</li><li>`false`：不使用 String 型 User ID，则 `userId` 填 Int。</li></ul>  |
+| `useStringUserId`   | 是否使用 String 型 User ID：<ul><li>`true`：使用 String 型 User ID，即 `userId` 填 String 型用户 ID。</li><li>`false`：不使用 String 型 User ID，则 `userId` 填 Int 型用户 ID。</li></ul>  |
 | `eventHandler` | 事件监听函数句柄，用以监听消息通知，Presence 通知，状态变更通知等事件通知。详见 [`RtmEventHandler`](#rtmeventhandler)。                               |
 | `logConfig`    | （选填）日志存储功能。Agora 建议你在调试和定位问题时候开启该功能，日志将会保存在你设置的位置，Agora 技术人员将根据日志详情帮助你分析定位问题。应用正式上线后建议取消设置该功能。详见 [`LogConfig`](#logconfig)。   |
 
 #### 基本用法
 <mark>待补充</mark>
+
+### LogConfig
+
+```dart
+class LogConfig {
+  const LogConfig({this.filePath, this.fileSizeInKB, this.level});
+
+  @JsonKey(name: 'filePath')
+  final String? filePath;
+  @JsonKey(name: 'fileSizeInKB')
+  final int? fileSizeInKB;
+  @JsonKey(name: 'level')
+  final LogLevel? level;
+  factory LogConfig.fromJson(Map<String, dynamic> json) =>
+      _$LogConfigFromJson(json);
+  Map<String, dynamic> toJson() => _$LogConfigToJson(this);
+}
+```
+
+开启日志功能，并设置日志保存路径、日志大小及日志记录等级等，为后续的问题调查收集必要的运行数据。
+
+
+| 参数    | 描述                             |
+| ------------ | -------------------------- |
+| `filePath`     | （选填）日志保存路径及日志文件名。请确保你指定的目录存在且可写。默认值如下：<ul><li>Android 平台：<code>/storage/emulated/0/Android/data/{packagename}/files/agorasdk.log</code></li><li>iOS 平台：<code>App Sandbox/Library/caches/agorasdk.log</code></li><li>macOS 平台：<ul><li>如果你启用了 App Sandbox：<code>App/Library/Logs/agorasdk.log</code>，例如 <code>/Users/{username}/Library/Containers/{AppBundleIdentifier}/Data/Library/Logs/agorasdk.log</code></li><li>如果你未启用 App Sandbox：<code>/Library/Logs/agorasdk.log</code></li></ul></li><li>Windows 平台：<code>C:\Users\{user_name}\AppData\Local\Agora\{process_name}\agorasdk.log</code></li></ul>                              |
+| `fileSizeInKB` | （选填）日志文件大小，单位为 KB，取值范围为 [128,1024]，默认值为 1024。如果你将该参数设为小于 128 的值，则使用 128；如果你将该参数设为大于 1024 的值，则使用 1024。                                |
+| `level`        |（选填）日志错误等级，默认值为 `LOG_LEVEL.LOG_LEVEL_INFO`。详见 [`LOG_LEVEL`](#log_level)。 |
+
 
 
 ### MessageEvent
@@ -636,3 +783,19 @@ Presence 类型。
 | `rtmPresenceTypeRemoteLeaveTopic`     | 4: 远端用户离开 Topic。  |
 | `rtmPresenceTypeSelfJoinChannel`     | 5: 本地用户加入频道，收到该频道中所有 Topic 的信息。  |
 
+
+### LogLevel
+
+enum RtmPresenceType {
+
+}
+
+日志错误等级。
+
+| 枚举值    | 描述      |
+| ------------ | --------- |
+| `logLevelNone`     | 0: 不生成任何日志。  |
+| `logLevelInfo`     | 0x0001: 生成 INFO（信息）等级及以上的日志，即包含 FATAL（严重错误），ERROR（错误），WARN（警告），INFO 四个等级的日志。Agora 推荐你设置为该等级。  |
+| `logLevelWarn`     | 0x0002: 生成 WARN 等级及以上的日志，即包含 FATAL，ERROR），WARN 三个等级的日志。  |
+| `logLevelError`    | 0x0004: 生成 ERROR 等级及以上的日志，即包含 FATAL 和 ERROR 两个等级的日志。  |
+| `logLevelFatal`    | 0x0008: 只生成 FATAL 等级的日志。  |

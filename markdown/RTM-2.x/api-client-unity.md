@@ -38,7 +38,7 @@ public abstract int Initialize(RtmConfig config);
 
 #### 基本用法
 
-#### 初始化 RTM 实例
+##### 初始化 RTM 实例
 ```csharp
 // 初始化一个 RtmConfig 实例。
 Rtmconfig rtmConfig = new Rtmconfig();
@@ -105,7 +105,7 @@ rtmConfig.appId = "my_appId";
 IRtmClient rtmClient = RtmClient.CreateAgoraRtmClient();
 // 初始化一个 RTM 客户端实例。
 rtmClient.Initialize(rtmConfig);
-//创建一个频道名为 Location 的 IStreamChannel 实例。
+// 创建一个频道名为 Location 的 IStreamChannel 实例。
 Loc_stChannel = rtmClient.CreateStreamChannel("Location");
 ```
 
@@ -138,12 +138,16 @@ rtmClient.Initialize(rtmConfig);
 // 添加事件监听处理程序。
 internal class rtmEventHandler: IRtmEventHandler
 {
-    // 消息事件监听程序，消息到达会触发该事件。
+    // 消息事件通知，消息到达会触发该事件。
     public override void OnMessageEvent (MessageEvent @event)
     {
     }
-    // Presence 事件监听程序，频道 presence 变更会触发该事件。
+    // Presence 事件通知，频道 presence 变更会触发该事件。
     public override void OnPresenceEvent (PresenceEvent @event)
+    {
+    }
+    // SDK 连接状态变更事件通知。
+    public override void OnConnectionStateChange(string channelName, RTM_CONNECTION_STATE state, RTM_CONNECTION_CHANGE_REASON reason)
     {
     }
     // 加入频道事件回调。
@@ -168,10 +172,6 @@ internal class rtmEventHandler: IRtmEventHandler
     }
     // 取消订阅 Topic 或取消订阅消息发布者事件回调。
     public override void OnTopicUnsubscribed(string channelName, string userId, string topic, UserList succeedUsers, UserList failedUsers, STREAM_CHANNEL_ERROR_CODE errorCode)
-    {
-    }
-    // SDK 连接状态变更事件回调。
-    public override void OnConnectionStateChange(string channelName, RTM_CONNECTION_STATE state, RTM_CONNECTION_CHANGE_REASON reason)
     {
     }
 
@@ -428,7 +428,7 @@ rtmClient.Initialize(rtmConfig);
 
 | 参数    | 描述                             |
 | ------------ | -------------------------- |
-| `filePath`     | （选填）日志保存路径及日志文件名。请确保对配置的文件路径具备读写权限。默认值如下：<ul><li>Android 平台：<code>/storage/emulated/0/Android/data/{packagename}/files/agorasdk.log</code></li><li>iOS 平台：<code>App Sandbox/Library/caches/agorasdk.log</code></li><li>macOS 平台：<ul><li>如果你启用了 App Sandbox：<code>App/Library/Logs/agorasdk.log</code>，例如 <code>/Users/{username}/Library/Containers/{AppBundleIdentifier}/Data/Library/Logs/agorasdk.log</code></li><li>如果你未启用 App Sandbox：<code>/Library/Logs/agorasdk.log</code></li></ul></li><li>Windows 平台：<code>C:\Users\{user_name}\AppData\Local\Agora\{process_name}\agorasdk.log</code></li></ul>                              |
+| `filePath`     | （选填）日志保存路径及日志文件名。请确保你指定的目录存在且可写。默认值如下：<ul><li>Android 平台：<code>/storage/emulated/0/Android/data/{packagename}/files/agorasdk.log</code></li><li>iOS 平台：<code>App Sandbox/Library/caches/agorasdk.log</code></li><li>macOS 平台：<ul><li>如果你启用了 App Sandbox：<code>App/Library/Logs/agorasdk.log</code>，例如 <code>/Users/{username}/Library/Containers/{AppBundleIdentifier}/Data/Library/Logs/agorasdk.log</code></li><li>如果你未启用 App Sandbox：<code>/Library/Logs/agorasdk.log</code></li></ul></li><li>Windows 平台：<code>C:\Users\{user_name}\AppData\Local\Agora\{process_name}\agorasdk.log</code></li></ul>                              |
 | `fileSizeInKB` | （选填）日志文件大小，单位为 KB，取值范围为 [128,1024]，默认值为 1024。如果你将该参数设为小于 128 的值，则使用 128；如果你将该参数设为大于 1024 的值，则使用 1024。                                |
 | `level`        |（选填）日志错误等级，默认值为 `LOG_LEVEL.LOG_LEVEL_INFO`。详见 [`LOG_LEVEL`](#log_level)。 |
 

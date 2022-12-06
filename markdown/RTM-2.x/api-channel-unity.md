@@ -269,7 +269,14 @@ public abstract int PublishTopicMessage(string topic, byte[] message);
 
 #### 基本用法
 ##### 向 Topic 中发送消息
-
+```csharp
+// 创建一个 JoinTopicOptions 实例。
+JoinTopicOptions joinTopicOptions = new JoinTopicOptions() ;
+// 配置 QoS 保障。
+joinTopicOptions.qos = RTM_MESSAGE_QOS.RTM_MESSAGE_QOS_ORDERED ;
+// 加入名为 gesture 的 Topic。
+loc_stChannel.JoinTopic( "gesture",joinTopicOptions) ;
+```
 #### 返回值
 - `0`：调用成功。
 - < `0`：调用失败。

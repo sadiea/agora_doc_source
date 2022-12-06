@@ -1,8 +1,7 @@
 ~8704dfd0-60c9-11ed-8dae-bf25bf08a626~
 
 ## 方法
-
-方法调用失败时会抛出 `AgoraRtcException` 错误，请根据返回的错误码对照 [RTM 错误码](error-codes)查看错误原因。
+方法调用失败时 SDK 会返回错误码，如返回的错误码数值小于或等于 10000，参照 [RTC 错误码](extension_customer/API%20Reference/windows_ng/API/rtc_api_data_type.html#enum_errorcodetype) 查看错误原因，大于 10000 则参照 [RTM 错误码](error-codes)查看错误原因。
 
 ### join
 #### 接口描述
@@ -28,7 +27,10 @@ Future<void> join(JoinChannelOptions options);
 #### 基本用法 
 
 ##### 加入频道
-<mark>待补充</mark>
+```dart
+// 将用于鉴权的 RTM token 填入 <RTM_TOKEN>
+await streamChannel.join(JoinChannelOptions(token: '<RTM_TOKEN>'));
+```
 
 
 ### getChannelName
@@ -55,9 +57,10 @@ Future<void> leave();
 调用该方法会触发 [`onLeaveResult`](api-client-flutter#onleaveresult) 事件回调。成功加入频道后，频道中的其他用户会收到 [`onPresenceEvent`](api-client-flutter#onpresenceevent) 中的 `rtmPresenceTypeRemoteLeaveChannel` 事件。
 
 #### 基本用法
-
 ##### 离开频道
-<mark>待补充</mark>
+```dart
+await streamChannel.leave();
+```
                                                           
 
 ### release
@@ -74,9 +77,10 @@ Future<void> release();
 > 注意：如果不先调用 [`leave`](#leave) 离开频道而直接调用 `release` 销毁频道实例，SDK 会自动调用 `leave` 并触发对应的事件回调。
 
 #### 基本用法
-
-##### 离开频道
-<mark>待补充</mark>
+##### 销毁频道
+```dart
+await streamChannel.release();
+```
 
 
 ### joinTopic
@@ -104,9 +108,13 @@ Future<void> joinTopic(
 
 
 #### 基本用法
-
 ##### 加入Topic
-<mark>待补充</mark>
+```dart
+// 加入名为 “gesture” 的 Topic
+await streamChannel.joinTopic(
+  topic: 'gesture',
+  options: const JoinTopicOptions());
+```
 
 
 ### leaveTopic
@@ -128,7 +136,10 @@ Future<void> leaveTopic(String topic);
 | `topic`   | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
 
 #### 基本用法 
-<mark>待补充</mark>
+```dart
+// 离开名为 “gesture” 的 Topic
+await streamChannel.leaveTopic('gesture');
+```
 
 
 ### publishTopicMessage
@@ -160,9 +171,18 @@ Future<void> publishTopicMessage(
 
 
 #### 基本用法
-
 ##### 向 Topic 中发送消息
-<mark>待补充</mark>
+```dart
+final message = Uint8List.fromList(
+    utf8.encode(
+        'Hello World!'));
+// 向名为 “gesture” 的 Topic 中发送消息“Hello World!”
+await streamChannel.publishTopicMessage(
+  topic: 'gesture',
+  message: message,
+  length: message.length,
+);
+```
 
 
 ### subscribeTopic
@@ -191,9 +211,15 @@ Future<void> subscribeTopic(
 
 
 #### 基本用法 
-
 ##### 订阅指定用户
-<mark>待补充</mark>
+```dart
+// 订阅名为 “gesture” 的 Topic 中的两个用户，Tony 和 Mary
+await streamChannel.subscribeTopic(
+    topic: 'gesture',
+    options: TopicOptions(
+        users: ['Tony', 'Mary'],
+        userCount: 2));
+```
 
 
 ### unsubscribeTopic
@@ -216,11 +242,25 @@ Future<void> unsubscribeTopic(
 #### 基本用法 
 
 ##### 取消订阅指定用户
-<mark>待补充</mark>
+```dart
+// 取消订阅名为 “gesture” 的 Topic 中的两个用户，Tony 和 Mary
+await streamChannel.unsubscribeTopic(
+    topic: 'gesture',
+    options: TopicOptions(
+        users: ['Tony', 'Mary'],
+        userCount: 2));
+```
 
 
 ##### 取消订阅 Topic 
-<mark>待补充</mark>
+```dart
+// 取消订阅名为 “gesture” 的 Topic 和取消订阅该 Topic 中所有用户
+await streamChannel.unsubscribeTopic(
+    topic: 'gesture',
+    options: TopicOptions(
+        users: [],
+        userCount: 0));
+```
 
 
 ### getSubscribedUserList
@@ -240,7 +280,10 @@ Future<UserList> getSubscribedUserList(String topic);
 #### 基本用法 
 
 ##### 查询指定 Topic 已订阅消息发布者名单
-<mark>待补充</mark>
+```dart
+// 获取名为 gesture 的 Topic 中已订阅的消息发布者列表。
+final userList = await streamChannel.getSubscribedUserList('gesture');
+```
 
 #### 返回值
 - 已订阅的用户列表：调用成功。
