@@ -1,7 +1,6 @@
 ~8704dfd0-60c9-11ed-8dae-bf25bf08a626~
 
 ## 方法
-方法调用失败时 SDK 会返回错误码，如返回的错误码数值小于或等于 10000，参照 [RTC 错误码](extension_customer/API%20Reference/windows_ng/API/rtc_api_data_type.html#enum_errorcodetype) 查看错误原因，大于 10000 则参照 [RTM 错误码](error-codes)查看错误原因。
 
 ### join
 #### 接口描述

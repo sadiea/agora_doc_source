@@ -1,6 +1,8 @@
 本文介绍在使用 RTM 2 APIs 时 SDK 可能会返回的错误码。
 
-RTM 2 SDK 在运行过程中，在方法调用失败的返回值中，返回一个负数，这个负数就对应着错误码里的正数。具体错误码详见以下表格：
+RTM 2 SDK 在运行过程中，在方法调用失败的返回值中，返回一个负数，这个负数就对应着错误码里的正数。
+
+如返回的错误码数值小于或等于 10000，参照 [RTC 错误码](extension_customer/API%20Reference/windows_ng/API/rtc_api_data_type.html#enum_errorcodetype) 查看错误原因，大于 10000 请参照以下表格：
 
 
 | 枚举值   | 错说明      | 

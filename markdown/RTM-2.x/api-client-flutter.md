@@ -2,7 +2,6 @@ RtmClient ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 
 ## 方法
 
-方法调用失败时 SDK 会返回错误码，如返回的错误码数值小于或等于 10000，参照 [RTC 错误码](extension_customer/API%20Reference/windows_ng/API/rtc_api_data_type.html#enum_errorcodetype) 查看错误原因，大于 10000 则参照 [RTM 错误码](error-codes)查看错误原因。
 ### createAgoraRtmClient
 #### 接口描述
 
@@ -412,8 +411,6 @@ class RtmConfig {
   @JsonKey(name: 'eventHandler', ignore: true)
   final RtmEventHandler? eventHandler;
 
-  @JsonKey(name: 'logConfig')
-  final LogConfig? logConfig;
 
   factory RtmConfig.fromJson(Map<String, dynamic> json) =>
       _$RtmConfigFromJson(json);
@@ -430,39 +427,33 @@ RTM 客户端配置信息。
 | `userId`       | 用户 ID，用户或设备设置唯一的标识符。你需要维护 `userId` 和用户之间的映射关系，并在整个服务周期内不能改变该映射关系。如果不设置该参数，将无法连接到 RTM 服务。                               |
 | `useStringUserId`   | 是否使用 String 型 User ID：<ul><li>`true`：使用 String 型 User ID，即 `userId` 填 String 型用户 ID。</li><li>`false`：不使用 String 型 User ID，则 `userId` 填 Int 型用户 ID。</li></ul>  |
 | `eventHandler` | 事件监听函数句柄，用以监听消息通知，Presence 通知，状态变更通知等事件通知。详见 [`RtmEventHandler`](#rtmeventhandler)。                               |
-| `logConfig`    | （选填）日志存储功能。Agora 建议你在调试和定位问题时候开启该功能，日志将会保存在你设置的位置，Agora 技术人员将根据日志详情帮助你分析定位问题。应用正式上线后建议取消设置该功能。详见 [`LogConfig`](#logconfig)。   |
+
 
 #### 基本用法
-<mark>待补充</mark>
-
-### LogConfig
 
 ```dart
-class LogConfig {
-  const LogConfig({this.filePath, this.fileSizeInKB, this.level});
-
-  @JsonKey(name: 'filePath')
-  final String? filePath;
-  @JsonKey(name: 'fileSizeInKB')
-  final int? fileSizeInKB;
-  @JsonKey(name: 'level')
-  final LogLevel? level;
-  factory LogConfig.fromJson(Map<String, dynamic> json) =>
-      _$LogConfigFromJson(json);
-  Map<String, dynamic> toJson() => _$LogConfigToJson(this);
-}
+final rtmConfig = RtmConfig(
+  // 从声网控制台上获取 APP ID 并填入 "my_appId"
+  appId: 'my_appId',
+  // 为用户或设备设置唯一标识符 userId 并填入 "my_userId"
+  userId: 'my_userId',
+  // 设置事件监听程序
+  eventHandler: RtmEventHandler(
+    onMessageEvent: (MessageEvent event) {
+        debugPrint('onMessageEvent');
+    },
+    onJoinResult: (String channelName, String userId,
+        StreamChannelErrorCode errorCode) {
+        debugPrint('onJoinResult');
+    },
+    onLeaveResult: (String channelName, String userId,
+        StreamChannelErrorCode errorCode) {
+        debugPrint('onLeaveResult');
+    },
+    ...
+  ),
+);
 ```
-
-开启日志功能，并设置日志保存路径、日志大小及日志记录等级等，为后续的问题调查收集必要的运行数据。
-
-
-| 参数    | 描述                             |
-| ------------ | -------------------------- |
-| `filePath`     | （选填）日志保存路径及日志文件名。请确保你指定的目录存在且可写。默认值如下：<ul><li>Android 平台：<code>/storage/emulated/0/Android/data/{packagename}/files/agorasdk.log</code></li><li>iOS 平台：<code>App Sandbox/Library/caches/agorasdk.log</code></li><li>macOS 平台：<ul><li>如果你启用了 App Sandbox：<code>App/Library/Logs/agorasdk.log</code>，例如 <code>/Users/{username}/Library/Containers/{AppBundleIdentifier}/Data/Library/Logs/agorasdk.log</code></li><li>如果你未启用 App Sandbox：<code>/Library/Logs/agorasdk.log</code></li></ul></li><li>Windows 平台：<code>C:\Users\{user_name}\AppData\Local\Agora\{process_name}\agorasdk.log</code></li></ul>                              |
-| `fileSizeInKB` | （选填）日志文件大小，单位为 KB，取值范围为 [128,1024]，默认值为 1024。如果你将该参数设为小于 128 的值，则使用 128；如果你将该参数设为大于 1024 的值，则使用 1024。                                |
-| `level`        |（选填）日志错误等级，默认值为 `LOG_LEVEL.LOG_LEVEL_INFO`。详见 [`LOG_LEVEL`](#log_level)。 |
-
-
 
 ### MessageEvent
 
@@ -784,18 +775,3 @@ Presence 类型。
 | `rtmPresenceTypeSelfJoinChannel`     | 5: 本地用户加入频道，收到该频道中所有 Topic 的信息。  |
 
 
-### LogLevel
-
-enum RtmPresenceType {
-
-}
-
-日志错误等级。
-
-| 枚举值    | 描述      |
-| ------------ | --------- |
-| `logLevelNone`     | 0: 不生成任何日志。  |
-| `logLevelInfo`     | 0x0001: 生成 INFO（信息）等级及以上的日志，即包含 FATAL（严重错误），ERROR（错误），WARN（警告），INFO 四个等级的日志。Agora 推荐你设置为该等级。  |
-| `logLevelWarn`     | 0x0002: 生成 WARN 等级及以上的日志，即包含 FATAL，ERROR），WARN 三个等级的日志。  |
-| `logLevelError`    | 0x0004: 生成 ERROR 等级及以上的日志，即包含 FATAL 和 ERROR 两个等级的日志。  |
-| `logLevelFatal`    | 0x0008: 只生成 FATAL 等级的日志。  |
