@@ -269,7 +269,14 @@ public abstract int PublishTopicMessage(string topic, byte[] message);
 
 #### 基本用法
 ##### 向 Topic 中发送消息
-
+```csharp
+// 创建一个 JoinTopicOptions 实例。
+JoinTopicOptions joinTopicOptions = new JoinTopicOptions() ;
+// 配置 QoS 保障。
+joinTopicOptions.qos = RTM_MESSAGE_QOS.RTM_MESSAGE_QOS_ORDERED ;
+// 加入名为 gesture 的 Topic。
+loc_stChannel.JoinTopic( "gesture",joinTopicOptions) ;
+```
 #### 返回值
 - `0`：调用成功。
 - < `0`：调用失败。
@@ -338,8 +345,7 @@ public abstract int UnsubscribeTopic(string topic, TopicOptions options);
 | 参数    | 描述                                                    |
 | ------------| -------------------------------------------------------------- |
 | `topic`      | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
-| `options`    | （选填）取消订阅 Topic 时的配置选项，详见 [`TopicOptions`](api-topic-unity#topicoptions)。你可以指定想要取消订阅的消息发布者。<ul><li>如果 <code>options</code> 中配置的用户列表不在已订阅的用户名单中，API 会返回正常调用结果，但订阅用户列表不会有任何变化。</li>
-<li>如果该字段为空，将取消订阅该 Topic 及取消订阅该 Topic 中所有消息发布者。</li></ul>        |
+| `options`    | （选填）取消订阅 Topic 时的配置选项，详见 [`TopicOptions`](api-topic-unity#topicoptions)。你可以指定想要取消订阅的消息发布者。<ul><li>如果 <code>options</code> 中配置的用户列表不在已订阅的用户名单中，API 会返回正常调用结果，但订阅用户列表不会有任何变化。</li><li>如果该字段为空，将取消订阅该 Topic 及取消订阅该 Topic 中所有消息发布者。</li></ul>        |
 
 
 #### 基本用法
@@ -464,31 +470,6 @@ public class TopicOptions
 | `userCount` | （选填）订阅的消息发布者数量。                                                  |
 
 
-### TopicInfo
-
-```csharp
-    public class Agora.Rtm.TopicInfo
-    {
-
-        public string topic { set; get; }
-
-        public uint numOfPublisher { set; get; }
-
-        public string[] publisherUserIds { set; get; }
-
-        public string[] publisherMetas { set; get; }
-    };
-```
-
-Topic 信息。
-
-| 参数 | 描述                                                    |
-| --------- | ------------------------------------------------------------ |
-| `topic`   | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
-| `numOfPublisher`   | 向该 Topic 发布消息的用户数量。 |
-| `publisherUserIds`   | 向该 Topic 发布消息的用户 ID 列表。 |
-| `publisherMetas`   | 发布消息的用户的元数据。 |
-
 ### TopicSubUsersUpdated
 
 ```csharp
@@ -537,35 +518,6 @@ public class UserList
 
 
 ## Enum
-
-### STREAM_CHANNEL_ERROR_CODE
-
-```csharp
-public enum STREAM_CHANNEL_ERROR_CODE
-{
-    STREAM_CHANNEL_ERROR_OK = 0,
-    STREAM_CHANNEL_ERROR_INVALID_ARGUMENT = 1,
-    STREAM_CHANNEL_ERROR_JOIN_FAILURE = 2,
-    STREAM_CHANNEL_ERROR_JOIN_REJECTED = 3,
-    STREAM_CHANNEL_ERROR_REJOIN_FAILURE = 4,
-    STREAM_CHANNEL_ERROR_LEAVE_FAILURE = 5,
-    STREAM_CHANNEL_ERROR_EXCEED_LIMITATION = 6,
-};
-```
-
-频道错误码。
-
-| 枚举值    | 描述      | 
-| ------------ | --------- |
-| `STREAM_CHANNEL_ERROR_OK`     | 操作成功。  | 
-| `STREAM_CHANNEL_ERROR_INVALID_ARGUMENT`     | 参数错误。  | 
-| `STREAM_CHANNEL_ERROR_JOIN_FAILURE`     | 加入频道失败。  | 
-| `STREAM_CHANNEL_ERROR_JOIN_REJECTED`     | 加入频道被拒绝。  | 
-| `STREAM_CHANNEL_ERROR_REJOIN_FAILURE`     | 重新加入频道失败。  | 
-| `STREAM_CHANNEL_ERROR_LEAVE_FAILURE`     | 离开频道失败。  | 
-| `STREAM_CHANNEL_ERROR_EXCEED_LIMITATION`     | 超出限制。  | 
-
-
 ### RTM_MESSAGE_QOS
 
 ```csharp

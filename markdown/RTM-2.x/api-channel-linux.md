@@ -231,8 +231,7 @@ virtual int unsubscribeTopic(const char* topic, const TopicOptions& options) = 0
 | 参数    | 描述                                                    |
 | ------------|-------------------------------------------------------------- |
 | `topic`      | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
-| `options`    | （选填）取消订阅 Topic 时的配置选项，详见 [`TopicOptions`](api-topic-linux#topicoptions)。你可以指定想要取消订阅的消息发布者。<ul><li>如果 <code>options</code> 中配置的用户列表不在已订阅的用户名单中，API 会返回正常调用结果，但订阅用户列表不会有任何变化。</li>
-<li>如果该字段为空，将取消订阅该 Topic 及取消订阅该 Topic 中所有消息发布者。</li></ul>         |
+| `options`    | （选填）取消订阅 Topic 时的配置选项，详见 [`TopicOptions`](api-topic-linux#topicoptions)。你可以指定想要取消订阅的消息发布者。<ul><li>如果 <code>options</code> 中配置的用户列表不在已订阅的用户名单中，API 会返回正常调用结果，但订阅用户列表不会有任何变化。</li><li>如果该字段为空，将取消订阅该 Topic 及取消订阅该 Topic 中所有消息发布者。</li></ul>         |
 
 
 #### 基本用法 
@@ -387,28 +386,6 @@ struct UserList {
 | `userCount`   | 用户数量。                                                                    |
 
 ## Enum
-
-### STREAM_CHANNEL_ERROR_CODE
-
-```cpp
-enum STREAM_CHANNEL_ERROR_CODE {
-
-  STREAM_CHANNEL_ERROR_OK = 0,
-
-  STREAM_CHANNEL_ERROR_EXCEED_LIMITATION = 1,
-
-  STREAM_CHANNEL_ERROR_USER_NOT_EXIST = 2,
-};
-```
-
-频道事件错误码。
-
-| 枚举值    | 描述      | 
-| ------------ | --------- |
-| `STREAM_CHANNEL_ERROR_OK`     | 0: 操作成功。  | 
-| `STREAM_CHANNEL_ERROR_EXCEED_LIMITATION`     | 1: 订阅用户数量超出限制。  | 
-| `STREAM_CHANNEL_ERROR_JOIN_FAILURE`     | 2: 所订阅用户不存在。  | 
-
 
 ### RTM_MESSAGE_QOS
 

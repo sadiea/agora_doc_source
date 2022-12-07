@@ -239,8 +239,7 @@ public abstract int unsubscribeTopic(String topicName, TopicOptions options);
 | 参数    | 描述                                                    |
 | ------------| -------------------------------------------------------------- |
 | `topic`      | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
-| `options`    | （选填）取消订阅 Topic 时的配置选项，详见 [`AgoraRtmTopicOptions`](api-topic-ios#agorartmtopicoptions)。你可以指定想要取消订阅的消息发布者。<ul><li>如果 <code>options</code> 中配置的用户列表不在已订阅的用户名单中，API 会返回正常调用结果，但订阅用户列表不会有任何变化。</li>
-<li>如果该字段为空，将取消订阅该 Topic 及取消订阅该 Topic 中所有消息发布者。</li></ul>        |
+| `options`    | （选填）取消订阅 Topic 时的配置选项，详见 [`AgoraRtmTopicOptions`](api-topic-ios#agorartmtopicoptions)。你可以指定想要取消订阅的消息发布者。<ul><li>如果 <code>options</code> 中配置的用户列表不在已订阅的用户名单中，API 会返回正常调用结果，但订阅用户列表不会有任何变化。</li><li>如果该字段为空，将取消订阅该 Topic 及取消订阅该 Topic 中所有消息发布者。</li></ul>        |
 
 
 #### 基本用法
@@ -332,49 +331,7 @@ __attribute__((visibility("default"))) @interface AgoraRtmTopicOption: NSObject
 | `users`     | （选填）该 Topic 中想要订阅的消息发布者列表，消息发布者数量不能超过 64 个。  |
 
 
-### AgoraRtmTopicInfo
-
-```objc
-__attribute__((visibility("default"))) @interface AgoraRtmTopicInfo: NSObject
-
-@property (nonatomic, copy, nonnull) NSString *topic;
-
-@property (nonatomic, copy, nonnull) NSArray<NSString *> *publisherUserIds;
-
-@property (nonatomic, copy, nonnull) NSArray<NSData *> *publisherMetas;
-```
-
-Topic 信息。
-
-| 属性 | 描述                                                    |
-| --------- | -------------------------------------------------------------- |
-| `topic`   | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
-| `publisherUserIds`   | 向该 Topic 发布消息的用户 ID 列表。 |
-| `publisherMetas`   | 向该 Topic 发布消息的用户的元数据列表。 |
-
 ## Enum
-
-### AgoraRtmStreamChannelErrorCode
-
-```objc
-typedef NS_ENUM(NSInteger, AgoraRtmStreamChannelErrorCode) {
-
-  AgoraRtmStreamChannelErrorOk = 0,
-
-  AgoraRtmStreamChannelErroExceedLimitation = 1,
-
-  AgoraRtmStreamChannelErrorUserNotExist = 2,
-};
-```
-
-频道错误码。
-
-| 枚举值    | 描述      | 
-| ------------ | --------- |
-| `AgoraRtmStreamChannelErrorOk`     | 0: 操作成功。  | 
-| `AgoraRtmStreamChannelErroExceedLimitation`     | 1: 订阅用户超出数量限制。  | 
-| `AgoraRtmStreamChannelErrorUserNotExist`     | 2: 订阅或取消订阅的用户不存在。  | 
-
 
 ### AgoraRtmMessageQos
 

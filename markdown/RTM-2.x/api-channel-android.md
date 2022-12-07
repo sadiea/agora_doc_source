@@ -325,27 +325,6 @@ public class TopicOptions {
 | `users`     | （选填）该 Topic 中想要订阅或取消订阅的消息发布者列表，消息发布者数量不能超过 64 个。    |
 
 
-### TopicInfo
-
-```java
-public class TopicInfo {
-
-  public String topicName;
-
-  public ArrayList<String> publisherUserIds;
-
-  public ArrayList<String> publisherMetas;
-}
-```
-
-Topic 信息。
-
-| 参数 | 描述                                                    |
-| --------- | -------------------------------------------------------------- |
-| `topicName`   |Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
-| `publisherUserIds`   | 向该 Topic 发布消息的用户 ID 列表。 |
-| `publisherMetas`   | 向该 Topic 发布消息的用户的元数据列表。 |
-
 ### UserList
 
 ```java
@@ -361,25 +340,6 @@ public class UserList {
 | `users` | 用户 ID 列表。    |
 
 ## Enum
-
-### STREAM_CHANNEL_ERROR_CODE
-
-频道错误码。
-
-```java
-public static final int STREAM_CHANNEL_ERROR_OK = 0;
-
-public static final int STREAM_CHANNEL_ERROR_EXCEED_LIMITATION = 1;
-
-public static final int STREAM_CHANNEL_ERROR_USER_NOT_EXIST = 2;
-```
-
-| 枚举值    | 描述      | 
-| ------------ | --------- |
-| `STREAM_CHANNEL_ERROR_OK`     | 0: 操作成功。  | 
-| `STREAM_CHANNEL_ERROR_EXCEED_LIMITATION`     | 1: 订阅用户数量超出限制。  | 
-| `STREAM_CHANNEL_ERROR_JOIN_FAILURE`     | 2: 所订阅用户不存在。  | 
-
 
 ### RtmMessageQos
 

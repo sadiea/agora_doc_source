@@ -38,7 +38,7 @@ public abstract int Initialize(RtmConfig config);
 
 #### 基本用法
 
-#### 初始化 RTM 实例
+##### 初始化 RTM 实例
 ```csharp
 // 初始化一个 RtmConfig 实例。
 Rtmconfig rtmConfig = new Rtmconfig();
@@ -105,7 +105,7 @@ rtmConfig.appId = "my_appId";
 IRtmClient rtmClient = RtmClient.CreateAgoraRtmClient();
 // 初始化一个 RTM 客户端实例。
 rtmClient.Initialize(rtmConfig);
-//创建一个频道名为 Location 的 IStreamChannel 实例。
+// 创建一个频道名为 Location 的 IStreamChannel 实例。
 Loc_stChannel = rtmClient.CreateStreamChannel("Location");
 ```
 
@@ -138,12 +138,16 @@ rtmClient.Initialize(rtmConfig);
 // 添加事件监听处理程序。
 internal class rtmEventHandler: IRtmEventHandler
 {
-    // 消息事件监听程序，消息到达会触发该事件。
+    // 消息事件通知，消息到达会触发该事件。
     public override void OnMessageEvent (MessageEvent @event)
     {
     }
-    // Presence 事件监听程序，频道 presence 变更会触发该事件。
+    // Presence 事件通知，频道 presence 变更会触发该事件。
     public override void OnPresenceEvent (PresenceEvent @event)
+    {
+    }
+    // SDK 连接状态变更事件通知。
+    public override void OnConnectionStateChange(string channelName, RTM_CONNECTION_STATE state, RTM_CONNECTION_CHANGE_REASON reason)
     {
     }
     // 加入频道事件回调。
@@ -170,10 +174,6 @@ internal class rtmEventHandler: IRtmEventHandler
     public override void OnTopicUnsubscribed(string channelName, string userId, string topic, UserList succeedUsers, UserList failedUsers, STREAM_CHANNEL_ERROR_CODE errorCode)
     {
     }
-    // SDK 连接状态变更事件回调。
-    public override void OnConnectionStateChange(string channelName, RTM_CONNECTION_STATE state, RTM_CONNECTION_CHANGE_REASON reason)
-    {
-    }
 
 }
 ```
@@ -192,7 +192,7 @@ public virtual void OnJoinResult(string channelName, string userId, STREAM_CHANN
 | -------------  | ---------------------------------------- |
 | `channelName`  | 事件所在频道名称。 |
 | `userId`       | 加入频道用户的 User ID。  |
-| `errorCode`    | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。       |
+| `errorCode`    | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。       |
 
 ### OnLeaveResult
 #### 接口描述
@@ -207,7 +207,7 @@ public virtual void OnLeaveResult(string channelName, string userId, STREAM_CHAN
 | ------------- | ---------------------------------------- |
 | `channelName` | 事件所在频道名称。 |
 | `userId`      | 离开频道用户的 User ID。  |
-| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。       |
+| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。       |
 
 ### OnJoinTopicResult
 #### 接口描述
@@ -224,7 +224,7 @@ public virtual void OnJoinTopicResult(string channelName, string userId, string 
 | `userId`      | 加入 Topic 用户的 User ID。  |
 | `topic`       | Topic 名称。       |
 | `meta`        | 创建 Topic 的元数据。  |
-| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。       |
+| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。       |
 
 ### OnLeaveTopicResult
 #### 接口描述
@@ -241,7 +241,7 @@ public virtual void OnLeaveTopicResult(string channelName, string userId, string
 | `userId`        | 离开 Topic 用户的 User ID。  |
 | `topic`            | Topic 名称。       |
 | `meta`              | 创建 Topic 的元数据。  |
-| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。       |
+| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。       |
 
 ### OnTopicSubscribed
 #### 接口描述
@@ -259,7 +259,7 @@ public virtual void OnTopicSubscribed(string channelName, string userId, string 
 | `topic`        | 事件所在 Topic 名称。 |
 | `succeedUsers`   | 本次订阅成功的消息发布者列表，详见 [`UserList`](api-channel-unity#userlist)。                       |
 | `failedUsers`   | 本次订阅失败的消息发布者列表，详见 [`UserList`](api-channel-unity#userlist)。订阅失败的原因可能是超过了订阅数量限制。                      |
-| `errorCode`    | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。
+| `errorCode`    | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。
 
 ### OnTopicUnsubscribed
 #### 接口描述
@@ -277,7 +277,7 @@ public virtual void OnTopicUnsubscribed(string channelName, string userId, strin
 | `topic`        | 事件所在 Topic 名称。 |
 | `succeedUsers`  | 本次取消订阅成功的消息发布者列表，详见 [`UserList`](api-channel-unity#userlist)。                       |
 | `failedUsers`   | 本次取消订阅失败的消息发布者列表，详见 [`UserList`](api-channel-unity#userlist)。取消订阅失败的原因可能是之前未订阅过该用户。                       |
-| `errorCode`     | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-unity#stream_channel_error_code)。
+| `errorCode`     | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](#stream_channel_error_code)。
 
 ## 事件通知
 
@@ -428,7 +428,7 @@ rtmClient.Initialize(rtmConfig);
 
 | 参数    | 描述                             |
 | ------------ | -------------------------- |
-| `filePath`     | （选填）日志保存路径及日志文件名。请确保对配置的文件路径具备读写权限。默认值如下：<ul><li>Android 平台：<code>/storage/emulated/0/Android/data/{packagename}/files/agorasdk.log</code></li><li>iOS 平台：<code>App Sandbox/Library/caches/agorasdk.log</code></li><li>macOS 平台：<ul><li>如果你启用了 App Sandbox：<code>App/Library/Logs/agorasdk.log</code>，例如 <code>/Users/{username}/Library/Containers/{AppBundleIdentifier}/Data/Library/Logs/agorasdk.log</code></li><li>如果你未启用 App Sandbox：<code>/Library/Logs/agorasdk.log</code></li></ul></li><li>Windows 平台：<code>C:\Users\{user_name}\AppData\Local\Agora\{process_name}\agorasdk.log</code></li></ul>                              |
+| `filePath`     | （选填）日志保存路径及日志文件名。请确保你指定的目录存在且可写。默认值如下：<ul><li>Android 平台：<code>/storage/emulated/0/Android/data/{packagename}/files/agorasdk.log</code></li><li>iOS 平台：<code>App Sandbox/Library/caches/agorasdk.log</code></li><li>macOS 平台：<ul><li>如果你启用了 App Sandbox：<code>App/Library/Logs/agorasdk.log</code>，例如 <code>/Users/{username}/Library/Containers/{AppBundleIdentifier}/Data/Library/Logs/agorasdk.log</code></li><li>如果你未启用 App Sandbox：<code>/Library/Logs/agorasdk.log</code></li></ul></li><li>Windows 平台：<code>C:\Users\{user_name}\AppData\Local\Agora\{process_name}\agorasdk.log</code></li></ul>                              |
 | `fileSizeInKB` | （选填）日志文件大小，单位为 KB，取值范围为 [128,1024]，默认值为 1024。如果你将该参数设为小于 128 的值，则使用 128；如果你将该参数设为大于 1024 的值，则使用 1024。                                |
 | `level`        |（选填）日志错误等级，默认值为 `LOG_LEVEL.LOG_LEVEL_INFO`。详见 [`LOG_LEVEL`](#log_level)。 |
 
@@ -573,6 +573,34 @@ Topic 中订阅的用户更新。
 | `failedUserCount`   | 订阅或取消订阅失败的用户的数量。 |
 
 ## Enum
+
+
+### STREAM_CHANNEL_ERROR_CODE
+
+```csharp
+public enum STREAM_CHANNEL_ERROR_CODE
+{
+    STREAM_CHANNEL_ERROR_OK = 0,
+    STREAM_CHANNEL_ERROR_INVALID_ARGUMENT = 1,
+    STREAM_CHANNEL_ERROR_JOIN_FAILURE = 2,
+    STREAM_CHANNEL_ERROR_JOIN_REJECTED = 3,
+    STREAM_CHANNEL_ERROR_REJOIN_FAILURE = 4,
+    STREAM_CHANNEL_ERROR_LEAVE_FAILURE = 5,
+    STREAM_CHANNEL_ERROR_EXCEED_LIMITATION = 6,
+};
+```
+
+频道错误码。
+
+| 枚举值    | 描述      | 
+| ------------ | --------- |
+| `STREAM_CHANNEL_ERROR_OK`     | 操作成功。  | 
+| `STREAM_CHANNEL_ERROR_INVALID_ARGUMENT`     | 参数错误。  | 
+| `STREAM_CHANNEL_ERROR_JOIN_FAILURE`     | 加入频道失败。  | 
+| `STREAM_CHANNEL_ERROR_JOIN_REJECTED`     | 加入频道被拒绝。  | 
+| `STREAM_CHANNEL_ERROR_REJOIN_FAILURE`     | 重新加入频道失败。  | 
+| `STREAM_CHANNEL_ERROR_LEAVE_FAILURE`     | 离开频道失败。  | 
+| `STREAM_CHANNEL_ERROR_EXCEED_LIMITATION`     | 超出限制。  | 
 
 ### RTM_CHANNEL_TYPE
 

@@ -122,7 +122,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | ------------- | ---------------------------------------- |
 | `channelName` | 事件所在频道名称。 |
 | `userId`     | 加入频道用户的 ID。  |
-| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。       |
+| `errorCode`   | 频道错误码，详见 [`StreamChannelErrorCode`](#streamchannelerrorcode)。       |
 
 ### onLeaveResult
 #### 接口描述
@@ -137,7 +137,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | -------------- | ---------------------------------------- |
 | `channelName` | 事件所在频道名称。 |
 | `userId`      | 离开频道用户的 User ID。  |
-| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。       |
+| `errorCode`   | 频道错误码，详见 [`StreamChannelErrorCode`](#streamchannelerrorcode)。       |
 
 ### onJoinTopicResult
 #### 接口描述
@@ -156,7 +156,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | `userId`     | 加入 Topic 用户的 User ID。  |
 | `topicName`   | Topic 名称。       |
 | `meta`        | 创建 Topic 的元数据。  |
-| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。       |
+| `errorCode`   | 频道错误码，详见 [`StreamChannelErrorCode`](#streamchannelerrorcode)。       |
 
 ### onLeaveTopicResult
 #### 接口描述
@@ -175,7 +175,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | `userId`      | 离开 Topic 用户的 User ID。  |
 | `topicName`   | Topic 名称。       |
 | `meta`        | 离开 Topic 的元数据。  |
-| `errorCode`   | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。       |
+| `errorCode`   | 频道错误码，详见 [`StreamChannelErrorCode`](#streamchannelerrorcode)。       |
 
 ### onTopicSubscribed
 #### 接口描述
@@ -195,7 +195,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | `topicName`   | 事件所在 Topic 名称。 |
 | `successUsers` | 本次订阅成功的消息发布者列表，详见 [`UserList`](api-channel-android#userlist)。                       |
 | `failedUsers`  | 本次订阅失败的消息发布者列表，详见 [`UserList`](api-channel-android#userlist)。订阅失败的原因可能是超过了订阅数量限制。                       |
-| `errorCode`    | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。
+| `errorCode`    | 频道错误码，详见 [`StreamChannelErrorCode`](#streamchannelerrorcode)。
 
 ### onTopicUnsubscribed
 #### 接口描述
@@ -215,7 +215,7 @@ public abstract StreamChannel createStreamChannel(@NonNull String channelName);
 | `topicName`   | 事件所在 Topic 名称。 |
 | `successUsers` | 本次取消订阅成功的消息发布者列表，详见 [`UserList`](api-channel-android#userlist)。                       |
 | `failedUsers`  | 本次取消订阅失败的消息发布者列表，详见 [`UserList`](api-channel-android#userlist)。取消订阅失败的原因可能是之前未订阅过该用户。                       |
-| `errorCode`    | 频道错误码，详见 [`STREAM_CHANNEL_ERROR_CODE`](api-channel-android#stream_channel_error_code)。
+| `errorCode`    | 频道错误码，详见 [`StreamChannelErrorCode`](#streamchannelerrorcode)。
 
 
 ## 事件通知
@@ -332,7 +332,30 @@ public class RtmConfig {
 #### 基本用法
 <mark>待补充</mark>
 
+### Logconfig
 
+```java
+public static class LogConfig {
+
+  public String filePath;
+
+  public int fileSizeInKB;
+
+  public int level = RtmConstants.LogLevel.getValue(RtmConstants.LogLevel.LOG_LEVEL_INFO);
+
+}
+```
+
+开启日志功能，并设置日志保存路径、日志大小及日志记录等级等，为后续的问题调查收集必要的运行数据。
+
+| 参数    | 描述                             |
+| ------------ | -------------------------- |
+| `filePath`     | （选填）日志保存路径及日志文件名。请确保对配置的文件路径具备读写权限。默认值为 <code>/storage/emulated/0/Android/data/{packagename}/files/agorasdk.log</code>。    |
+| `fileSizeInKB` | （选填）日志文件大小，单位为 KB，取值范围为 [128,1024]，默认值为 1024。如果你将该参数设为小于 128 的值，则使用 128；如果你将该参数设为大于 1024 的值，则使用 1024。                                |
+| `level`        |（选填）日志错误等级，默认值为 `LogLevel.LOG_LEVEL_INFO`。 |
+
+#### 基本用法
+<mark>待补充</mark>
 
 ### MessageEvent
 
@@ -387,10 +410,49 @@ Presence 回调事件。
 | `presenceType`     | Presence 类型，详见 [`RtmPresenceType`](#rtmpresencetype)。  |
 | `channelType`     | 频道类型，详见 [`RtmChannelType`](#rtmchanneltype)。  |
 | `channelName`     | 频道名称。  |
-| `topicInfos`    | Topic 信息，详见 [`TopicInfo`](api-channel-android#topicinfo)。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>RTM_CHANNEL_TYPE_STREAM(1)</code> 且 <code>type</code> 为 <code>RTM_PRESENCE_TYPE_REMOTE_JOIN_TOPIC(3)</code>、<code>RTM_PRESENCE_TYPE_REMOTE_LEAVE_TOPIC(4)</code> 或 <code>RTM_PRESENCE_TYPE_SELF_JOIN_CHANNEL(5)</code> 时生效。  |
+| `topicInfos`    | Topic 信息，详见 [`TopicInfo`](#topicinfo)。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>RTM_CHANNEL_TYPE_STREAM(1)</code> 且 <code>type</code> 为 <code>RTM_PRESENCE_TYPE_REMOTE_JOIN_TOPIC(3)</code>、<code>RTM_PRESENCE_TYPE_REMOTE_LEAVE_TOPIC(4)</code> 或 <code>RTM_PRESENCE_TYPE_SELF_JOIN_CHANNEL(5)</code> 时生效。  |
 | `userId`    | 触发 Presence 事件用户的 User ID。  |
 
+### TopicInfo
+
+```java
+public class TopicInfo {
+
+  public String topicName;
+
+  public ArrayList<String> publisherUserIds;
+
+  public ArrayList<String> publisherMetas;
+}
+```
+
+Topic 信息。
+
+| 参数 | 描述                                                    |
+| --------- | -------------------------------------------------------------- |
+| `topicName`   |Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
+| `publisherUserIds`   | 向该 Topic 发布消息的用户 ID 列表。 |
+| `publisherMetas`   | 向该 Topic 发布消息的用户的元数据列表。 |
+
 ## Enum
+
+### StreamChannelErrorCode
+
+频道错误码。
+
+```java
+public static final int STREAM_CHANNEL_ERROR_OK = 0;
+
+public static final int STREAM_CHANNEL_ERROR_EXCEED_LIMITATION = 1;
+
+public static final int STREAM_CHANNEL_ERROR_USER_NOT_EXIST = 2;
+```
+
+| 枚举值    | 描述      | 
+| ------------ | --------- |
+| `STREAM_CHANNEL_ERROR_OK`     | 0: 操作成功。  | 
+| `STREAM_CHANNEL_ERROR_EXCEED_LIMITATION`     | 1: 订阅用户数量超出限制。  | 
+| `STREAM_CHANNEL_ERROR_JOIN_FAILURE`     | 2: 所订阅用户不存在。  | 
 
 ### RtmChannelType
 

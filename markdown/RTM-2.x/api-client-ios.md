@@ -97,7 +97,7 @@ AgoraRtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 | ------------- | ---------------------------------------- |
 | `channelName` | 事件所在频道名称。 |
 | `userId`      | 加入频道用户的 User ID。  |
-| `errorCode`   | 频道错误码，详见 [`AgoraRtmStreamChannelErrorCode`](api-channel-ios#agorartmstreamchannelerrorcode)。       |
+| `errorCode`   | 频道错误码，详见 [`AgoraRtmStreamChannelErrorCode`](#agorartmstreamchannelerrorcode)。       |
 
 ### leaveChannel
 #### 接口描述
@@ -115,7 +115,7 @@ AgoraRtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 | ------------- | ---------------------------------------- |
 | `channelName`| 事件所在频道名称。 |
 | `userId`     | 离开频道用户的 User ID。  |
-| `errorCode`  | 频道错误码，详见 [`AgoraRtmStreamChannelErrorCode`](api-channel-ios#agorartmstreamchannelerrorcode)。       |
+| `errorCode`  | 频道错误码，详见 [`AgoraRtmStreamChannelErrorCode`](#agorartmstreamchannelerrorcode)。       |
 
 ### joinTopic
 #### 接口描述
@@ -137,7 +137,7 @@ AgoraRtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 | `userId`      | 加入 Topic 用户的 User ID。  |
 | `topic`        | Topic 名称。       |
 | `meta`        | 创建 Topic 的元数据。  |
-| `errorCode`    | 频道错误码，详见 [`AgoraRtmStreamChannelErrorCode`](api-channel-ios#agorartmstreamchannelerrorcode)。       |
+| `errorCode`    | 频道错误码，详见 [`AgoraRtmStreamChannelErrorCode`](#agorartmstreamchannelerrorcode)。       |
 
 ### leaveTopic
 #### 接口描述
@@ -159,7 +159,7 @@ AgoraRtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 | `userId`      | 离开 Topic 用户的 User ID。  |
 | `topic`       | Topic 名称。       |
 | `meta`        | 创建 Topic 的元数据。  |
-| `errorCode`   | 频道错误码，详见 [`AgoraRtmStreamChannelErrorCode`](api-channel-ios#agorartmstreamchannelerrorcode)。       |
+| `errorCode`   | 频道错误码，详见 [`AgoraRtmStreamChannelErrorCode`](#agorartmstreamchannelerrorcode)。       |
 
 ### subscribe
 #### 接口描述
@@ -183,7 +183,7 @@ AgoraRtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 | `topic`       | 事件所在 Topic 名称。|
 | `succeedUsers`| 本次订阅成功的消息发布者列表。                       |
 | `failedUsers` | 本次订阅失败的消息发布者列表。订阅失败的原因可能是超过了订阅数量限制。                      |
-| `errorCode`   | 频道错误码，详见 [`AgoraRtmStreamChannelErrorCode`](api-channel-ios#agorartmstreamchannelerrorcode)。       |
+| `errorCode`   | 频道错误码，详见 [`AgoraRtmStreamChannelErrorCode`](#agorartmstreamchannelerrorcode)。       |
 
 ### unsubscribe
 #### 接口描述
@@ -207,7 +207,7 @@ AgoraRtmClientKit ~03f2af90-60ca-11ed-8dae-bf25bf08a626~
 | `topicName`     | 事件所在 Topic 名称。 |
 | `succeedUsers` | 本次取消订阅成功的消息发布者列表。                       |
 | `failedUsers`   | 本次取消订阅失败的消息发布者列表。取消订阅失败的原因可能是之前未订阅过该用户。                        |
-| `errorCode`    | 频道错误码，详见[`AgoraRtmStreamChannelErrorCode`](api-channel-ios#agorartmstreamchannelerrorcode)。       |
+| `errorCode`    | 频道错误码，详见[`AgoraRtmStreamChannelErrorCode`](#agorartmstreamchannelerrorcode)。       |
 
 ## 事件通知
 
@@ -358,10 +358,52 @@ Presence 回调事件。
 | `type`        |Presence 类型，详见 [`AgoraRtmPresenceType`](#agorartmpresencetype)。  |
 | `channelType`         |频道类型，详见 [`AgoraRtmChannelType`](#agorartmchanneltype)。  |
 | `channelName`      | 频道名称。  |
-| `topicInfos`    | Topic 信息，详见 [`AgoraRtmTopicInfo`](#api-channel-ios#agorartmtopicinfo)。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>AgoraRtmChannelTypeStream(1)</code> 且 <code>type</code> 为 <code>AgoraRtmClientConnectionStateConnected(3)</code>、<code>AgoraRtmClientConnectionStateReconnecting(4)</code> 或 <code>AgoraRtmClientConnectionStateFailed(5)</code> 时生效。</div>  |
+| `topicInfos`    | Topic 信息，详见 [`AgoraRtmTopicInfo`](#agorartmtopicinfo)。<div class="alert info">该参数仅在 <code>channelType</code> 为 <code>AgoraRtmChannelTypeStream(1)</code> 且 <code>type</code> 为 <code>AgoraRtmClientConnectionStateConnected(3)</code>、<code>AgoraRtmClientConnectionStateReconnecting(4)</code> 或 <code>AgoraRtmClientConnectionStateFailed(5)</code> 时生效。</div>  |
 | `userId`    | 触发 Presence 事件用户的 User ID。  |
 
+### AgoraRtmTopicInfo
+
+```objc
+__attribute__((visibility("default"))) @interface AgoraRtmTopicInfo: NSObject
+
+@property (nonatomic, copy, nonnull) NSString *topic;
+
+@property (nonatomic, copy, nonnull) NSArray<NSString *> *publisherUserIds;
+
+@property (nonatomic, copy, nonnull) NSArray<NSData *> *publisherMetas;
+```
+
+Topic 信息。
+
+| 属性 | 描述                                                    |
+| --------- | -------------------------------------------------------------- |
+| `topic`   | Topic 名称，同一个频道内相同的 Topic 名称属于同一个 Topic。~40875530-6fb8-11ed-8dae-bf25bf08a626~ |
+| `publisherUserIds`   | 向该 Topic 发布消息的用户 ID 列表。 |
+| `publisherMetas`   | 向该 Topic 发布消息的用户的元数据列表。 |
+
 ## Enum
+
+
+### AgoraRtmStreamChannelErrorCode
+
+```objc
+typedef NS_ENUM(NSInteger, AgoraRtmStreamChannelErrorCode) {
+
+  AgoraRtmStreamChannelErrorOk = 0,
+
+  AgoraRtmStreamChannelErroExceedLimitation = 1,
+
+  AgoraRtmStreamChannelErrorUserNotExist = 2,
+};
+```
+
+频道错误码。
+
+| 枚举值    | 描述      | 
+| ------------ | --------- |
+| `AgoraRtmStreamChannelErrorOk`     | 0: 操作成功。  | 
+| `AgoraRtmStreamChannelErroExceedLimitation`     | 1: 订阅用户超出数量限制。  | 
+| `AgoraRtmStreamChannelErrorUserNotExist`     | 2: 订阅或取消订阅的用户不存在。  | 
 
 ### AgoraRtmMessageEvent
 

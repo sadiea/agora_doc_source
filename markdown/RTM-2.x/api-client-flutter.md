@@ -16,9 +16,13 @@ RtmClient createAgoraRtmClient() {
 > - 在调用 `RtmClient` 类的方法之前，你需要调用该方法创建 `RtmClient` 单实例。
 > - 在调用 [`release`](#release) 销毁 `RtmClient` 单实例之前，多次调用 `createAgoraRtmClient` 获取的是同一个 `RtmClient` 单实例。Agora 不推荐多次调用 `createAgoraRtmClient`。
 
+#### 基本用法
+```dart
+RtmClient rtmClient = createAgoraRtmClient();
+```
+
 #### 返回值
 - 一个 `RtmClient` 对象：调用成功。
-- `null`：调用失败。<mark>TBD</mark>
 
 ### initialize
 #### 接口描述
@@ -37,7 +41,41 @@ Future<void> initialize(RtmConfig config);
 #### 基本用法
 
 #### 初始化 RTM 实例
-<mark>待补充</mark>
+```dart
+// 初始化 RtcEngine 实例
+RtcEngine engine = createAgoraRtcEngine();
+// 从声网控制台上获取 APP ID 并填入 "my_appId"
+await _engine.initialize(RtcEngineContext(
+  appId: 'my_appId',
+));
+ 
+// 创建 RtmClient 实例
+RtmClient rtmClient = createAgoraRtmClient();
+final rtmConfig = RtmConfig(
+  // 从声网控制台上获取 APP ID 并填入 "my_appId"
+  appId: 'my_appId',
+  // 为用户或设备设置唯一标识符 userId 并填入 "my_userId"
+  userId: 'my_userId',
+  // 设置事件监听程序
+  eventHandler: RtmEventHandler(
+    onMessageEvent: (MessageEvent event) {
+        debugPrint('onMessageEvent');
+    },
+    onJoinResult: (String channelName, String userId,
+        StreamChannelErrorCode errorCode) {
+        debugPrint('onJoinResult');
+    },
+    onLeaveResult: (String channelName, String userId,
+        StreamChannelErrorCode errorCode) {
+        debugPrint('onLeaveResult');
+    },
+    ...
+  ),
+);
+ 
+// 初始化 RtmClient 实例
+await _rtmClient.initialize(rtmConfig);
+```
 
 
 ### release
@@ -52,8 +90,11 @@ Future<void> release();
 成功销毁后，如需调用 `RtmClient` 类的 API，你需要调用 [`createAgoraRtmClient`](#createagorartmclient) 重新创建 `RtmClient` 单实例。
 
 #### 基本用法
-<mark>待补充</mark>
-
+```dart
+// 先销毁 RtmClient 实例 再销毁 RtcEngine 实例
+await rtmClient.release();
+await rtcEngine.release();
+```
 
 ### createStreamChannel
 #### 接口描述
@@ -75,22 +116,98 @@ Future<StreamChannel> createStreamChannel(String channelName);
 #### 基本用法
 
 ##### 创建一个 `StreamChannel` 类型实例
-
-
+```dart
+// 创建一个频道名为 Location 的 StreamChannel 实例
+final streamChannel = await _rtmClient.createStreamChannel('Location');
+```
 #### 返回值
 - 一个 `StreamChannel` 类型实例：调用成功。
-- `null`：调用失败。<mark>TBD</mark>
 
 ## 回调
 
-### IRtmEventHandler 类
+### RtmEventHandler 类
 
 通过添加事件监听处理程序以获方法调用结果以及事件通知，包括连接状态，消息到达，Presence 状态等事件通知以及监控方法回调结果。如需要在 App 中接收消息和事件通知，在调用这些函数前必须先添加事件监听处理程序。
 
 #### 基本用法
 
 ##### 添加事件监听程序
-<mark>待补充</mark>
+```dart
+// 初始化 RtcEngine 实例
+RtcEngine engine = createAgoraRtcEngine();
+// 从声网控制台上获取 APP ID 并填入 "my_appId"
+await _engine.initialize(RtcEngineContext(
+  appId: 'my_appId',
+));
+ 
+// 创建 RtmClient 实例
+RtmClient rtmClient = createAgoraRtmClient();
+final rtmConfig = RtmConfig(
+  // 从声网控制台上获取 APP ID 并填入 "my_appId"
+  appId: 'my_appId',
+  // 为用户或设备设置唯一标识符 userId 并填入 "my_userId"
+  userId: 'my_userId',
+  // 设置事件监听程序
+  eventHandler: RtmEventHandler(
+    // 消息事件通知，消息到达会触发该事件。
+    onMessageEvent: (MessageEvent event) {
+        debugPrint('onMessageEvent');
+    },
+    // Presence 事件通知，频道 presence 变更会触发该事件。
+    onPresenceEvent: (PresenceEvent event) {
+        debugPrint('onPresenceEvent');
+    },
+    // SDK 连接状态变更事件通知
+    onConnectionStateChange: (String channelName, RtmConnectionState state,
+    RtmConnectionChangeReason reason) {
+        debugPrint('onConnectionStateChange');
+    },
+    // 加入频道事件回调。
+    onJoinResult: (String channelName, String userId,
+        StreamChannelErrorCode errorCode) {
+        debugPrint('onJoinResult');
+    },
+    // 离开频道事件回调。
+    onLeaveResult: (String channelName, String userId,
+        StreamChannelErrorCode errorCode) {
+        debugPrint('onLeaveResult');
+    },
+    // 加入 Topic 事件回调。
+    onJoinTopicResult: (String channelName, String userId, String topic,
+    String meta, StreamChannelErrorCode errorCode) {
+        debugPrint('onJoinTopicResult');
+    },    
+    // 离开 Topic 事件回调。
+    onLeaveTopicResult: (String channelName, String userId, String topic,
+    String meta, StreamChannelErrorCode errorCode) {
+        debugPrint('onLeaveTopicResult');
+    },
+    // 订阅 Topic 及订阅用户事件回调。
+    onTopicSubscribed: (
+    String channelName,
+    String userId,
+    String topic,
+    UserList succeedUsers,
+    UserList failedUsers,
+    StreamChannelErrorCode errorCode) {
+        debugPrint('onTopicSubscribed');
+    },
+    // 取消订阅 Topic 及取消订阅用户事件回调。
+    onTopicUnsubscribed: (
+    String channelName,
+    String userId,
+    String topic,
+    UserList succeedUsers,
+    UserList failedUsers,
+    StreamChannelErrorCode errorCode) {
+        debugPrint('onTopicUnsubscribed');
+    },   
+  ),
+);
+ 
+// 初始化 RtmClient 实例
+await _rtmClient.initialize(rtmConfig);
+```
 
 
 ### onJoinResult
@@ -294,8 +411,6 @@ class RtmConfig {
   @JsonKey(name: 'eventHandler', ignore: true)
   final RtmEventHandler? eventHandler;
 
-  @JsonKey(name: 'logConfig')
-  final LogConfig? logConfig;
 
   factory RtmConfig.fromJson(Map<String, dynamic> json) =>
       _$RtmConfigFromJson(json);
@@ -310,13 +425,35 @@ RTM 客户端配置信息。
 | ------------ | ----------------------------------- |
 | `appId`        | 从声网控制台上获取的 APP ID。                                                        |
 | `userId`       | 用户 ID，用户或设备设置唯一的标识符。你需要维护 `userId` 和用户之间的映射关系，并在整个服务周期内不能改变该映射关系。如果不设置该参数，将无法连接到 RTM 服务。                               |
-| `useStringUserId`   | 是否使用 String 型 User ID：<ul><li>`true`：使用 String 型 User ID，即 `userId` 填 String。</li><li>`false`：不使用 String 型 User ID，则 `userId` 填 Int。</li></ul>  |
+| `useStringUserId`   | 是否使用 String 型 User ID：<ul><li>`true`：使用 String 型 User ID，即 `userId` 填 String 型用户 ID。</li><li>`false`：不使用 String 型 User ID，则 `userId` 填 Int 型用户 ID。</li></ul>  |
 | `eventHandler` | 事件监听函数句柄，用以监听消息通知，Presence 通知，状态变更通知等事件通知。详见 [`RtmEventHandler`](#rtmeventhandler)。                               |
-| `logConfig`    | （选填）日志存储功能。Agora 建议你在调试和定位问题时候开启该功能，日志将会保存在你设置的位置，Agora 技术人员将根据日志详情帮助你分析定位问题。应用正式上线后建议取消设置该功能。详见 [`LogConfig`](#logconfig)。   |
+
 
 #### 基本用法
-<mark>待补充</mark>
 
+```dart
+final rtmConfig = RtmConfig(
+  // 从声网控制台上获取 APP ID 并填入 "my_appId"
+  appId: 'my_appId',
+  // 为用户或设备设置唯一标识符 userId 并填入 "my_userId"
+  userId: 'my_userId',
+  // 设置事件监听程序
+  eventHandler: RtmEventHandler(
+    onMessageEvent: (MessageEvent event) {
+        debugPrint('onMessageEvent');
+    },
+    onJoinResult: (String channelName, String userId,
+        StreamChannelErrorCode errorCode) {
+        debugPrint('onJoinResult');
+    },
+    onLeaveResult: (String channelName, String userId,
+        StreamChannelErrorCode errorCode) {
+        debugPrint('onLeaveResult');
+    },
+    ...
+  ),
+);
+```
 
 ### MessageEvent
 
@@ -636,4 +773,5 @@ Presence 类型。
 | `rtmPresenceTypeRemoteJoinTopic`     | 3: 远端用户加入 Topic。  |
 | `rtmPresenceTypeRemoteLeaveTopic`     | 4: 远端用户离开 Topic。  |
 | `rtmPresenceTypeSelfJoinChannel`     | 5: 本地用户加入频道，收到该频道中所有 Topic 的信息。  |
+
 
