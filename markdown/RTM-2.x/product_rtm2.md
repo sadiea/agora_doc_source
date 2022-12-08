@@ -41,4 +41,4 @@ RTM 被广泛应用在以下场景：
 | iOS        | ≥ 9.0                                                         |
 | Linux | <p>≥ Ubuntu 12.04</p><p>Linux SDK 支持如下架构：<ul><li>x86</li><li>x86-64</li></ul></p> |
 | Unity      | <p>≥ 2017</p><p>Unity SDK 支持如下平台：<ul><li>Android (armeabi-v7a、arm64-v8a、x86)</li><li>iOS</li></ul></p>               |
-| Flutter      | ≥ Flutter 2.10.0               |
+| Flutter      | <p>≥ Flutter 2.10.0</p><p>Flutter SDK 支持如下平台：<ul><li>Android (armeabi-v7a、arm64-v8a、x86)</li><li>iOS</li></ul></p>               |

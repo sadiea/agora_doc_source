@@ -116,166 +116,190 @@ class MyApp extends StatefulWidget {
 
 参考如下步骤在 `class _MyAppState extends State<MyApp> {}` 中定义应用状态类：
 
-<div class="alert note">你也可以点击<a href="#info">相关信息</a >查看 API 调用时序图和完整示例代码。</div>
+<div class="alert note">你也可以点击<a href="#info">相关信息</a >查看 API 调用时序图和示例项目。</div>
 
-(1) 创建 RTM 客户端实例
-
-在调用 RTM 的任何 API 之前，你需要先调用 `createAgoraRtmClient` 创建一个 `RtmClient` 实例。
-
-```dart
-// 创建并初始化 RtcEngine
-RtcEngine engine = createAgoraRtcEngine();
-await _engine.initialize(RtcEngineContext(
-  appId: 'APP_ID',
-));
-
-// 创建 RtmClient
-RtmClient rtmClient = createAgoraRtmClient();
-```
-
-(2) 初始化 RTM 客户端实例并监听事件
-
-调用 `initialize` 初始化 `RtmClient`，并通过 `RtmConfig` 添加事件监听。你需要在 `<RTM_APP_ID>` 中填入你 Agora 项目的 [App ID](#appid)，在 `<RTM_USER_ID>` 中填入你的用户 ID。
-
-<div class="alert info"><code>userId</code> 为不超过 64 位的任意字符串序列，且具有唯一性。不同用户、同一用户的不同终端设备需要通过不同的 <code>userId</code> 进行区分，所以你需要处理终端用户和 <code>userId</code> 的映射关系，确保终端用户的 <code>userId</code> 唯一且可以被复用。此外，项目中的 <code>userId</code> 数量还会影响最大连接数（PCU）的计量，从而影响计费。</div>
+(1) 构建 UI：你可以结合实际业务场景构建发送和接收消息的 UI。本节提供一个简单的 UI 示例。
+(2) 创建 RTM 客户端实例：在调用 RTM 的任何 API 之前，你需要先调用 `createAgoraRtmClient` 创建一个 `RtmClient` 实例。
+(3) 初始化 `RtmClient` 实例并监听事件：调用 `initialize` 初始化 `RtmClient`，并通过 `RtmConfig` 添加事件监听。
+(4) 创建 Stream Channel：在使用 `streamChannel` 类中的任何 API 之前，你需要先调用 `createStreamChannel` 创建 Stream Channel。
+(5) 加入 Stream Channel：调用 `join` 加入频道。
+(6) 加入 Topic：调用 `joinTopic` 加入 Topic。成功加入 Topic 后，SDK 会自动将你注册为该 Topic 的消息发布者，你可以在该 Topic 中发送消息。
+(7) 在 Topic 中发送消息：调用 `publishTopicMessage` 可以在 Topic 中发送消息。成功发送后，SDK 会把该消息分发给该 Topic 的所有订阅者。
+(8) 订阅 Topic 中的发布者：调用 `subscribeTopic` 订阅一个 Topic 中的一位或多位消息发布者，在一个 Topic 中最多只能订阅 64 位消息发布者。你也可以通过 `getSubscribedUserList` 查询当前已订阅的消息发布者列表。
+(9) 离开 Topic：如果你不需要在该 Topic 中发送消息，调用 `leaveTopic` 离开该 Topic。离开某个 Topic 不会影响你订阅其他 Topic 中的消息。
+(10) 离开 Stream Channel：如果你不再需要发送或接收该频道中的消息，调用 `leave` 离开该频道。
+(11) 销毁 Stream Channel：如果你不再需要该频道，调用 `release` 销毁对应的 `StreamChannel` 实例以释放资源。
+(12) 销毁 RTM 客户端实例：如果你不再需要使用 RTM 客户端，调用 `release` 销毁对应的 `RtmClient` 实例以释放资源。
 
 ```dart
-final rtmConfig = RtmConfig(
-  appId: '<RTM_APP_ID>',
-  userId: '<RTM_USER_ID>',
-  // 根据你的实际业务，添加收到回调或事件通知后的处理逻辑
-  eventHandler: RtmEventHandler(
-    onMessageEvent: (MessageEvent event) {
-        debugPrint('onMessageEvent');
-    },
-    onJoinResult: (String channelName, String userId,
-        StreamChannelErrorCode errorCode) {
-        debugPrint('onJoinResult');
-    },
-    onLeaveResult: (String channelName, String userId,
-        StreamChannelErrorCode errorCode) {
-        debugPrint('onLeaveResult');
-    },
-    ...
-  ),
-);
 
-await _rtmClient.initialize(rtmConfig);
+// 在 <RTC_APP_ID> 和 <RTM_APP_ID> 中填入 Agora 项目的 App ID
+const String rtcAppId = '<RTC_APP_ID>';
+const String rtmAppId = '<RTM_APP_ID>';
+// 在 <RTM_TOKEN> 中填入你在服务端生成的 Token
+const String rtmToken = '<RTM_TOKEN>';
+// 在 <RTM_TOPIC> 中填入 Topic 名称
+const String topic = '<RTM_TOPIC>';
+// 在 <RTM_USER_ID> 中填入用户 ID
+const String rtmUserId = '<RTM_USER_ID>';
+
+class _MyAppState extends State<MyApp> {
+  late final RtcEngine _engine;
+  late final RtmClient _rtmClient;
+  late final StreamChannel _streamChannel;
+
+  late TextEditingController _messageController;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _messageController = TextEditingController();
+
+    _init();
+  }
+
+  @override
+  void dispose() {
+    _dispose();
+    super.dispose();
+  }
+
+  Future<void> _dispose() async {
+    _messageController.dispose();
+    // 销毁 RtmClient
+    await _rtmClient.release();
+    // 销毁 RtcEngine
+    await _engine.release();
+  }
+
+  Future<void> _init() async {
+    // 创建 RtcEngine
+    _engine = createAgoraRtcEngine();
+    // 初始化 RtcEngine
+    await _engine.initialize(const RtcEngineContext(
+      appId: rtcAppId,
+    ));
+
+    await _initRtmClient();
+  }
+
+  Future<void> _joinTopic() async {
+    // 加入 Topic
+    await _streamChannel.joinTopic(
+        topic: topic, options: const JoinTopicOptions());
+    // 订阅 Topic
+    await _streamChannel.subscribeTopic(
+        topic: topic, options: const TopicOptions());
+  }
+
+  Future<void> _initRtmClient() async {
+    // 创建 RtmClient
+    _rtmClient = createAgoraRtmClient();
+
+    final rtmConfig = RtmConfig(
+      appId: rtmAppId,
+      userId: rtmUserId,
+      eventHandler: RtmEventHandler(
+        // 监听消息事件通知
+        onMessageEvent: (MessageEvent event) {
+          debugPrint('[onMessageEvent] event: ${event.toJson()}');
+        },
+        // 监听状态事件通知
+        onPresenceEvent: (PresenceEvent event) {
+          debugPrint('[onPresenceEvent] event: ${event.toJson()}');
+        },
+        // 监听加入频道回调
+        onJoinResult: (String channelName, String userId,
+            StreamChannelErrorCode errorCode) {
+          debugPrint(
+              '[onJoinResult] channelName: $channelName, userId: $userId, errorCode: $errorCode');
+          _joinTopic();
+        },
+        // 监听离开频道回调
+        onLeaveResult: (String channelName, String userId,
+            StreamChannelErrorCode errorCode) {
+          debugPrint(
+              '[onLeaveResult] channelName: $channelName, userId: $userId, errorCode: $errorCode');
+        },
+        // 监听加入 Topic 回调
+        onJoinTopicResult: (String channelName, String userId, String topic,
+            String meta, StreamChannelErrorCode errorCode) {
+          debugPrint(
+              '[onJoinTopicResult] channelName: $channelName, userId: $userId, topic: $topic, meta: $meta, errorCode: $errorCode');
+        },
+        // 监听离开 Topic 回调
+        onLeaveTopicResult: (String channelName, String userId, String topic,
+            String meta, StreamChannelErrorCode errorCode) {
+          debugPrint(
+              '[onLeaveTopicResult] channelName: $channelName, userId: $userId, topic: $topic, meta: $meta, errorCode: $errorCode');
+        },
+        // 监听订阅 Topic 或消息发布者回调
+        onTopicSubscribed: (String channelName,
+            String userId,
+            String topic,
+            UserList succeedUsers,
+            UserList failedUsers,
+            StreamChannelErrorCode errorCode) {
+          debugPrint(
+              '[onTopicSubscribed] channelName: $channelName, userId: $userId, topic: $topic, succeedUsers: ${succeedUsers.toJson()}, failedUsers: ${failedUsers.toJson()}, errorCode: $errorCode');
+        },
+        // 监听取消订阅 Topic 或消息发布者回调
+        onTopicUnsubscribed: (String channelName,
+            String userId,
+            String topic,
+            UserList succeedUsers,
+            UserList failedUsers,
+            StreamChannelErrorCode errorCode) {
+          debugPrint(
+              '[onTopicUnsubscribed] channelName: $channelName, userId: $userId, topic: $topic, succeedUsers: ${succeedUsers.toJson()}, failedUsers: ${failedUsers.toJson()}, errorCode: $errorCode');
+        },
+        // 监听 SDK 连接状态事件通知
+        onConnectionStateChange: (String channelName, RtmConnectionState state,
+            RtmConnectionChangeReason reason) {
+          debugPrint(
+              '[onConnectionStateChange] channelName: $channelName, state: $state, reason: $reason');
+        },
+      ),
+    );
+    // 初始化 RtmClient
+    await _rtmClient.initialize(rtmConfig);
+
+    // 创建 Stream Channel，此处频道名以 My Channel 为例
+    _streamChannel = await _rtmClient.createStreamChannel('My Channel');
+    // 加入 Stream Channel
+    await _streamChannel.join(const JoinChannelOptions(token: rtmToken));
+  }
+
+@override
+Widget build(BuildContext context) {
+  return MaterialApp(
+    home: Scaffold(
+      body: Column(
+        children: [
+          TextField(
+            controller: _messageController,
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              final message =
+                  Uint8List.fromList(utf8.encode(_messageController.text));
+
+              await _streamChannel.publishTopicMessage(
+                topic: topic,
+                message: message,
+                length: message.length,
+              );
+            },
+            child: const Text('Send Message'),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+}
 ```
-
-(3) 创建 Stream Channel
-
-你需要先调用 `createStreamChannel` 创建 Stream Channel，才能使用 `streamChannel` 类中的 API。
-
-```dart
-final streamChannel = await _rtmClient.createStreamChannel(channelName);
-```
-
-(4) 加入 Stream Channel
-
-调用 `join` 加入频道。
-
-<mark>冯朗测试过 options 参数不能为 null，否则会报错。需 native 开发确认 options 参数是否必填。如果必填，应该怎么获取这个 token？</mark>
-
-```dart
-await streamChannel.join(JoinChannelOptions(token: '<RTM_TOKEN>'));
-```
-
-(5) 加入 Topic
-
-调用 `joinTopic` 加入 Topic。成功加入 Topic 后，SDK 会自动将你注册为该 Topic 的消息发布者，你可以在该 Topic 中发送消息。
-
-
-```dart
-await streamChannel.joinTopic(
-  topic: _topicController.text,
-  options: const JoinTopicOptions());
-```
-
-(6) 在 Topic 中发送消息
-
-调用 `publishTopicMessage` 可以在 Topic 中发送消息。成功发送后，SDK 会把该消息分发给该 Topic 的所有订阅者。
-
-一条 RTM 消息可以是字符串或者二进制数据，你需要在业务层自行区分消息负载格式。为更灵活地实现你的业务，你也可以使用 JSON 等其他方式来构建你的负载格式，此时，你需要确保转交给 RTM 的消息负载已字符串序列化。
-
-```dart
-final message = Uint8List.fromList(
-    utf8.encode(
-        'Hello World!'));
-
-await streamChannel.publishTopicMessage(
-    topic: 'My Topic',
-    message: message,
-    // 数据长度需在 1024 字节以内
-    length: message.length,
-);
-```
-
-(7) 订阅 Topic 中的发布者
-
-调用 `subscribeTopic` 订阅一个 Topic 中的一位或多位消息发布者，在一个 Topic 中最多只能订阅 64 位消息发布者。
-
-你也可以通过 `getSubscribedUserList` 查询当前已订阅的消息发布者列表。
-
-```dart
-await streamChannel.subscribeTopic(
-    topic: 'My Topic',
-    options: TopicOptions(
-        users: ['Jack', 'Jack1'],
-        userCount: 2));
-
-final userList = await streamChannel.getSubscribedUserList('My Topic');
-```
-
-如果你不再需要接收该 Topic 中一位或多位用户发送的消息，调用 `unsubscribeTopic` 取消订阅。
-
-```dart
-await streamChannel.unsubscribeTopic(
-    topic: 'My Topic',
-    options: TopicOptions(
-        users: ['Jack', 'Jack1'],
-        userCount: 2));
-```
-
-(8) 离开 Topic
-
-如果你不需要在该 Topic 中发送消息，调用 `leaveTopic` 离开该 Topic。
-
-<div class="alert info">离开某个 Topic 不会影响你订阅其他 Topic 中的消息。</div>
-
-```dart
-await streamChannel.leaveTopic(_topicController.text);
-```
-
-(9) 离开 Stream Channel
-
-如果你不再需要发送或接收该频道中的消息，调用 `leave` 离开该频道。
-
-成功离开频道后，你在该频道中注册的所有 Topic 发布者的角色以及你在所有 Topic 中的订阅关系都将自动解除。如需恢复之前注册的发布者角色和消息的订阅关系，声网推荐你在调用 `leave` 之前自行记录相关信息，以便后续重新调用 `join`、`joinTopic` 和 `SubscribeTopic` 进行相关设置。
-
-```dart
-await streamChannel.leave();
-```
-
-(10) 销毁 Stream Channel
-
-如果你不再需要该频道，调用 `release` 销毁对应的 `StreamChannel` 实例以释放资源。
-
-```dart
-await streamChannel.release();
-```
-
-(11) 销毁 RTM 客户端实例
-
-如果你不再需要使用 RTM 客户端，调用 `release` 销毁对应的 `RtmClient` 实例以释放资源。
-
-```dart
-// 销毁 RtmClient
-await rtmClient.release();
-// 销毁 RtcEngine
-await rtcEngine.release();
-```
-
 
 ## 运行项目
 
@@ -293,7 +317,19 @@ await rtcEngine.release();
 
 ## 测试你的 app
 
-待定
+按照以下步骤测试你的 app：
+
+1. 分别在两台设备（设备 A、B）中运行你的 app。确保设备 A 和 B 使用不同的用户 ID，以及相同的 App ID、Token、频道名称、Topic 名称。
+2. 在设备 A 中，输入消息并点击 **Send Message** 发送。
+3. 设备 B 会收到 `onMessageEvent` 事件通知，表示成功接收消息。
+
+## 开发注意事项
+
+1. 一条 RTM 消息可以是字符串或者二进制数据，你需要在业务层自行区分消息负载格式。为更灵活地实现你的业务，你也可以使用 JSON 等其他方式来构建你的负载格式，此时，你需要确保转交给 RTM 的消息负载已字符串序列化。
+
+2. <code>userId</code> 为不超过 64 位的任意字符串序列，且具有唯一性。不同用户、同一用户的不同终端设备需要通过不同的 <code>userId</code> 进行区分，所以你需要处理终端用户和 <code>userId</code> 的映射关系，确保终端用户的 <code>userId</code> 唯一且可以被复用。此外，项目中的 <code>userId</code> 数量还会影响最大连接数（PCU）的计量，从而影响计费。
+
+3. 成功离开频道后，你在该频道中注册的所有 Topic 发布者的角色以及你在所有 Topic 中的订阅关系都将自动解除。如需恢复之前注册的发布者角色和消息的订阅关系，声网推荐你在调用 <code>leave</code> 之前自行记录相关信息，以便后续重新调用 <code>join</code>、<code>joinTopic</code> 和 <code>SubscribeTopic</code> 进行相关设置。
 
 <a name="info"></a>
 
