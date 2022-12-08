@@ -27,7 +27,7 @@ Future<void> join(JoinChannelOptions options);
 
 ##### 加入频道
 ```dart
-// 将用于鉴权的 RTM token 填入 <RTM_TOKEN>
+// 将用于鉴权的 token 填入 <RTM_TOKEN>
 await streamChannel.join(JoinChannelOptions(token: '<RTM_TOKEN>'));
 ```
 
@@ -308,7 +308,7 @@ class JoinChannelOptions {
 
 | 参数   |描述      | 
 | ------------ |  --------- |
-| `token`        | （选填）用于鉴权的 RTM Token。                  |
+| `token`        | （选填）用于鉴权的 Token。<ul><li>在测试环境，为方便测试，你可以填入 App ID。</li><li> 在正式环境，为提高项目的安全性，声网推荐填入 Token 对即将加入频道的用户进行鉴权。详见<a href="https://docs.agora.io/cn/live-streaming-premium-4.x/token_server_flutter_ng?platform=Flutter">使用 Token 鉴权</a>。</li></ul>                  |
 
 ### JoinTopicOptions
 
