@@ -349,7 +349,16 @@ SDK 连接状态发生改变时会发送该事件通知。
 
 #### 基本用法
 ##### 处理断连
-（待补充）
+
+```dart
+RtmEventHandler(
+    onConnectionStateChange: (String channelName, RtmConnectionState state,
+            RtmConnectionChangeReason reason) {
+          debugPrint(
+              '[onConnectionStateChange] channelName: $channelName, state: $state, reason: $reason');
+        }
+  )
+```
 
 ### onPresenceEvent
 #### 接口描述
