@@ -1,0 +1,56 @@
+@startuml
+autonumber
+skinparam monochrome true
+participant "Client A" as app1
+participant "Agora SDK" as sdk
+participant "Client B" as app2
+== 创建 RtmClient 实例 ==
+app1 -> sdk: createAgoraRtmClient
+app2 -> sdk: createAgoraRtmClient
+== 初始化 RtmClient 实例并监听事件 ==
+app1 -> sdk: initialize
+app2 -> sdk: initialize
+== 创建 Stream Channel ==
+app1 -> sdk: createStreamChannel
+app2 -> sdk: createStreamChannel
+== 加入 Stream Channel ==
+app1 -> sdk: join
+app2 -> sdk: join
+sdk -> app1: onJoinResult (A)
+sdk -> app1: onPresenceEvent (B)
+sdk -> app2: onJoinResult (B)
+sdk -> app2: onPresenceEvent (A)
+== 加入 Topic ==
+app1 -> sdk: joinTopic
+app2 -> sdk: joinTopic
+sdk -> app1: onJoinTopicResult (A)
+sdk -> app1: onPresenceEvent (B)
+sdk -> app2: onJoinTopicResult (B)
+sdk -> app2: onPresenceEvent (A)
+== 在 Topic 中发布消息 ==
+app1 -> sdk: publishTopicMessage
+app2 -> sdk: publishTopicMessage
+== 订阅 Topic 中的发布者 ==
+app1 -> sdk: subscribeTopic (B)
+app2 -> sdk: subscribeTopic (A)
+sdk -> app1: onTopicSubscribed (B)
+sdk -> app1: onMessageEvent (B)
+sdk -> app2: onTopicSubscribed (A)
+sdk -> app2: onMessageEvent (A)
+== 离开 Topic ==
+app1 -> sdk: leaveTopic
+app2 -> sdk: leaveTopic
+sdk -> app1: onLeaveTopicResult (A)
+sdk -> app1: onPresenceEvent (B)
+sdk -> app2: onLeaveTopicResult (B)
+sdk -> app2: onPresenceEvent (A)
+== 离开 Stream Channel ==
+app1 -> sdk: leave
+app2 -> sdk: leave
+== 销毁 Stream Channel ==
+app1 -> sdk: release
+app2 -> sdk: release
+== 销毁 RtmClient 实例 ==
+app1 -> sdk: release
+app2 -> sdk: release
+@enduml
