@@ -337,9 +337,9 @@ Widget build(BuildContext context) {
 
 ### API 调用时序图
 
-下图展示实现发送和接收消息的 API 调用时序：
+下图展示实现发送和接收消息的 API 调用时序，图中括号表示方法中设置或回调中收到的用户 ID：
 
-![](https://web-cdn.agora.io/docs-files/1670320126847)
+![](https://web-cdn.agora.io/docs-files/1670921260757)
 
 ### API 文档
 
