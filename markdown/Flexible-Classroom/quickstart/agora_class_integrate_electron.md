@@ -118,33 +118,17 @@
 
 ~f38d4cd0-3fce-11ed-8dae-bf25bf08a626~
 
-3. 执行以下命令复制一个环境变量配置文件：
+1. 成功拉取代码后，根据你的实际需求，参考[自定义课堂 UI 文档](/cn/agora-class/agora_class_custom_ui_web?platform=Electron)修改代码。
 
-    ```bash
-    cp .env.example packages/agora-classroom-sdk/.env
-    ```
+2. 修改完代码后，按照以下步骤进行调试：
 
-4. 成功拉取代码后，根据你的实际需求，参考[自定义课堂 UI 文档](/cn/agora-class/agora_class_custom_ui_web?platform=Electron)修改代码。
-
-5. 修改完代码后，按照以下步骤进行调试：
-
-    1. 执行以下命令安装依赖库：
-
-        ```bash
-        yarn install
-        ```
-
-        ```bash
-        yarn bootstrap
-        ```
-
-    2. 通过以下命令以开发模式运行项目：
+    1. 通过以下命令以开发模式运行项目：
 
         ```bash
         yarn dev:electron
         ```
 
-6. 完成开发后，通过以下命令打包 SDK 或应用：
+3. 完成开发后，通过以下命令打包 SDK 或应用：
 
    - 打包 Electron macOS 客户端：
 

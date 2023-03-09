@@ -26,10 +26,8 @@
 
     ![](flexible-classroom-desktop-screenshot.png)
 
-3. 运行以下命令拉取子模块：
+3. 运行以下命令安装项目依赖：
 
-   ```bash
-    git submodule update --init --recursive packages/agora-classroom-sdk
-    git submodule update --init --recursive packages/agora-proctor-sdk
-    git submodule update --init --recursive packages/agora-plugin-gallery
-   ```
+    ```bash
+    yarn install:packages
+    ```

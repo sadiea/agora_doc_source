@@ -59,25 +59,7 @@
 
 按照以下步骤启动灵动课堂：
 
-1. 运行以下命令安装项目依赖：
-
-    ```bash
-    yarn
-    ```
-
-2. 运行以下命令安装依赖包：
-
-    ```bash
-    yarn bootstrap
-    ```
-
-3. 将项目根目录下的 `.env.example` 文件重命名为 `.env`：
-
-    ```bash
-    mv .env.example .env
-    ```
-
-4. 将你的 App ID 和 App Certificate 填写到 `.env` 文件中指定位置：
+1. （可选）将你的 App ID 和 App Certificate 填写到 `.env` 文件中指定位置，若需快速体验Demo功能，此处可留空：
 
     ```typescript
     REACT_APP_AGORA_APP_ID={your appid}
@@ -86,7 +68,7 @@
 
     为方便你快速测试，flexible-classroom-desktop 项目中已包含一个临时 RTM Token 生成器，会用你传入的 App ID 和 App 证书生成一个临时 RTM Token。但是在正式环境中，为确保安全，RTM Token 必须在服务端生成。
 
-5. 参考以下步骤分别在 macOS 或 Windows 设备上运行灵动课堂 Electron 端：
+2. 参考以下步骤分别在 macOS 或 Windows 设备上运行灵动课堂 Electron 端：
 
     **macOS**
 
@@ -121,7 +103,7 @@
         yarn dev:electron
         ```
 
-6. 编译成功后，你可以看到以下页面：
+3. 编译成功后，你可以看到以下页面：
 
 	![](https://web-cdn.agora.io/docs-files/1664335467039)
 
